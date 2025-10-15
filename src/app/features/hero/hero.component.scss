@@ -1,28 +1,32 @@
+/* --- CUT LEFT EFFECT --- */
 .cut-left {
   position: relative;
-  background-color: white;
+  background-color: #374151;
+  /* gray-700 */
   z-index: 10;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 70%;
-    top: 92%;
-    /* start at right edge of text block */
-    width: 20vw;
-    /* cut extends 20% of the viewport into image */
-    height: 100px;
-    /* vertical size of cut */
-    background-color: white;
-    transform: skewX(-41deg);
-    /* angle the cut */
-    transform-origin: left bottom;
-    z-index: 10;
-  }
+  overflow: hidden;
 }
 
+/* angled cut on desktop */
+.cut-left::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -40px;
+  bottom: 0;
+  width: 120px;
+  background-color: #374151;
+  transform: skewX(-20deg);
+  transform-origin: top right;
+  z-index: 5;
+}
 
+/* remove the cut entirely on small screens */
+@media (max-width: 767px) {
+  .cut-left::after {
+    content: none;
+  }
+}
 
 /* --- STITCH PILLARS --- */
 .stitch-pillars {
@@ -34,18 +38,19 @@
       transparent 2px,
       transparent 10px);
   z-index: 50;
+  position: relative;
 }
 
+/* Ensure pillars always overlap the hero image/text */
+.relative>.absolute .stitch-pillars {
+  position: relative;
+  margin-top: -1px;
+}
+
+/* Keep same on mobile */
 @media (max-width: 767px) {
   .stitch-pillars {
-    height: 35px;
-  }
-
-  .cut-left::after {
-    left: 60%;
-    width: 30vw;
-    top: 90%;
-    height: 70px;
+    height: 45px;
   }
 }
 

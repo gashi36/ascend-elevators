@@ -1,0 +1,64 @@
+<header class="bg-white fixed top-0 w-full z-50 shadow-md">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a class="flex items-center gap-3" routerLink="/">
+      <img src="https://i.imgur.com/azUwjQZ.png" alt="Logo Ascend" class="h-12 w-auto rounded-full" />
+      <span class="text-gray-900 font-extrabold text-lg tracking-tight">
+        Ascend Elevators
+      </span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-6 font-medium text-gray-800">
+      <!-- Dropdown -->
+      <div class="relative group">
+        <a routerLink="/services" class="hover:text-red-600 transition-colors duration-200 flex items-center gap-1">
+          Shërbimet
+          <svg class="w-4 h-4 mt-1 transition-transform duration-200 group-hover:rotate-180" fill="currentColor"
+            viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd" />
+          </svg>
+        </a>
+
+        <!-- Dropdown menu -->
+        <div
+          class="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg border border-gray-200 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50">
+          <a routerLink="/services/service1"
+            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">Shërbimi 1</a>
+          <a routerLink="/services/service2"
+            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">Shërbimi 2</a>
+          <a routerLink="/services/service3"
+            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">Shërbimi 3</a>
+        </div>
+      </div>
+
+      <a routerLink="/about" class="hover:text-red-600 transition-colors duration-200">Rreth Nesh</a>
+      <a routerLink="/lift" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
+
+      <a routerLink="/contact"
+        class="ml-6 px-5 py-2 border border-red-600 text-red-600 font-semibold rounded hover:bg-red-600 hover:text-white transition-colors duration-200">
+        Na Kontaktoni
+      </a>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="md:hidden flex items-center" (click)="toggle()">
+      <svg class="w-7 h-7 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path *ngIf="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+        <path *ngIf="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="isOpen" class="md:hidden bg-white border-t border-gray-200 shadow-inner">
+    <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/services">Shërbimet</a>
+    <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/about">Rreth Nesh</a>
+    <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/lift">Ashensori</a>
+    <a class="block px-6 py-3 text-center border border-red-600 text-red-600 rounded mt-2 mx-6 hover:bg-red-600 hover:text-white transition font-semibold"
+      routerLink="/contact">Na Kontaktoni</a>
+  </div>
+</header>

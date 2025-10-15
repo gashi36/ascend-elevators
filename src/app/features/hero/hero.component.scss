@@ -1,0 +1,126 @@
+.cut-left {
+  position: relative;
+  background-color: white;
+  z-index: 10;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 70%;
+    top: 92%;
+    /* start at right edge of text block */
+    width: 20vw;
+    /* cut extends 20% of the viewport into image */
+    height: 100px;
+    /* vertical size of cut */
+    background-color: white;
+    transform: skewX(-41deg);
+    /* angle the cut */
+    transform-origin: left bottom;
+    z-index: 10;
+  }
+}
+
+
+
+/* --- STITCH PILLARS --- */
+.stitch-pillars {
+  height: 45px;
+  width: 100%;
+  background-image: repeating-linear-gradient(135deg,
+      #ff0000 0,
+      #ff0000 1px,
+      transparent 2px,
+      transparent 10px);
+  z-index: 50;
+}
+
+@media (max-width: 767px) {
+  .stitch-pillars {
+    height: 35px;
+  }
+
+  .cut-left::after {
+    left: 60%;
+    width: 30vw;
+    top: 90%;
+    height: 70px;
+  }
+}
+
+/* Section clips ripples */
+.bg-white.relative {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple rings */
+.ripple-ring {
+  position: absolute;
+  border: 8px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(154, 137, 137, 0.941);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(135deg);
+  z-index: 5;
+}
+
+/* Sizes */
+.ring-1 {
+  width: 700px;
+  height: 700px;
+  opacity: 0.8;
+
+}
+
+.ring-2 {
+  width: 900px;
+  height: 900px;
+  opacity: 0.6;
+}
+
+.ring-3 {
+  width: 1100px;
+  height: 1100px;
+  opacity: 0.4;
+}
+
+.ring-4 {
+  width: 1300px;
+  height: 1300px;
+  opacity: 0.2;
+}
+
+.ring-5 {
+  width: 1500px;
+  height: 1500px;
+  opacity: 0.1;
+}
+
+.ring-6 {
+  width: 1700px;
+  height: 1700px;
+  opacity: 0.1;
+}
+
+.ring-7 {
+  width: 1900px;
+  height: 1900px;
+  opacity: 0.1;
+}
+
+.sim-slice {
+  clip-path: polygon(0 0,
+      /* top-left */
+      calc(100% - 70px) 0,
+      /* top edge before slice */
+      100% 70px,
+      /* slice diagonal */
+      100% 100%,
+      /* bottom-right */
+      0 100%
+      /* bottom-left */
+    );
+}

@@ -1,6 +1,7 @@
 [build]
+  command = "npm run build"
   publish = "dist/ascend-elevators"
-  command = "ng build --configuration production"
+  base = "/"
 
 [[redirects]]
   from = "/*"

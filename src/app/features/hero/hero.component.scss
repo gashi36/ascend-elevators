@@ -1,66 +1,95 @@
-/* --- CUT LEFT EFFECT --- */
-.cut-left {
+.hero-section {
   position: relative;
-  background-color: #374151;
-  /* gray-700 */
-  z-index: 10;
+  background-color: white;
   overflow: hidden;
-}
+  padding-top: 30px;
 
-/* angled cut on desktop */
-.cut-left::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: -40px;
-  bottom: 0;
-  width: 120px;
-  background-color: #374151;
-  transform: skewX(-20deg);
-  transform-origin: top right;
-  z-index: 5;
-}
-
-/* remove the cut entirely on small screens */
-@media (max-width: 767px) {
-  .cut-left::after {
-    content: none;
-  }
-}
-
-/* --- STITCH PILLARS --- */
-.stitch-pillars {
-  height: 45px;
-  width: 100%;
-  background-image: repeating-linear-gradient(135deg,
-      #ff0000 0,
-      #ff0000 1px,
-      transparent 2px,
-      transparent 10px);
-  z-index: 50;
-  position: relative;
-}
-
-/* Ensure pillars always overlap the hero image/text */
-.relative>.absolute .stitch-pillars {
-  position: relative;
-  margin-top: -1px;
-}
-
-/* Keep same on mobile */
-@media (max-width: 767px) {
   .stitch-pillars {
     height: 45px;
+    width: 100%;
+    background-image: repeating-linear-gradient(45deg,
+        #ff0000 0,
+        #ff0000 1px,
+        transparent 2px,
+        transparent 10px);
+    position: relative;
+    z-index: 50;
+    margin-top: -1px;
   }
 }
 
-/* Section clips ripples */
-.bg-white.relative {
+.image-side {
   position: relative;
   overflow: hidden;
+  padding-top: 1.5rem;
+  height: 45vh;
+  /* default */
+  min-height: 320px;
+  max-height: 420px;
+
+  @media (min-width: 1024px) {
+    /* large screens */
+    height: 65vh;
+    /* make it taller */
+    max-height: 650px;
+    padding-top: 3rem;
+    /* more top spacing */
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .diagonal-cut {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 19%;
+    height: 45px;
+    background-color: white;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: skewX(45deg) translateX(-13%);
+    z-index: 20;
+  }
+
+  @media (max-width: 767px) {
+    .diagonal-cut {
+      width: 40%;
+      transform: skewX(45deg) translateX(-13%);
+    }
+  }
 }
 
-/* Ripple rings */
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
+/* Tablet screens */
+// @media (max-width: 1024px) {
+//   .hero-section {
+//     .diagonal-cut {
+//       width: 22%;
+//       height: 40px;
+//       transform: skewX(45deg) translateX(-5%);
+//     }
+//   }
+// }
+
+/* Mobile screens */
+// @media (max-width: 767px) {
+//   .hero-section {
+//     .diagonal-cut {
+//       display: none;
+//     }
+
+//     .stitch-pillars {
+//       height: 45px;
+//     }
+//   }
+// }
+
+/* --- RIPPLE RINGS --- */
 .ripple-ring {
   position: absolute;
   border: 8px solid white;
@@ -70,20 +99,16 @@
   left: 50%;
   transform: translate(-50%, -50%) rotate(135deg);
   z-index: 5;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Sizes */
+/* Original sizes */
 .ring-1 {
-  width: 700px;
-  height: 700px;
-  opacity: 0.8;
-
+  display: none;
 }
 
 .ring-2 {
-  width: 900px;
-  height: 900px;
-  opacity: 0.6;
+  display: none;
 }
 
 .ring-3 {
@@ -116,16 +141,83 @@
   opacity: 0.1;
 }
 
+/* Tablet screens */
+@media (max-width: 1024px) {
+  .ring-1 {
+    width: 400px;
+    height: 400px;
+  }
+
+  .ring-2 {
+    width: 500px;
+    height: 500px;
+  }
+
+  .ring-3 {
+    width: 600px;
+    height: 600px;
+  }
+
+  .ring-4 {
+    width: 700px;
+    height: 700px;
+  }
+
+  .ring-5 {
+    width: 800px;
+    height: 800px;
+  }
+
+  .ring-6 {
+    width: 900px;
+    height: 900px;
+  }
+
+  .ring-7 {
+    width: 1000px;
+    height: 1000px;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 767px) {
+  .ring-1 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .ring-2 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .ring-3 {
+    width: 350px;
+    height: 350px;
+  }
+
+  .ring-4 {
+    width: 400px;
+    height: 400px;
+  }
+
+  .ring-5 {
+    width: 450px;
+    height: 450px;
+  }
+
+  .ring-6 {
+    width: 500px;
+    height: 500px;
+  }
+
+  .ring-7 {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+/* --- CARD SLICES --- */
 .sim-slice {
-  clip-path: polygon(0 0,
-      /* top-left */
-      calc(100% - 70px) 0,
-      /* top edge before slice */
-      100% 70px,
-      /* slice diagonal */
-      100% 100%,
-      /* bottom-right */
-      0 100%
-      /* bottom-left */
-    );
+  clip-path: polygon(0 0, calc(100% - 70px) 0, 100% 70px, 100% 100%, 0 100%);
 }

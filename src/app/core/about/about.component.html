@@ -1,0 +1,231 @@
+<main class="min-h-screen mt-24 pt-20 bg-white overflow-x-hidden">
+
+  <!-- Hero Section -->
+  <section class="py-16 bg-gradient-to-r">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8" data-aos="fade-up">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Rreth Nesh</h2>
+        <h4 class="text-xl text-red-500 font-semibold">
+          Ne jemi një kompani e njerëzve & zgjidhjeve.
+        </h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky top-20 bg-white shadow-sm z-40" data-aos="fade-down">
+    <div class="container mx-auto px-4">
+      <ul class="flex justify-center space-x-8 py-4">
+        <li>
+          <a href="#approach"
+            class="text-gray-900 py-16 scroll-mt-28 hover:text-red-500 transition duration-300 font-medium"
+            (click)="scrollToSection('approach'); $event.preventDefault()">
+            Qasja Jonë
+          </a>
+        </li>
+        <li>
+          <a href="#team"
+            class="text-gray-900 py-16 scroll-mt-30 hover:text-red-500 transition duration-300 font-medium"
+            (click)="scrollToSection('team'); $event.preventDefault()">
+            Ekipi Ynë
+          </a>
+        </li>
+        <li>
+          <a href="#experience"
+            class="text-gray-900 py-16 scroll-mt-28 hover:text-red-500 transition duration-300 font-medium"
+            (click)="scrollToSection('experience'); $event.preventDefault()">
+            Eksperienca Jonë
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div data-aos="fade-right">
+          <img src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg"
+            alt="Ashensorët janë jetët e ndërtesës suaj" class="rounded-lg shadow-lg">
+        </div>
+        <div data-aos="fade-left">
+          <h1 class="text-3xl font-bold text-gray-900 mb-6">
+            Ashensorët janë jetët e ndërtesës suaj.
+          </h1>
+          <p class="text-gray-700 leading-relaxed">
+            Ashensorët janë jetët e ndërtesës suaj. Dhe kur punoni me Ascend Elevators,
+            ne jemi linja juaj e shërbimit. Nga teknikët tanë te pronarët, ne ju njohim ju,
+            ndërtesën tuaj dhe pajisjet tuaja të ashensorëve. Duke i mbajtur të gjitha të mirëmbajtura.
+            Duke bërë shpejt riparime kur ndodh problemi. Duke udhëhequr modernizimin dhe zëvendësimin
+            e pajisjeve kur është e nevojshme. Gjithmonë me komunikim të qartë, zanat të mirë,
+            ndershmëri dhe transparencë.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="grid md:grid-cols-3 gap-8 py-12 stats-section">
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="text-4xl font-bold text-red-500 mb-2">{{ stat1 }}%</div>
+          <div class="text-gray-700">thirrje problemesh të zgjidhura në vizitën e parë</div>
+        </div>
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+          <div class="text-4xl font-bold text-red-500 mb-2">{{ stat2 }}%</div>
+          <div class="text-gray-700">mbajtje klientësh për 13 vjet shërbim</div>
+        </div>
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+          <div class="text-4xl font-bold text-red-500 mb-2">{{ stat3 }}%</div>
+          <div class="text-gray-700">reduktim në kohën joproduktive të ashensorëve</div>
+        </div>
+      </div>
+
+      <!-- Qasja Jonë -->
+      <section id="approach" class="py-16 scroll-mt-28">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div data-aos="fade-right">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Qasja Jonë</h2>
+            <h3 class="text-2xl text-red-500 font-semibold mb-6">Mënyra Ascend</h3>
+            <p class="text-gray-700 leading-relaxed">
+              Ne nuk jemi një kompani pjesësh si ofruesit e mëdhenj të shërbimeve të ashensorëve.
+              Ne jemi një kompani e njerëzve dhe zgjidhjeve. Fillon duke i njohur vërtet klientët
+              tanë dhe rrethanat e tyre. Duke i njohur ashensorët dhe shkallët mekanike në një mënyrë
+              që vetëm një ekip me eksperiencën dhe syrin ekspert tonë mund të shohë.
+            </p>
+          </div>
+          <div data-aos="fade-left">
+            <img src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg"
+              alt="Teknikët master të Ascend Elevators" class="rounded-lg shadow-lg">
+          </div>
+        </div>
+      </section>
+
+      <!-- Fokusi në Njerëz -->
+      <section class="py-16 bg-red-50 rounded-lg p-8" data-aos="fade-up">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+              Sepse shërbimi i ashensorëve ka të bëjë me njerëzit
+            </h2>
+            <p class="text-gray-700 leading-relaxed">
+              Ashensorët janë për njerëzit. Ata janë mënyra se si punonjësit e zyrave kthehen në shtëpi
+              te fëmijët e tyre. Si pacientët e spitalit udhëtojnë në katin kirurgjik. Si njerëzit sjellin
+              pazarët e tyre. Ne punojmë për këta njerëz. Ashtu si bëni edhe ju. Ata varen nga ju,
+              dhe ju mund të varni nga ne.
+            </p>
+          </div>
+          <div>
+            <img src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg"
+              alt="Shërbimi i ashensorëve ka të bëjë me njerëzit" class="rounded-lg shadow-lg">
+          </div>
+        </div>
+      </section>
+
+      <!-- Seksioni i Ekipit -->
+      <section id="team" class="py-16 scroll-mt-28">
+        <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center" data-aos="fade-up">Ekipi Juaj Ascend</h3>
+        <p class="text-gray-700 text-center max-w-4xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="100">
+          Ne nuk thjesht shtojmë njerëz në ekipin tonë. Ne shtojmë individë të përkushtuar ndaj Mënyrës
+          Ascend të vënies së njerëzve në vend të parë. Shokë pune që dinë si ta kryejnë punën dhe
+          punojnë mirë me njëri-tjetrin.
+        </p>
+
+        <!-- Grid i Fotove të Ekipit -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <div data-aos="zoom-in" data-aos-delay="200"><img
+              src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg" alt="Anëtar ekipi"
+              class="rounded-lg"></div>
+          <div data-aos="zoom-in" data-aos-delay="300"><img
+              src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg" alt="Anëtar ekipi"
+              class="rounded-lg"></div>
+          <div data-aos="zoom-in" data-aos-delay="400"><img
+              src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg" alt="Anëtar ekipi"
+              class="rounded-lg"></div>
+          <div data-aos="zoom-in" data-aos-delay="500"><img
+              src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg" alt="Anëtar ekipi"
+              class="rounded-lg"></div>
+        </div>
+      </section>
+
+      <!-- Seksioni i Eksperiencës -->
+      <section id="experience" class="py-16 scroll-mt-28">
+        <h3 class="text-3xl font-bold text-gray-900 mb-6" data-aos="fade-right">Eksperienca Jonë</h3>
+        <p class="text-gray-700 leading-relaxed mb-8" data-aos="fade-right" data-aos-delay="100">
+          Në një botë mollësh, ne jemi portokalli. Punë jonë nuk është për një listë kontrolli shërbimesh.
+          Është për të gjithë, nga teknikët tanë te ekzekutivët, të jenë vetëm një telefonatë ose mesazh larg.
+          Duke rekomanduar zgjidhjen e duhur për ndërtesën tuaj, çdo herë.
+        </p>
+        <h3 class="text-2xl text-red-500 font-semibold" data-aos="fade-right" data-aos-delay="200">Këtu për t'ju ngritur
+        </h3>
+      </section>
+      <!-- Seksioni i Teknikëve -->
+      <section class="py-16 bg-gray-50 rounded-lg p-8" data-aos="fade-up">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Teknikë master në shërbimin tuaj.</h3>
+        <p class="text-gray-700 mb-8">
+          Me më shumë se 28 vjet përvojë mesatarisht, si dhe trajnime rigoroze dhe çertifikime,
+          teknikët tanë të çertifikuar mund të diagnostikojnë dhe zgjidhin edhe sistemet më komplekse të ashensorëve.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-8 py-12 tech-stats">
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="text-3xl font-bold text-red-500 mb-2">{{ techStat1 }}</div>
+            <div class="text-gray-700">vjet përvojë mesatare në terren</div>
+          </div>
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+            <div class="text-3xl font-bold text-red-500 mb-2">{{ techStat2 }}</div>
+            <div class="text-gray-700">vjet Program Kombëtar i Edukimit për Industrinë e Ashensorëve</div>
+          </div>
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+            <div class="text-gray-700 font-semibold">NEIEP E Çertifikuar, TWIC</div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 mt-8">
+          <img
+            src="https://media.gettyimages.com/id/2153337009/it/foto/un-operaio-edile-utilizza-un-montacarichi.jpg?s=612x612&w=gi&k=20&c=Or7y2oOmm3ozhcKbLwCoNIUyzj0poyKAyimXKZY_Gko="
+            alt="Teknikë duke punuar" class="rounded-lg shadow-lg" data-aos="zoom-in" data-aos-delay="100">
+          <img
+            src="https://media.istockphoto.com/id/615626864/photo/technician-engineer-investigate-work-adjustment-mechanism-lift.jpg?s=612x612&w=0&k=20&c=OHH8z69COIVFQxlHqSB6KC14p4eTt0qXYW_MHiAyqLA="
+            alt="Trajnim teknikësh" class="rounded-lg shadow-lg" data-aos="zoom-in" data-aos-delay="200">
+          <img src="https://www.codebo.it/images/codebo/servizi/codebo-servizi-grid-manutenzione.jpg"
+            alt="Çertifikim industrial" class="rounded-lg shadow-lg" data-aos="zoom-in" data-aos-delay="300">
+        </div>
+      </section>
+
+      <!-- Seksioni i Partnerëve -->
+      <section class="py-16">
+        <h4 class="text-xl font-bold text-gray-900 mb-8 text-center" data-aos="fade-up">Partnerë Krenar</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+          <div data-aos="flip-left" data-aos-delay="100">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Partner 1"
+              class="grayscale hover:grayscale-0 transition">
+          </div>
+          <div data-aos="flip-left" data-aos-delay="200">
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf" alt="Partner 2"
+              class="grayscale hover:grayscale-0 transition">
+          </div>
+          <div data-aos="flip-left" data-aos-delay="300">
+            <img src="https://images.unsplash.com/photo-1532619675605-6c9a6d59c39d" alt="Partner 3"
+              class="grayscale hover:grayscale-0 transition">
+          </div>
+          <div data-aos="flip-left" data-aos-delay="400">
+            <img src="https://images.unsplash.com/photo-1560264358-ea7f5ed70a0b" alt="Partner 4"
+              class="grayscale hover:grayscale-0 transition">
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- Seksioni CTA -->
+  <section class="py-16 bg-white text-gray-900" data-aos="fade-up">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">Aleati Juaj i Ashensorëve</h2>
+      <p class="text-xl mb-8">Zbuloni Ndryshimin me Ascend Elevators.<br>Si mund t'ju ndihmojmë sot?</p>
+      <button class="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300"
+        (click)="navigateToContact()">
+        Cakto një Konsultë Falas
+      </button>
+    </div>
+  </section>
+</main>

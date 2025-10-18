@@ -20,6 +20,9 @@
     "@angular/router": "^18.0.0",
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@ngneat/tailwind": "^7.0.3",
+    "aos": "^2.3.4",
+    "emailjs-com": "^3.2.0",
+    "ngx-countup": "^13.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -28,6 +31,7 @@
     "@angular-devkit/build-angular": "^18.0.0",
     "@angular/cli": "^18.0.0",
     "@angular/compiler-cli": "^18.0.0",
+    "@types/aos": "^3.0.7",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.21",
     "jasmine-core": "~5.1.0",

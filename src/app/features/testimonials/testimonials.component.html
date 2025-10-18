@@ -1,1 +1,45 @@
-<p>testimonials works!</p>
+<div class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row lg:space-x-12">
+
+    <div class="lg:w-1/3 mb-10 lg:mb-0 lg:pr-12">
+      <h2 class="text-3xl font-extrabold text-gray-900">
+        Çfarë Thonë Klientët Tanë
+      </h2>
+
+      <div class="flex space-x-4 mt-8">
+        <button (click)="prevTestimonial()"
+          class="p-3 border border-red-600 text-red-600 transition duration-200 hover:bg-red-600 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+            </path>
+          </svg>
+        </button>
+
+        <button (click)="nextTestimonial()"
+          class="p-3 border border-red-600 text-red-600 transition duration-200 hover:bg-red-600 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="lg:w-2/3 overflow-hidden">
+      <div class="flex transition-transform duration-500 ease-in-out"
+        [style.transform]="'translateX(-' + (currentIndex * (100 / cardsPerView)) + '%)'">
+
+        <div *ngFor="let testimonial of testimonials" class="flex-shrink-0 w-full sm:w-1/2 p-4 testimonial-card">
+          <div class="bg-[#132A3E] shadow-xl p-8 rounded-lg min-h-[250px] flex flex-col justify-between">
+            <p class="text-gray-200 mb-6 italic text-base">"{{ testimonial.text }}"</p>
+
+            <div>
+              <p class="text-red-600 font-bold uppercase text-sm mb-1">{{ testimonial.name }}</p>
+              <p class="text-gray-400 text-xs">{{ testimonial.title }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

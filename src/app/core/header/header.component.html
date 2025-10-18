@@ -38,7 +38,7 @@
       <a routerLink="/lift" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
 
       <a routerLink="/contact"
-        class="ml-6 px-5 py-2 border border-red-600 text-red-600 font-semibold rounded hover:bg-red-600 hover:text-white transition-colors duration-200">
+        class="ml-6 px-5 py-2  border border-red-600 text-red-600 font-semibold rounded hover:bg-red-600 hover:text-white transition-colors duration-200">
         Na Kontaktoni
       </a>
     </nav>
@@ -54,11 +54,11 @@
   </div>
 
   <!-- Mobile Menu -->
-  <div *ngIf="isOpen" class="md:hidden bg-white border-t border-gray-200 shadow-inner">
+  <div *ngIf="isOpen" class="md:hidden p-5 bg-white border-t border-gray-200 shadow-inner">
     <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/services">Shërbimet</a>
     <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/about">Rreth Nesh</a>
     <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/lift">Ashensori</a>
-    <a class="block px-6 py-3 text-center border border-red-600 text-red-600 rounded mt-2 mx-6 hover:bg-red-600 hover:text-white transition font-semibold"
+    <a class="block px-6 py-3 text-center border border-red-600 text-red-600 rounded mt-2 mx-6 pb hover:bg-red-600 hover:text-white transition font-semibold"
       routerLink="/contact">Na Kontaktoni</a>
   </div>
 </header>

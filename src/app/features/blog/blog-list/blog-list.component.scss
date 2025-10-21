@@ -1,0 +1,27 @@
+/* blog.component.scss */
+
+/* Custom grid to define smaller, equal columns */
+.blog-card-grid {
+  /* Use auto-fit to center and wrap items based on a max width (e.g., 380px) */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Adjusted min width for a smaller card */
+  max-width: 1200px;
+  /* Optional: Constrain the max width of the grid */
+  width: 100%;
+}
+
+.sim-card-blog {
+  position: relative;
+  /* This ensures the cards are narrower within the grid cell */
+  max-width: 380px;
+
+  /* SIM card geometry remains the same for the large cut */
+  clip-path: polygon(0 0, calc(99% - 50px) 0, 100% 70px, 100% 100%, 0 100%);
+
+  transform: none;
+}
+
+.sim-card-blog:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

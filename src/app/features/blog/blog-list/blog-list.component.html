@@ -1,0 +1,39 @@
+<div class="pt-[100px] pb-[80px] px-4 sm:px-8 lg:px-16 bg-gray-50 min-h-screen">
+
+  <div class="bg-[#132A3E] py-16 mb-12 rounded-b-xl">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="text-xs uppercase tracking-widest text-red-600 font-semibold mb-2">Rreth Ashensorit</p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Lajmet dhe Artikujt e Fundit</h1>
+      <p class="text-gray-400 text-sm max-w-2xl mx-auto">
+        Lexoni historitë, këshillat dhe lajmet më të fundit nga ekipi ynë për mirëmbajtjen dhe inovacionet në ashensorë.
+      </p>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto flex justify-center">
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 blog-card-grid">
+
+      <div *ngFor="let post of posts"
+        class="bg-white shadow-md hover:shadow-lg transition duration-300 overflow-hidden sim-card-blog max-w-sm">
+
+        <img *ngIf="post.image" [src]="post.image" alt="{{ post.title }}" class="w-full h-36 object-cover">
+
+        <div class="px-3 py-4">
+          <p class="text-[10px] text-gray-500 mb-2">
+            {{ post.date || 'DATË' }} | <span class="text-red-600 uppercase">{{ post.category || 'KATEGORIA' }}</span>
+          </p>
+
+          <h2 class="text-lg font-extrabold mb-2 text-gray-900 leading-tight">{{ post.title }}</h2>
+
+          <p class="text-gray-600 mb-4 text-xs line-clamp-3">{{ post.excerpt }}</p>
+
+          <a [routerLink]="['/blog', post.slug]"
+            class="text-red-600 font-semibold uppercase text-xs hover:text-red-700 transition">
+            Lexo më shumë &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

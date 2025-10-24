@@ -19,15 +19,25 @@
 
       <!-- NAME FIELDS -->
       <div>
-        <label class="block mb-1 font-semibold">Emri</label>
-        <input name="firstName" ngModel placeholder="Emri"
-          class="w-full bg-white border border-gray-500 rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm">
+        <label class="block mb-1 font-semibold">Emri <span class="text-red-500">*</span></label>
+        <input name="firstName" ngModel #firstName="ngModel" placeholder="Emri" required
+          class="w-full bg-white border rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm transition"
+          [class.border-gray-500]="firstName.valid || firstName.pristine"
+          [class.border-red-500]="firstName.invalid && firstName.touched">
+        <div *ngIf="firstName.invalid && firstName.touched" class="text-red-500 text-xs mt-1">
+          Fusha e emrit kërkohet.
+        </div>
       </div>
 
       <div>
-        <label class="block mb-1 font-semibold">Mbiemri</label>
-        <input name="lastName" ngModel placeholder="Mbiemri"
-          class="w-full bg-white border border-gray-500 rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm">
+        <label class="block mb-1 font-semibold">Mbiemri <span class="text-red-500">*</span></label>
+        <input name="lastName" ngModel #lastName="ngModel" placeholder="Mbiemri" required
+          class="w-full bg-white border rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm transition"
+          [class.border-gray-500]="lastName.valid || lastName.pristine"
+          [class.border-red-500]="lastName.invalid && lastName.touched">
+        <div *ngIf="lastName.invalid && lastName.touched" class="text-red-500 text-xs mt-1">
+          Fusha e mbiemrit kërkohet.
+        </div>
       </div>
 
       <!-- TITLE / COMPANY -->
@@ -81,9 +91,14 @@
       </div>
 
       <div class="md:col-span-2">
-        <label class="block mb-1 font-semibold">Email</label>
-        <input name="email" ngModel placeholder="Email-i"
-          class="w-full bg-white border border-gray-500 rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm">
+        <label class="block mb-1 font-semibold">Email <span class="text-red-500">*</span></label>
+        <input name="email" ngModel #email="ngModel" placeholder="Email-i" required
+          class="w-full bg-white border rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm transition"
+          [class.border-gray-500]="email.valid || email.pristine"
+          [class.border-red-500]="email.invalid && email.touched">
+        <div *ngIf="email.invalid && email.touched" class="text-red-500 text-xs mt-1">
+          Fusha e email-it kërkohet.
+        </div>
       </div>
 
       <!-- CHECKBOXES -->
@@ -123,9 +138,14 @@
 
       <!-- MESSAGE -->
       <div class="md:col-span-2">
-        <label class="block mb-1 font-semibold text-sm">Mesazh Shtesë</label>
-        <textarea name="message" ngModel rows="3" placeholder="Shkruani mesazhin tuaj..."
-          class="w-full bg-white border border-gray-500 rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm"></textarea>
+        <label class="block mb-1 font-semibold text-sm">Mesazh Shtesë <span class="text-red-500">*</span></label>
+        <textarea name="message" ngModel #message="ngModel" rows="3" placeholder="Shkruani mesazhin tuaj..." required
+          class="w-full bg-white border rounded px-2 py-1 focus:border-gray-900 focus:outline-none text-gray-900 text-sm transition"
+          [class.border-gray-500]="message.valid || message.pristine"
+          [class.border-red-500]="message.invalid && message.touched"></textarea>
+        <div *ngIf="message.invalid && message.touched" class="text-red-500 text-xs mt-1">
+          Fusha e mesazhit kërkohet.
+        </div>
       </div>
 
       <!-- BUTTON -->

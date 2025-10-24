@@ -3,38 +3,80 @@
   background-color: white;
   overflow: hidden;
   padding-top: 30px;
+  display: flex;
+  flex-direction: column;
 
+  /* ✅ Full-width static red pillars under both sides */
   .stitch-pillars {
-    height: 45px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    height: 45px;
     background-image: repeating-linear-gradient(45deg,
         #ff0000 0,
         #ff0000 1px,
         transparent 2px,
         transparent 10px);
-    position: relative;
     z-index: 50;
-    margin-top: -1px;
+    pointer-events: none;
   }
 }
 
-// @keyframes elevator-move {
-//   0% {
-//     transform: translateY(-10px) scale(1);
-//   }
+/* --- IMAGE SIDE --- */
+.image-side {
+  position: relative;
+  overflow: hidden;
+  padding-top: 1.5rem;
 
-//   50% {
-//     transform: translateY(10px) scale(1.01);
-//   }
+  /* mobile default */
+  height: 50vh; // flexible relative to viewport
+  min-height: 300px; // small phones
+  max-height: 500px; // prevents huge overflow
 
-//   100% {
-//     transform: translateY(-10px) scale(1);
-//   }
-// }
+  @media (min-width: 768px) {
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    padding-top: 2rem;
+  }
 
-// .image-side img {
-//   animation: elevator-move 6s ease-in-out infinite;
-// }
+  @media (min-width: 1024px) {
+    height: 70vh; // taller on large screens
+    min-height: 600px;
+    max-height: 750px;
+    padding-top: 3rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .diagonal-cut {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 25%;
+    height: 45px;
+    background-color: white;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: skewX(45deg) translateX(-13%);
+    z-index: 20;
+  }
+
+  @media (max-width: 767px) {
+    .diagonal-cut {
+      width: 40%;
+      transform: skewX(45deg) translateX(-13%);
+    }
+  }
+}
+
+
+/* --- RIPPLE RINGS (keep all your animation and ring styles) --- */
 @keyframes ripple-elevator {
   0% {
     transform: translate(-50%, -50%) scale(0.9);
@@ -53,6 +95,15 @@
 }
 
 .ripple-ring {
+  position: absolute;
+  border: 8px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(154, 137, 137, 0.941);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(135deg);
+  z-index: 5;
+  transition: all 0.3s ease-in-out;
   animation: ripple-elevator 4s ease-in-out infinite;
 
   .ring-1 {
@@ -82,95 +133,9 @@
   .ring-7 {
     animation-delay: 1.8s;
   }
-
 }
 
-
-.image-side {
-  position: relative;
-  overflow: hidden;
-  padding-top: 1.5rem;
-  height: 45vh;
-  /* default */
-  min-height: 320px;
-  max-height: 420px;
-
-  @media (min-width: 1024px) {
-    /* large screens */
-    height: 65vh;
-    /* make it taller */
-    max-height: 650px;
-    padding-top: 3rem;
-    /* more top spacing */
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .diagonal-cut {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 19%;
-    height: 45px;
-    background-color: white;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    transform: skewX(45deg) translateX(-13%);
-    z-index: 20;
-  }
-
-  @media (max-width: 767px) {
-    .diagonal-cut {
-      width: 40%;
-      transform: skewX(45deg) translateX(-13%);
-    }
-  }
-}
-
-
-/* --- RESPONSIVE ADJUSTMENTS --- */
-
-/* Tablet screens */
-// @media (max-width: 1024px) {
-//   .hero-section {
-//     .diagonal-cut {
-//       width: 22%;
-//       height: 40px;
-//       transform: skewX(45deg) translateX(-5%);
-//     }
-//   }
-// }
-
-/* Mobile screens */
-// @media (max-width: 767px) {
-//   .hero-section {
-//     .diagonal-cut {
-//       display: none;
-//     }
-
-//     .stitch-pillars {
-//       height: 45px;
-//     }
-//   }
-// }
-
-/* --- RIPPLE RINGS --- */
-.ripple-ring {
-  position: absolute;
-  border: 8px solid white;
-  border-radius: 50%;
-  box-shadow: 0 0 25px rgba(154, 137, 137, 0.941);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(135deg);
-  z-index: 5;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Original sizes */
+/* --- RING SIZES (unchanged from your version) --- */
 .ring-1 {
   width: 700px;
   height: 700px;
@@ -213,16 +178,11 @@
   opacity: 0.1;
 }
 
-/* Tablet screens */
+/* --- Responsive adjustments --- */
 @media (max-width: 1024px) {
-  .ring-1 {
-    display: none;
-  }
 
-  .ring-2 {
-    display: none;
-  }
-
+  .ring-1,
+  .ring-2,
   .ring-3 {
     display: none;
   }
@@ -248,7 +208,6 @@
   }
 }
 
-/* Mobile screens */
 @media (max-width: 767px) {
   .ring-1 {
     width: 250px;

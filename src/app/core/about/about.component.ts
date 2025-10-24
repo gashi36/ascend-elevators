@@ -52,9 +52,10 @@ export class AboutComponent implements OnInit {
           percentageObserver.disconnect();
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' }); // adjusted options for earlier trigger
 
-    const percentageSection = this.el.nativeElement.querySelector('.percentage-stats');
+    // NOTE: HTML uses class "stats-section" — observe that element
+    const percentageSection = this.el.nativeElement.querySelector('.stats-section');
     if (percentageSection) percentageObserver.observe(percentageSection);
 
     // Technician stats
@@ -66,7 +67,7 @@ export class AboutComponent implements OnInit {
           techObserver.disconnect();
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
 
     const techSection = this.el.nativeElement.querySelector('.tech-stats');
     if (techSection) techObserver.observe(techSection);
@@ -75,15 +76,18 @@ export class AboutComponent implements OnInit {
   // Count-up animation
   animateValue(stat: 'stat1' | 'stat2' | 'stat3' | 'techStat1' | 'techStat2', end: number, duration: number) {
     let start = 0;
-    const increment = end / (duration / 50);
+    const frameDuration = 50;
+    const increments = Math.max(1, Math.floor(duration / frameDuration));
+    const increment = end / increments;
 
     const interval = setInterval(() => {
       start += increment;
       if (start >= end) {
-        start = end;
+        this[stat] = end;
         clearInterval(interval);
+        return;
       }
       this[stat] = Math.floor(start);
-    }, 50);
+    }, frameDuration);
   }
 }

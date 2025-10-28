@@ -1,0 +1,263 @@
+.hero-section {
+  position: relative;
+  background-color: white;
+  overflow: hidden;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+
+  .only-mobile {
+    display: block;
+    /* show by default (mobile) */
+  }
+
+  @media (min-width: 640px) {
+    .only-mobile {
+      display: none;
+      /* hide on small screens and up */
+    }
+  }
+
+  /* ✅ Full-width static red pillars under both sides */
+  .stitch-pillars {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background-image: repeating-linear-gradient(45deg,
+        #ff0000 0,
+        #ff0000 1px,
+        transparent 2px,
+        transparent 10px);
+    z-index: 50;
+    pointer-events: none;
+  }
+}
+
+/* --- IMAGE SIDE --- */
+.image-side {
+  position: relative;
+  overflow: hidden;
+  padding-top: 1.5rem;
+
+  /* mobile default */
+  height: 50vh; // flexible relative to viewport
+  min-height: 300px; // small phones
+  max-height: 500px; // prevents huge overflow
+
+  @media (min-width: 768px) {
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    padding-top: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    height: 70vh; // taller on large screens
+    min-height: 600px;
+    max-height: 750px;
+    padding-top: 3rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .diagonal-cut {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 25%;
+    height: 45px;
+    background-color: white;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: skewX(45deg) translateX(-13%);
+    z-index: 20;
+  }
+
+  @media (max-width: 767px) {
+    .diagonal-cut {
+      width: 40%;
+      transform: skewX(45deg) translateX(-13%);
+    }
+  }
+}
+
+
+/* --- RIPPLE RINGS (keep all your animation and ring styles) --- */
+@keyframes ripple-elevator {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.2;
+  }
+}
+
+.ripple-ring {
+  position: absolute;
+  border: 8px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(154, 137, 137, 0.941);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(135deg);
+  z-index: 5;
+  transition: all 0.3s ease-in-out;
+  animation: ripple-elevator 4s ease-in-out infinite;
+
+  .ring-1 {
+    animation-delay: 0s;
+  }
+
+  .ring-2 {
+    animation-delay: 0.3s;
+  }
+
+  .ring-3 {
+    animation-delay: 0.6s;
+  }
+
+  .ring-4 {
+    animation-delay: 0.9s;
+  }
+
+  .ring-5 {
+    animation-delay: 1.2s;
+  }
+
+  .ring-6 {
+    animation-delay: 1.5s;
+  }
+
+  .ring-7 {
+    animation-delay: 1.8s;
+  }
+}
+
+/* --- RING SIZES (unchanged from your version) --- */
+.ring-1 {
+  width: 700px;
+  height: 700px;
+  opacity: 0.8;
+}
+
+.ring-2 {
+  width: 900px;
+  height: 900px;
+  opacity: 0.6;
+}
+
+.ring-3 {
+  width: 1100px;
+  height: 1100px;
+  opacity: 0.4;
+}
+
+.ring-4 {
+  width: 1300px;
+  height: 1300px;
+  opacity: 0.2;
+}
+
+.ring-5 {
+  width: 1500px;
+  height: 1500px;
+  opacity: 0.1;
+}
+
+.ring-6 {
+  width: 1700px;
+  height: 1700px;
+  opacity: 0.1;
+}
+
+.ring-7 {
+  width: 1900px;
+  height: 1900px;
+  opacity: 0.1;
+}
+
+/* --- Responsive adjustments --- */
+@media (max-width: 1024px) {
+
+  .ring-1,
+  .ring-2,
+  .ring-3 {
+    display: none;
+  }
+
+  .ring-4 {
+    width: 700px;
+    height: 700px;
+  }
+
+  .ring-5 {
+    width: 800px;
+    height: 800px;
+  }
+
+  .ring-6 {
+    width: 900px;
+    height: 900px;
+  }
+
+  .ring-7 {
+    width: 1000px;
+    height: 1000px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ring-1 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .ring-2 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .ring-3 {
+    width: 350px;
+    height: 350px;
+  }
+
+  .ring-4 {
+    width: 400px;
+    height: 400px;
+  }
+
+  .ring-5 {
+    width: 450px;
+    height: 450px;
+  }
+
+  .ring-6 {
+    width: 500px;
+    height: 500px;
+  }
+
+  .ring-7 {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+/* --- CARD SLICES --- */
+.sim-slice {
+  clip-path: polygon(0 0, calc(100% - 70px) 0, 100% 70px, 100% 100%, 0 100%);
+}

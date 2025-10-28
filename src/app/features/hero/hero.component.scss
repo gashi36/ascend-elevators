@@ -6,6 +6,18 @@
   display: flex;
   flex-direction: column;
 
+  .only-mobile {
+    display: block;
+    /* show by default (mobile) */
+  }
+
+  @media (min-width: 640px) {
+    .only-mobile {
+      display: none;
+      /* hide on small screens and up */
+    }
+  }
+
   /* ✅ Full-width static red pillars under both sides */
   .stitch-pillars {
     position: absolute;

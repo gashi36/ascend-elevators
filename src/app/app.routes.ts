@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'repair', component: RepairComponent },
   { path: 'blog', component: BlogListComponent },
   { path: 'blog/:slug', component: BlogDetailComponent },
+  { path: 'services', component: ServicesComponent },
   { path: '**', redirectTo: '' } // wildcard → home
 
 ];

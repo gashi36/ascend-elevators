@@ -1,12 +1,13 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-maintenance',
   standalone: true,
   templateUrl: './maintenance.component.html',
   styleUrls: ['./maintenance.component.css'],
-  imports: [TestimonialsComponent]
+  imports: [TestimonialsComponent, CommonModule]
 })
 export class MaintenanceComponent implements OnInit, AfterViewInit {
   // stats
@@ -35,7 +36,7 @@ export class MaintenanceComponent implements OnInit, AfterViewInit {
           observer.disconnect();
         }
       });
-    }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+    }, { threshold: 0.1 });
 
     const section = this.el.nativeElement.querySelector('.stats-section');
     if (section) observer.observe(section);

@@ -1,5 +1,7 @@
 <!-- HERO SECTION -->
-<div class="hero-section relative w-full overflow-hidden bg-white">
+<div class="hero-section relative w-full overflow-hidden bg-white pt-[110px] sm:pt-[120px] lg:pt-[140px]">
+  <br class="block sm:hidden" />
+
 
   <!-- FLEX WRAPPER -->
   <div class="flex flex-col lg:flex-row relative z-10">
@@ -41,24 +43,21 @@
 
 
 <!-- RIPPLE + CARDS SECTION -->
-<div class="relative py-40 overflow-hidden bg-white">
-
+<div class="relative py-20 sm:py-40 overflow-hidden bg-white">
   <!-- Text above ripples -->
-  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 text-center px-6 py-10 z-20 max-w-4xl w-full">
-    <h2 class="text-red-500 text-3xl sm:text-4xl font-extrabold mb-4">
+  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 text-center px-6 py-6 z-20 max-w-3xl w-full">
+    <h2 class="text-red-500 text-3xl sm:text-4xl font-extrabold mb-3">
       SHËRBIMET TONA 360˚
     </h2>
-    <p class="text-gray-900 text-lg mx-auto">
+    <p class="text-gray-900 font-semibold">
       <strong>Menaxhimi i Jetëgjatësisë së Ashensorëve</strong>
       <br>
-      Ascend Elevators ofron Menaxhim të plotë të Jetëgjatësisë së Ashensorëve,
-      duke siguruar eksperienca të pandërprera për përdoruesit dhe zgjidhje të
-      zgjuara, me kosto efektive për pronarët.
+      Ascend Elevators ofron zgjidhje të zgjuara dhe kosto efektive për pronarët.
     </p>
   </div>
 
   <!-- Circular image + ripples -->
-  <div class="relative w-full flex justify-center mt-20 z-10 mb-20">
+  <div class="relative w-full flex justify-center items-center mt-20 z-10 mb-20">
     <div class="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px]">
       <img src="https://imgur.com/nrFDto5.jpg" alt="Decorative circular image"
         class="w-full h-full object-cover rounded-full shadow-xl z-10" />
@@ -73,61 +72,60 @@
       <div class="ripple-ring ring-7 z-0"></div>
     </div>
   </div>
+</div>
 
-  <!-- ZGJIDHJET TONA cards below the image -->
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 -mt-30 py-10">
-    <h2 class="text-center text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16">
-      ZGJIDHJET TONA
-    </h2>
+<!-- ZGJIDHJET TONA cards below the image -->
+<div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 -mt-30 py-10">
+  <h2 class="text-center text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16">
+    ZGJIDHJET TONA
+  </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
 
-      <!-- CARD 1 -->
-      <div
-        class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
-        <div class="absolute inset-0 bg-cover bg-center"
-          style="background-image: url('https://i.imgur.com/vPD3p0d.jpg');">
-          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-          <h3 class="text-white text-3xl font-bold mb-3">Modernizim</h3>
-          <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-            Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe
-            pamje estetike.
-          </p>
-          <a routerLink="/"
-            class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-            MËSO MË SHUMË
-          </a>
-        </div>
+    <!-- CARD 1 -->
+    <div
+      class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
+      <div class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://i.imgur.com/vPD3p0d.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
       </div>
-
-      <!-- CARD 2 -->
-      <div
-        class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
-        <div class="absolute inset-0 bg-cover bg-center"
-          style="background-image: url('https://imgur.com/d6yeND4.jpg');">
-          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-          <h3 class="text-white text-3xl font-bold mb-3">Mirëmbajtje & Shërbim</h3>
-          <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-            Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë
-            dhe për të siguruar funksionim të vazhdueshëm.
-          </p>
-          <a routerLink="/"
-            class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-            MËSO MË SHUMË
-          </a>
-        </div>
+      <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
+        <h3 class="text-white text-3xl font-bold mb-3">Modernizim</h3>
+        <p class="text-gray-200 text-lg mb-6 line-clamp-3">
+          Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe
+          pamje estetike.
+        </p>
+        <a routerLink="/"
+          class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
+          MËSO MË SHUMË
+        </a>
       </div>
+    </div>
 
-      <!-- CARD 3 -->
-      <div
-        class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
-        <div class="absolute inset-0 bg-cover bg-center"
-          style="background-image: url('https://imgur.com/hdsgSi7.jpg');">
-          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
+    <!-- CARD 2 -->
+    <div
+      class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
+      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/d6yeND4.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
+        <h3 class="text-white text-3xl font-bold mb-3">Mirëmbajtje & Shërbim</h3>
+        <p class="text-gray-200 text-lg mb-6 line-clamp-3">
+          Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë
+          dhe për të siguruar funksionim të vazhdueshëm.
+        </p>
+        <a routerLink="/"
+          class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
+          MËSO MË SHUMË
+        </a>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div
+      class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
+      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/hdsgSi7.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent">
         </div>
         <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
           <h3 class="text-white text-3xl font-bold mb-3">Riparim</h3>
@@ -146,7 +144,7 @@
   </div>
 
 </div>
-<!-- APPROACH SECTION -->
+<!-- APPRxOACH SECTION -->
 
 <div class="py-20 bg-gray-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
@@ -212,8 +210,8 @@
     </p>
 
     <a href="#"
-      class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">
-      MËSONI MË SHUMË PËR NE
+      class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">MËSONI
+      MË SHUMË PËR NE
     </a>
 
     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">

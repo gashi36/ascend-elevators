@@ -1,41 +1,44 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, ElementRef, AfterViewInit } from '@angular/core';
 import { TestimonialsComponent } from "../testimonials/testimonials.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-modernization',
   templateUrl: './modernization.component.html',
   standalone: true,
-  styleUrls: ['./modernization.component.css'],
-  imports: [TestimonialsComponent]
+  imports: [TestimonialsComponent, CommonModule]
 })
-export class ModernizationComponent implements OnInit {
-
+export class ModernizationComponent implements AfterViewInit {
   // stats
-  stat1 = 0;
-  stat2 = 0;
-  stat3 = 0;
+  stat1: number = 0;
+  stat2: number = 0;
+  stat3: number = 0;
 
   constructor(private el: ElementRef) { }
 
-  ngOnInit() {
-    this.observeStats();
+  ngAfterViewInit() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.startCountAnimation();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const statsSection = this.el.nativeElement.querySelector('.stats-section');
+    if (statsSection) {
+      observer.observe(statsSection);
+    }
   }
 
-  // IntersectionObserver + count-up
-  observeStats() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.animateValue('stat1', 85, 1800);
-          this.animateValue('stat2', 72, 1800);
-          this.animateValue('stat3', 90, 1800);
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
-
-    const section = this.el.nativeElement.querySelector('.stats-section');
-    if (section) observer.observe(section);
+  private startCountAnimation() {
+    this.animateValue('stat1', 85, 2000);
+    this.animateValue('stat2', 72, 2000);
+    this.animateValue('stat3', 90, 2000);
   }
 
   animateValue(stat: 'stat1' | 'stat2' | 'stat3', end: number, duration: number) {

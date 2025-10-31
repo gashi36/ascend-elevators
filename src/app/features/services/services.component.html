@@ -40,39 +40,24 @@
   <div class="stitch-pillars"></div>
 
 </div>
-
-
-<!-- RIPPLE + CARDS SECTION -->
-<div class="relative py-20 sm:py-40 overflow-hidden bg-white">
-  <!-- Text above ripples -->
-  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 text-center px-6 py-6 z-20 max-w-3xl w-full">
-    <h2 class="text-red-500 text-3xl sm:text-4xl font-extrabold mb-3">
-      SHËRBIMET TONA 360˚
-    </h2>
-    <p class="text-gray-900 font-semibold">
-      <strong>Menaxhimi i Jetëgjatësisë së Ashensorëve</strong>
-      <br>
+<section class="ripple-section">
+  <div class="text-content">
+    <h2>SHËRBIMET TONA 360°</h2>
+    <p>
+      <strong>Menaxhimi i Jetëgjatësisë së Ashensorëve</strong><br />
       Ascend Elevators ofron zgjidhje të zgjuara dhe kosto efektive për pronarët.
     </p>
   </div>
 
-  <!-- Circular image + ripples -->
-  <div class="relative w-full flex justify-center items-center mt-20 z-10 mb-20">
-    <div class="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px]">
-      <img src="https://imgur.com/nrFDto5.jpg" alt="Decorative circular image"
-        class="w-full h-full object-cover rounded-full shadow-xl z-10" />
-
-      <!-- Ripple rings -->
-      <div class="ripple-ring ring-1 z-0"></div>
-      <div class="ripple-ring ring-2 z-0"></div>
-      <div class="ripple-ring ring-3 z-0"></div>
-      <div class="ripple-ring ring-4 z-0"></div>
-      <div class="ripple-ring ring-5 z-0"></div>
-      <div class="ripple-ring ring-6 z-0"></div>
-      <div class="ripple-ring ring-7 z-0"></div>
-    </div>
+  <div class="ripple-center">
+    <img src="../../../assets/images/Hero/herologo.png" alt="Ascend Elevators Diagram" />
+    <div class="ripple-ring ring-1"></div>
+    <div class="ripple-ring ring-2"></div>
+    <div class="ripple-ring ring-3"></div>
+    <div class="ripple-ring ring-4"></div>
   </div>
-</div>
+</section>
+
 
 <!-- ZGJIDHJET TONA cards below the image -->
 <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 -mt-30 py-10">
@@ -94,7 +79,7 @@
           Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe
           pamje estetike.
         </p>
-        <a routerLink="/"
+        <a href="/modernization"
           class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
           MËSO MË SHUMË
         </a>
@@ -113,7 +98,7 @@
           Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë
           dhe për të siguruar funksionim të vazhdueshëm.
         </p>
-        <a routerLink="/"
+        <a href="/maintenance"
           class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
           MËSO MË SHUMË
         </a>
@@ -132,7 +117,7 @@
             Shërbimi ynë i reagimit të shpejtë është në gatishmëri 24 orë në ditë, 7 ditë në javë, duke siguruar
             zgjidhje të menjëhershme për çdo problem.
           </p>
-          <a routerLink="/"
+          <a href="/repair"
             class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
             MËSO MË SHUMË
           </a>
@@ -161,7 +146,7 @@
       tonë mund të shohë dhe të veprojë sipas këtij standardi.
     </p>
 
-    <a href="#"
+    <a href="/about"
       class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">
       MËSONI MË SHUMË PËR NE
     </a>
@@ -208,7 +193,7 @@
       të qartë të asaj që nevojitet.
     </p>
 
-    <a href="#"
+    <a href="/about"
       class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">MËSONI
       MË SHUMË PËR NE
     </a>
@@ -218,6 +203,33 @@
   </div>
 </div>
 
+<app-testimonials></app-testimonials>
+<div class="bg-gray-20 py-20">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 flex">
+
+    <!-- LEFT SIDE: Content (0–40%) -->
+    <div class="w-full lg:w-2/5 text-left">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 uppercase">
+        ALEATI YJ I ASHENSORËVE
+      </h2>
+
+      <p class="text-gray-900 mb-6 text-base">
+        Zbuloni Ndryshimin me Ascend Elevator.<br>
+        Si mund t'ju ndihmojmë sot?
+      </p>
+
+      <button (click)="navigateToContact()" class="inline-block bg-red-500 font-bold py-3 px-8 text-white text-center uppercase tracking-wider
+               transition duration-300 hover:bg-red-600 w-fit text-sm">
+        CAKTO NJË TELEFONATË
+      </button>
+    </div>
+
+    <!-- RIGHT SIDE: Empty space (60%) -->
+    <div class="hidden lg:block lg:w-3/5"></div>
+
+  </div>
+</div>
+<app-testimonials></app-testimonials>
 <div class="bg-gray-20 py-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex">
 

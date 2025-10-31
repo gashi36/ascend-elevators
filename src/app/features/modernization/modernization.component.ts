@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-modernization',
   templateUrl: './modernization.component.html',
+  styleUrls: ['./modernization.component.scss'],
   standalone: true,
   imports: [TestimonialsComponent, CommonModule]
 })

@@ -12,5 +12,7 @@ import { ContactComponent } from '../../features/contact/contact.component';
 })
 export class HeaderComponent {
   isOpen = false;
+  mobileServicesOpen = false;
   toggle() { this.isOpen = !this.isOpen; }
+  toggleMobileServices() { this.mobileServicesOpen = !this.mobileServicesOpen; }
 }

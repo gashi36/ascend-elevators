@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-maintenance',
   standalone: true,
   templateUrl: './maintenance.component.html',
-  styleUrls: ['./maintenance.component.css'],
+  styleUrls: ['./maintenance.component.scss'],
   imports: [TestimonialsComponent, CommonModule]
 })
 export class MaintenanceComponent implements OnInit, AfterViewInit {

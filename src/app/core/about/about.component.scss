@@ -1,0 +1,10 @@
+/* fixed nav applied when sentinel scrolls out of view */
+.fixed-nav {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  z-index: 60;
+}
+
+/* placeholder has no visual appearance but ensures layout is kept */
+.nav-placeholder {
+  display: none;
+}

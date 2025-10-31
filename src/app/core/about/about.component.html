@@ -13,7 +13,9 @@
   </section>
 
   <!-- Sticky Navigation -->
-  <nav class="sticky top-20 bg-white shadow-sm z-40" data-aos="fade-down">
+  <!-- sentinel used to detect when the nav reaches the top of the viewport -->
+  <div #navSentinel class="w-full"></div>
+  <nav #aboutNav class="bg-white shadow-sm z-40" data-aos="fade-down">
     <div class="container mx-auto px-4">
       <ul class="flex justify-center space-x-8 py-4">
         <li>

@@ -2,7 +2,7 @@
   <!-- Seksioni 1 (Hero) -->
   <section class="relative bg-gray-900 text-white h-[600px] flex items-center justify-center overflow-hidden">
     <!-- Imazhi i Sfondit -->
-    <img src="https://i.imgur.com/G3G6f0h.jpg" alt="Teknik i mirëmbajtjes së ashensorit"
+    <img src="../../../assets/images/maintenance/maintenancehero.jpg" alt="Teknik i mirëmbajtjes së ashensorit"
       class="absolute inset-0 w-full h-full object-cover opacity-60">
 
     <!-- Përmbajtja Mbi Imazh -->
@@ -16,9 +16,9 @@
 
   <!-- Seksioni 2 ("PLANET E KUJDESIT TË PERSONALIZUAR") -->
   <section class="bg-white py-16 sm:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
       <!-- Kolona Majtas: Titulli & Teksti Kryesor -->
-      <div>
+      <div class="w-full lg:w-1/2">
         <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-6 uppercase">
           PLANET E KUJDESIT TË PERSONALIZUAR PËR <br> DAMARËT E NDËRTESËS TUAJ
         </h2>
@@ -43,9 +43,10 @@
       </div>
 
       <!-- Kolona Djathtas: Imazhi -->
-      <div>
-        <img src="https://i.imgur.com/v8X4qWd.jpg" alt="Fëmijë që shikon ashensorin modern"
-          class="w-full h-auto rounded-lg shadow-xl">
+      <div class="w-full lg:w-1/2 flex justify-center items-center">
+        <img src="../../../assets/images/maintenance/Elevator-and-escalator-maintenance-2.jpg"
+          alt="Fëmijë që shikon ashensorin modern"
+          class="sim-slice w-full max-w-md h-auto object-cover rounded-lg shadow-xl border border-gray-200">
       </div>
     </div>
   </section>
@@ -139,10 +140,26 @@
           </ul>
         </div>
       </div>
-      <!-- Imazhi i teknikut në kabinë -->
-      <div class="mt-12 lg:mt-16 text-center">
-        <img src="https://i.imgur.com/9C0N79f.jpg" alt="Teknik në boshtin e ashensorit"
-          class="mx-auto w-full max-w-2xl h-auto rounded-lg shadow-xl">
+      <!-- Imazhi i teknikut në kabinë dhe tekst përkrah -->
+      <div class="mt-12 lg:mt-16 flex flex-col lg:flex-row items-center gap-10">
+        <div class="w-full lg:w-1/2 flex justify-center sim-slice">
+          <img src="../../../assets/images/maintenance/Elevator-and-escalator-service-master-technician.jpg"
+            alt="Teknik në boshtin e ashensorit"
+            class="w-full max-w-xl h-auto rounded-lg shadow-xl border border-gray-200">
+        </div>
+        <div class="w-full lg:w-1/2 text-left">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Ekspertizë në Veprim</h3>
+          <p class="text-gray-700 text-base mb-4">
+            Teknikët tanë të kualifikuar janë të përkushtuar për të ofruar shërbim të jashtëzakonshëm dhe mirëmbajtje të
+            sigurt për çdo ashensor. Me përvojë të gjatë dhe trajnime të vazhdueshme, ata sigurojnë që pajisjet tuaja të
+            funksionojnë në mënyrë optimale dhe të jenë gjithmonë në përputhje me standardet më të larta të industrisë.
+          </p>
+          <ul class="list-disc pl-5 text-gray-700 text-sm">
+            <li>Shërbim i shpejtë dhe i besueshëm</li>
+            <li>Ekspertizë teknike për çdo lloj ashensori</li>
+            <li>Mbështetje dhe këshillim për klientët</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -179,7 +196,6 @@
       </div>
     </div>
   </section>
-
   <!-- Seksioni 5 ("DISA NGA KLIENTËT TANË TË KËNAQUR") - I ripërdorur -->
   <section class="bg-white py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center">
@@ -188,15 +204,17 @@
       </h2>
       <!-- Rrjeta e Logove të Klientëve -->
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-items-center">
-        <img src="https://i.imgur.com/lM5v02H.png" alt="Einstein Healthcare Network" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/S7W7j8E.png" alt="Princeton University" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/uN0Xj8m.png" alt="Virtua" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/Z9M8V2I.png" alt="Villanova University" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/vH1rW2x.png" alt="M&T Bank" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/w4J9W1G.png" alt="PhilaPort" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/F0jR1xK.png" alt="Swarthmore College" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/R8E8uV7.png" alt="Arcadia University" class="h-16 w-auto object-contain">
-        <img src="https://i.imgur.com/f2Z2n7o.png" alt="Acts Retirement-Life Communities"
+        <img src="assets/images/clients/client_Einstein.png" alt="Einstein Healthcare Network"
+          class="h-16 w-auto object-contain">
+
+        <img src="assets/images/clients/clients2.png" alt="Princeton University" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/clients3.png" alt="Virtua" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/client4.png" alt="Villanova University" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/client5.png" alt="M&T Bank" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/client6.png" alt="PhilaPort" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/client7.png" alt="Swarthmore College" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/client8.png" alt="Arcadia University" class="h-16 w-auto object-contain">
+        <img src="assets/images/clients/clients9.png" alt="Acts Retirement-Life Communities"
           class="h-16 w-auto object-contain">
       </div>
     </div>

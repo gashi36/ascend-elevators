@@ -8,3 +8,7 @@
 .nav-placeholder {
   display: none;
 }
+
+.sim-slice {
+  clip-path: polygon(0 0, calc(100% - 70px) 0, 100% 70px, 100% 100%, 0 100%);
+}

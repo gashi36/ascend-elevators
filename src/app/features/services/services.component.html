@@ -203,33 +203,6 @@
   </div>
 </div>
 
-<app-testimonials></app-testimonials>
-<div class="bg-gray-20 py-20">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 flex">
-
-    <!-- LEFT SIDE: Content (0–40%) -->
-    <div class="w-full lg:w-2/5 text-left">
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 uppercase">
-        ALEATI YJ I ASHENSORËVE
-      </h2>
-
-      <p class="text-gray-900 mb-6 text-base">
-        Zbuloni Ndryshimin me Ascend Elevator.<br>
-        Si mund t'ju ndihmojmë sot?
-      </p>
-
-      <button (click)="navigateToContact()" class="inline-block bg-red-500 font-bold py-3 px-8 text-white text-center uppercase tracking-wider
-               transition duration-300 hover:bg-red-600 w-fit text-sm">
-        CAKTO NJË TELEFONATË
-      </button>
-    </div>
-
-    <!-- RIGHT SIDE: Empty space (60%) -->
-    <div class="hidden lg:block lg:w-3/5"></div>
-
-  </div>
-</div>
-<app-testimonials></app-testimonials>
 <div class="bg-gray-20 py-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex">
 
@@ -273,158 +246,147 @@
   <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center">
       <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-12">
-        ZGJIDHJE TË SHPEJTA DHE TË BESUESHME
+        ZGJIDHJE PËR ÇDO SEKTOR NGA ASCEND ELEVATORS
       </h3>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 rounded-xl overflow-hidden shadow-2xl">
 
-        <div class="group relative aspect-square overflow-hidden cursor-pointer
-                    transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-
-          <img src="https://i.imgur.com/k4QYj7k.jpg" alt="Teknik duke riparuar kontrolluesin"
+        <!-- Apartments & Condos -->
+        <div
+          class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
+          <img src="../../../assets/images/servicesimg/apartments-condos.jpg" alt="Apartamente & Kondo"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-
-          <div class="absolute inset-0 flex items-center p-8 text-white text-left
-                   transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
+          <div
+            class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
-
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">RIPARIM & DIAGNOSTIKIM</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">APARTAMENTE & KONDO</h4>
               <p class="text-base leading-relaxed">
-                Reagim i shpejtë 24/7/365 nga teknikë master për të diagnostikuar dhe zgjidhur çdo ndërprerje.
-                <br /><br />
-                Ne jemi partneri që i besojnë industritë për të ngritur operacionet e tyre në nivelin tjetër të
-                efikasitetit dhe performancës, duke përdorur pjesë jo-pronësore.
+                Zgjidhje të qeta, të sigurta dhe efikase për ndërtesa rezidenciale moderne.
+                Ascend Elevators ofron komoditet dhe estetikë për çdo kompleks banimi.
               </p>
             </div>
           </div>
-
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            RIPARIM & DIAGNOSTIKIM
+            APARTAMENTE & KONDO
           </p>
         </div>
 
-        <div class="group relative aspect-square overflow-hidden cursor-pointer
-                    transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="https://i.imgur.com/G3G6f0h.jpg" alt="Teknik mirëmbajtjeje"
+        <!-- Healthcare -->
+        <div
+          class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
+          <img src="../../../assets/images/servicesimg/healthcare.jpg" alt="Healthcare"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <div class="absolute inset-0 flex items-center p-8 text-white text-left
-                   transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
+          <div
+            class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">MIRËMBAJTJE PARANDALUESE</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">SHËNDETËSI</h4>
               <p class="text-base leading-relaxed">
-                Planet e kujdesit të personalizuara për të zgjatur jetën e ashensorit tuaj dhe për të parandaluar
-                dështimet.
-                <br /><br />
-                Përmirësoni efikasitetin dhe sigurinë duke i mbajtur pajisjet tuaja gjithmonë në përputhje me kodet e
-                fundit të sigurisë.
+                Sisteme ashensorësh të dizajnuara për spitale, klinika dhe qendra kujdesi.
+                Siguri, shpejtësi dhe besueshmëri për transportin e pacientëve dhe personelit.
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            MIRËMBAJTJE PARANDALUESE
+            SHËNDETËSI
           </p>
         </div>
 
-        <div class="group relative aspect-square overflow-hidden cursor-pointer
-                    transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="https://i.imgur.com/v8X4qWd.jpg" alt="Ashensor modern"
+        <!-- Hotel -->
+        <div
+          class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
+          <img src="../../../assets/images/servicesimg/hotel.jpg" alt="Hotel"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <div class="absolute inset-0 flex items-center p-8 text-white text-left
-                   transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
+          <div
+            class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">MODERNIZIMI I ASHENSORIT</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">HOTELERI</h4>
               <p class="text-base leading-relaxed">
-                Përmirësoni efikasitetin, sigurinë dhe estetikën e ashensorëve të vjetër me zgjidhje teknologjike të
-                fundit.
-                <br /><br />
-                Ne përdorim komponente jo-pronësore për t'ju dhënë kontroll të plotë mbi pronën tuaj dhe ulur kostot
-                afatgjata.
+                Ashensorë elegantë dhe të qetë për përvoja luksoze hoteliere.
+                Dizajnuar për rehati, stil dhe efikasitet maksimal për mysafirët tuaj.
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            MODERNIZIMI I ASHENSORIT
+            HOTELERI
           </p>
         </div>
 
-        <div class="group relative aspect-square overflow-hidden cursor-pointer
-                    transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="https://i.imgur.com/8Qp4W5A.jpg" alt="Ndërtesë në ndërtim"
+        <!-- Industrial -->
+        <div
+          class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
+          <img src="../../../assets/images/servicesimg/industrial.jpg" alt="Industrial"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <div class="absolute inset-0 flex items-center p-8 text-white text-left
-                   transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
+          <div
+            class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">INSTALIMI I RI</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">INDUSTRIALE</h4>
               <p class="text-base leading-relaxed">
-                Projektimi dhe instalimi i ashensorëve, ngritësve (dumbwaiters) dhe shkallëve lëvizëse për projekte të
-                reja.
-                <br /><br />
-                Fokusi ynë kryesor është te efikasiteti, aksesi universal dhe mbështetja e plotë gjatë fazës së
-                ndërtimit.
+                Ashensorë të qëndrueshëm për ambiente industriale dhe fabrika.
+                Të ndërtuar për ngarkesa të rënda dhe funksionim të pandërprerë.
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            INSTALIMI I RI
+            INDUSTRIALE
           </p>
         </div>
 
-        <div class="group relative aspect-square overflow-hidden cursor-pointer
-                    transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="https://i.imgur.com/9C0N79f.jpg" alt="Teknik duke kontrolluar telat"
+        <!-- Office -->
+        <div
+          class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
+          <img src="../../../assets/images/servicesimg/office.jpg" alt="Office"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <div class="absolute inset-0 flex items-center p-8 text-white text-left
-                   transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
+          <div
+            class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">TESTIMI DHE INSPEKTIMI</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">ZYRA & QENDRA BIZNESI</h4>
               <p class="text-base leading-relaxed">
-                Menaxhim i inspektimit dhe testimit të ngarkesës së plotë të detyrueshëm nga shteti.
-                <br /><br />
-                Ne sigurojmë përputhjen e plotë me kodet e sigurisë, duke larguar çdo stres nga menaxhimi i pronës.
+                Zgjidhje të shpejta dhe elegante për ndërtesa komerciale dhe zyra moderne.
+                Rritni produktivitetin me ashensorë inteligjentë dhe efikas.
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            TESTIMI DHE INSPEKTIMI
+            ZYRA & QENDRA BIZNESI
           </p>
         </div>
 
-        <div class="group relative aspect-square overflow-hidden cursor-pointer
-                    transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="https://i.imgur.com/jWvj0H9.jpg" alt="Numrat e urgjencës në telefon"
+        <!-- Retail -->
+        <div
+          class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
+          <img src="../../../assets/images/servicesimg/retail.jpg" alt="Retail"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <div class="absolute inset-0 flex items-center p-8 text-white text-left
-                   transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
+          <div
+            class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">SHËRBIMI I URGJENCËS 24/7</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">RETAIL & QENDRA TREGTARE</h4>
               <p class="text-base leading-relaxed">
-                Ekipet e shërbimit të urgjencës janë gjithmonë në dispozicion për të trajtuar bllokimet dhe dështimet e
-                papritura.
-                <br /><br />
-                Ne ofrojmë kohë minimale reagimi dhe jemi të përkushtuar ndaj sigurisë dhe funksionimit të vazhdueshëm.
+                Ashensorë dhe shkallë lëvizëse për qendra tregtare dhe dyqane.
+                Sigurojnë qarkullim të lehtë dhe përvojë të rehatshme për klientët.
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            SHËRBIMI I URGJENCËS 24/7
+            RETAIL & QENDRA TREGTARE
           </p>
         </div>
 
       </div>
     </div>
   </section>
+
 </div>
 
 <div class="bg-gray-20 py-20">

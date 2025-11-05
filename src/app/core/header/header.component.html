@@ -56,26 +56,41 @@
   <!-- Mobile Menu -->
   <div *ngIf="isOpen" class="md:hidden p-5 bg-white border-t border-gray-200 shadow-inner">
     <!-- Mobile Dropdown for Shërbimet -->
-    <div>
-      <button class="flex items-center w-full px-6 py-3 text-gray-800 hover:text-red-600 transition justify-between"
-        (click)="toggleMobileServices()">
-        Shërbimet
-        <svg class="w-4 h-4 ml-2 transition-transform duration-200" [ngClass]="{'rotate-180': mobileServicesOpen}"
-          fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
-            clip-rule="evenodd" />
-        </svg>
-      </button>
-      <div *ngIf="mobileServicesOpen" class="pl-8">
+    <!-- Mobile Dropdown for Shërbimet -->
+    <div class="border-b border-gray-100 pb-2 mb-2">
+      <div class="flex items-center justify-between px-6 py-3">
+        <!-- Main link to /services -->
+        <a routerLink="/services" class="text-gray-800 font-medium hover:text-red-600 transition">
+          Shërbimet
+        </a>
+        <!-- Dropdown toggle button -->
+        <button (click)="toggleMobileServices()" class="flex items-center text-gray-800 hover:text-red-600 transition">
+          <svg class="w-5 h-5 ml-2 transition-transform duration-200" [ngClass]="{'rotate-180': mobileServicesOpen}"
+            fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Dropdown submenu -->
+      <div *ngIf="mobileServicesOpen" class="pl-8 mt-2">
         <a routerLink="/repair"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">Riparimi</a>
+          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
+          Riparimi
+        </a>
         <a routerLink="/maintenance"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">Mirëmbajtja</a>
+          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
+          Mirëmbajtja
+        </a>
         <a routerLink="/modernization"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">Modernizimi</a>
+          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
+          Modernizimi
+        </a>
       </div>
     </div>
+
 
     <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/about">Rreth Nesh</a>
     <a class="block px-6 py-3 text-gray-800 hover:text-red-600 transition" routerLink="/lift">Ashensori</a>

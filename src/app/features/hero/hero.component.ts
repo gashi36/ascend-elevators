@@ -1,12 +1,12 @@
 import { Component, ElementRef, QueryList } from '@angular/core';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { ContactComponent } from '../contact/contact.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [TestimonialsComponent],
+  imports: [TestimonialsComponent, RouterModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss'
 })

@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { HeroComponent } from '../hero/hero.component';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { ContactComponent } from '../contact/contact.component';
-import { Router } from '@angular/router';
+import { Router, RouterEvent, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [TestimonialsComponent,],
+  imports: [TestimonialsComponent, RouterModule],
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss']
 })

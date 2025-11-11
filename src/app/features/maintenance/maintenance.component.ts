@@ -1,13 +1,14 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-maintenance',
   standalone: true,
   templateUrl: './maintenance.component.html',
   styleUrls: ['./maintenance.component.scss'],
-  imports: [TestimonialsComponent, CommonModule]
+  imports: [TestimonialsComponent, CommonModule, RouterModule]
 })
 export class MaintenanceComponent implements OnInit, AfterViewInit {
   // stats

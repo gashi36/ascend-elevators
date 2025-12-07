@@ -1,0 +1,33 @@
+query GetAllAdmins {
+  allAdmins {
+    createdAt
+    email
+    firstName
+    id
+    lastName
+    passwordHash
+    passwordResetToken
+    passwordResetTokenExpiry
+    role
+    updatedAt
+  }
+}
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    # The crucial JWT token for subsequent requests
+    token
+
+    # Payload fields for status feedback
+    success
+    message
+
+    # Fetching minimal user data to confirm identity (no sensitive fields like passwordHash)
+    user {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
+  }
+}

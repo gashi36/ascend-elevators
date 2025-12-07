@@ -1,0 +1,26 @@
+.login-container {
+  /* Mimics the Tailwind classes: flex items-center justify-center min-h-screen bg-gray-100 p-4 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  /* bg-gray-100 */
+  padding: 1rem;
+}
+
+.login-card {
+  /* Mimics the Tailwind classes: w-full max-w-md bg-white rounded-xl shadow-2xl p-8 space-y-6 */
+  width: 100%;
+  max-width: 28rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  /* rounded-xl */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* shadow-2xl */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* space-y-6 */
+}

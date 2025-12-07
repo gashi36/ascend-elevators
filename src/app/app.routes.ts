@@ -10,6 +10,7 @@ import { BlogListComponent } from './features/blog/blog-list/blog-list.component
 import { ModernizationComponent } from './features/modernization/modernization.component';
 import { MaintenanceComponent } from './features/maintenance/maintenance.component';
 import { RepairComponent } from './features/repair/repair.component';
+import { LoginComponent } from './core/login/login.component';
 
 export const routes: Routes = [
   { path: '', component: HeroComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'testimonials', component: TestimonialsComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'modernization', component: ModernizationComponent },
   { path: 'maintenance', component: MaintenanceComponent },
   { path: 'repair', component: RepairComponent },

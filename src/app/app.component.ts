@@ -1,15 +1,16 @@
 // src/app/app.component.ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
 
 @Component({
-    selector: 'app-root',
-    imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
-    templateUrl: './app.component.html'
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   constructor(private router: Router) {

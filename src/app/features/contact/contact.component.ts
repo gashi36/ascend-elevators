@@ -1,12 +1,13 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-contact',
-    imports: [CommonModule, FormsModule],
-    templateUrl: './contact.component.html'
+  selector: 'app-contact',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './contact.component.html'
 })
 export class ContactComponent {
   sending = false;

@@ -18,95 +18,100 @@
             <path fill-rule="evenodd"
               d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
               clip-rule="evenodd" />
-          </svg>
-        </a>
+            </svg>
+          </a>
 
-        <!-- Dropdown menu -->
-        <div
-          class="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg border border-gray-200 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50">
-          <a routerLink="/repair" class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
-            Riparimi
-          </a>
-          <a routerLink="/maintenance"
-            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
-            Mirëmbajtja
-          </a>
-          <a routerLink="/modernization"
-            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
-            Modernizimi
-          </a>
+          <!-- Dropdown menu -->
+          <div
+            class="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg border border-gray-200 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50">
+            <a routerLink="/repair" class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
+              Riparimi
+            </a>
+            <a routerLink="/maintenance"
+              class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
+              Mirëmbajtja
+            </a>
+            <a routerLink="/modernization"
+              class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
+              Modernizimi
+            </a>
+          </div>
         </div>
-      </div>
-      <a routerLink="about" class="hover:text-red-600 transition-colors duration-200">Rreth Nesh</a>
-      <a routerLink="blog" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
-      <!-- Contact button (smaller on large screens) -->
-      <a routerLink="/contact"
-        class="inline-flex items-center justify-center gap-2 px-5 py-2 border-2 border-red-600 text-red-600 rounded-full font-semibold tracking-wide transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:shadow-lg hover:-translate-y-0.5 text-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-          <path
-            d="M2 5a1 1 0 011-1h3.28a1 1 0 01.96.74l1.22 4.39a1 1 0 01-.27.98l-1.67 1.67a16 16 0 006.36 6.36l1.67-1.67a1 1 0 01.98-.27l4.39 1.22a1 1 0 01.74.96V21a1 1 0 01-1 1h-2C9.163 22 2 14.837 2 6V5z" />
-        </svg>
-        Na Kontaktoni
-      </a>
-    </nav>
+        <a routerLink="about" class="hover:text-red-600 transition-colors duration-200">Rreth Nesh</a>
+        <a routerLink="blog" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
+        <!-- Contact button (smaller on large screens) -->
+        <a routerLink="/contact"
+          class="inline-flex items-center justify-center gap-2 px-5 py-2 border-2 border-red-600 text-red-600 rounded-full font-semibold tracking-wide transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:shadow-lg hover:-translate-y-0.5 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+            <path
+              d="M2 5a1 1 0 011-1h3.28a1 1 0 01.96.74l1.22 4.39a1 1 0 01-.27.98l-1.67 1.67a16 16 0 006.36 6.36l1.67-1.67a1 1 0 01.98-.27l4.39 1.22a1 1 0 01.74.96V21a1 1 0 01-1 1h-2C9.163 22 2 14.837 2 6V5z" />
+            </svg>
+            Na Kontaktoni
+          </a>
+        </nav>
 
-    <!-- Mobile menu toggle -->
-    <button class="md:hidden flex items-center" (click)="toggle()">
-      <svg class="w-7 h-7 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path *ngIf="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16" />
-        <path *ngIf="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Navigation -->
-  <div *ngIf="isOpen" class="md:hidden p-5 bg-white border-t border-gray-200 shadow-inner space-y-2">
-    <div class="border-b border-gray-100 pb-2 mb-2">
-      <div class="flex items-center justify-between px-4 py-3">
-        <a routerLink="/services" class="text-gray-800 font-medium hover:text-red-600 transition">
-          Shërbimet
-        </a>
-        <button (click)="toggleMobileServices()" class="flex items-center text-gray-800 hover:text-red-600 transition">
-          <svg class="w-5 h-5 ml-2 transition-transform duration-200" [ngClass]="{'rotate-180': mobileServicesOpen}"
-            fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd" />
+        <!-- Mobile menu toggle -->
+        <button class="md:hidden flex items-center" (click)="toggle()">
+          <svg class="w-7 h-7 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            @if (!isOpen) {
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+            }
+            @if (isOpen) {
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            }
           </svg>
         </button>
       </div>
 
-      <!-- Mobile dropdown submenu -->
-      <div *ngIf="mobileServicesOpen" class="pl-8 mt-2 space-y-1">
-        <a routerLink="/repair"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
-          Riparimi
-        </a>
-        <a routerLink="/maintenance"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
-          Mirëmbajtja
-        </a>
-        <a routerLink="/modernization"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
-          Modernizimi
-        </a>
-      </div>
-    </div>
-
-    <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="about">Rreth Nesh</a>
-    <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="blog">Ashensori</a>
-
-    <!-- Mobile Contact Button -->
-    <a routerLink="/contact"
-      class="w-full flex items-center justify-center gap-2 px-6 py-3 mt-3 border-2 border-red-600 text-red-600 rounded-full font-semibold tracking-wide transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:shadow-lg">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-        <path
-          d="M2 5a1 1 0 011-1h3.28a1 1 0 01.96.74l1.22 4.39a1 1 0 01-.27.98l-1.67 1.67a16 16 0 006.36 6.36l1.67-1.67a1 1 0 01.98-.27l4.39 1.22a1 1 0 01.74.96V21a1 1 0 01-1 1h-2C9.163 22 2 14.837 2 6V5z" />
-      </svg>
-      Na Kontaktoni
-    </a>
-  </div>
-</header>
+      <!-- Mobile Navigation -->
+      @if (isOpen) {
+        <div class="md:hidden p-5 bg-white border-t border-gray-200 shadow-inner space-y-2">
+          <div class="border-b border-gray-100 pb-2 mb-2">
+            <div class="flex items-center justify-between px-4 py-3">
+              <a routerLink="/services" class="text-gray-800 font-medium hover:text-red-600 transition">
+                Shërbimet
+              </a>
+              <button (click)="toggleMobileServices()" class="flex items-center text-gray-800 hover:text-red-600 transition">
+                <svg class="w-5 h-5 ml-2 transition-transform duration-200" [ngClass]="{'rotate-180': mobileServicesOpen}"
+                  fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
+                    clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+              <!-- Mobile dropdown submenu -->
+              @if (mobileServicesOpen) {
+                <div class="pl-8 mt-2 space-y-1">
+                  <a routerLink="/repair"
+                    class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
+                    Riparimi
+                  </a>
+                  <a routerLink="/maintenance"
+                    class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
+                    Mirëmbajtja
+                  </a>
+                  <a routerLink="/modernization"
+                    class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
+                    Modernizimi
+                  </a>
+                </div>
+              }
+            </div>
+            <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="about">Rreth Nesh</a>
+            <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="blog">Ashensori</a>
+            <!-- Mobile Contact Button -->
+            <a routerLink="/contact"
+              class="w-full flex items-center justify-center gap-2 px-6 py-3 mt-3 border-2 border-red-600 text-red-600 rounded-full font-semibold tracking-wide transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                <path
+                  d="M2 5a1 1 0 011-1h3.28a1 1 0 01.96.74l1.22 4.39a1 1 0 01-.27.98l-1.67 1.67a16 16 0 006.36 6.36l1.67-1.67a1 1 0 01.98-.27l4.39 1.22a1 1 0 01.74.96V21a1 1 0 01-1 1h-2C9.163 22 2 14.837 2 6V5z" />
+                </svg>
+                Na Kontaktoni
+              </a>
+            </div>
+          }
+        </header>

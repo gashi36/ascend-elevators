@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import { ContactComponent } from '../../features/contact/contact.component';
 
 @Component({
-    selector: 'app-header',
-    imports: [CommonModule, RouterLink],
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss']
+  selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   isOpen = false;

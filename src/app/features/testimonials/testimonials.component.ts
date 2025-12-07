@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
-    selector: 'app-testimonials',
-    imports: [CommonModule],
-    templateUrl: './testimonials.component.html',
-    styleUrls: ['./testimonials.component.scss']
+  selector: 'app-testimonials',
+  imports: [],
+  standalone: true,
+  templateUrl: './testimonials.component.html',
+  styleUrls: ['./testimonials.component.scss']
 })
 export class TestimonialsComponent implements OnInit {
 

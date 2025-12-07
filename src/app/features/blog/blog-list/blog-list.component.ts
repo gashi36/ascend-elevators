@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // Import ChangeDetectorRef
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { BlogService } from '../blog.service';
 import { BlogPost } from '../blog-data';
 
 @Component({
     selector: 'app-blog-list',
-    imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
+    standalone: true,
     templateUrl: './blog-list.component.html',
     styleUrls: ['./blog-list.component.scss']
 })

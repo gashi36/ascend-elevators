@@ -5,11 +5,10 @@ import { ContactComponent } from '../contact/contact.component';
 import { Router, RouterEvent, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-services',
-  standalone: true,
-  imports: [TestimonialsComponent, RouterModule],
-  templateUrl: './services.component.html',
-  styleUrls: ['./services.component.scss']
+    selector: 'app-services',
+    imports: [TestimonialsComponent, RouterModule],
+    templateUrl: './services.component.html',
+    styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent {
   constructor(private router: Router) { }

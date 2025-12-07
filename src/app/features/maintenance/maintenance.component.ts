@@ -4,11 +4,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-maintenance',
-  standalone: true,
-  templateUrl: './maintenance.component.html',
-  styleUrls: ['./maintenance.component.scss'],
-  imports: [TestimonialsComponent, CommonModule, RouterModule]
+    selector: 'app-maintenance',
+    templateUrl: './maintenance.component.html',
+    styleUrls: ['./maintenance.component.scss'],
+    imports: [TestimonialsComponent, CommonModule, RouterModule]
 })
 export class MaintenanceComponent implements OnInit, AfterViewInit {
   // stats

@@ -4,11 +4,10 @@ import { ContactComponent } from '../contact/contact.component';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-hero',
-  standalone: true,
-  imports: [TestimonialsComponent, RouterModule],
-  templateUrl: './hero.component.html',
-  styleUrl: './hero.component.scss'
+    selector: 'app-hero',
+    imports: [TestimonialsComponent, RouterModule],
+    templateUrl: './hero.component.html',
+    styleUrl: './hero.component.scss'
 })
 
 

@@ -5,12 +5,11 @@ import { take } from 'rxjs/operators';
 import { LoginGQL, LoginInput } from '../../../graphql/generated/graphql';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  // ADDED ReactiveFormsModule to handle dynamic forms
-  imports: [CommonModule, NgClass, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    // ADDED ReactiveFormsModule to handle dynamic forms
+    imports: [CommonModule, NgClass, ReactiveFormsModule],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 

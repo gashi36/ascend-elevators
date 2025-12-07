@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-superadmin-panel',
-  templateUrl: './superadmin-panel.component.html',
-  styleUrls: ['./superadmin-panel.component.css']
+    selector: 'app-superadmin-panel',
+    templateUrl: './superadmin-panel.component.html',
+    styleUrls: ['./superadmin-panel.component.css'],
+    standalone: false
 })
 export class SuperadminPanelComponent implements OnInit {
 

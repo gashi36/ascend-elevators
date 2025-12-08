@@ -1,0 +1,25 @@
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    token
+    success
+    message
+    user {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
+  }
+}
+######################## SuperAdmin Mutations ########################
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    token
+    user {
+      id
+      email
+      role
+    }
+  }
+}

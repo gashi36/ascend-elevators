@@ -488,6 +488,19 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** Indicates whether more edges exist following the set defined by the clients arguments. */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** Indicates whether more edges exist prior the set defined by the clients arguments. */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   adminsInMyBuildings: Array<User>;
@@ -521,7 +534,7 @@ export type Query = {
   tenantsByBuildingEntry: Array<Tenant>;
   userById?: Maybe<User>;
   userStats: UserStats;
-  users: Array<User>;
+  users?: Maybe<UsersConnection>;
   usersInMyBuildings: Array<User>;
 };
 
@@ -617,6 +630,10 @@ export type QueryUserByIdArgs = {
 
 
 export type QueryUsersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<UserSortInput>>;
   where?: InputMaybe<UserFilterInput>;
 };
@@ -819,6 +836,26 @@ export type UserStats = {
   totalUsers: Scalars['Int']['output'];
 };
 
+/** A connection to a list of items. */
+export type UsersConnection = {
+  __typename?: 'UsersConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<UsersEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<User>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type UsersEdge = {
+  __typename?: 'UsersEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: User;
+};
+
 export type UuidOperationFilterInput = {
   eq?: InputMaybe<Scalars['UUID']['input']>;
   gt?: InputMaybe<Scalars['UUID']['input']>;
@@ -834,11 +871,6 @@ export type UuidOperationFilterInput = {
   nlte?: InputMaybe<Scalars['UUID']['input']>;
 };
 
-export type GetAllAdminsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAllAdminsQuery = { __typename?: 'Query', allAdmins: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, passwordHash: string, passwordResetToken?: string | null, passwordResetTokenExpiry?: any | null, role: UserRole, updatedAt?: any | null }> };
-
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -846,33 +878,21 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginPayload', token?: string | null, success: boolean, message: string, user?: { __typename?: 'User', id: any, email?: string | null, firstName?: string | null, lastName?: string | null, role: UserRole } | null } };
 
-export const GetAllAdminsDocument = gql`
-    query GetAllAdmins {
-  allAdmins {
-    createdAt
-    email
-    firstName
-    id
-    lastName
-    passwordHash
-    passwordResetToken
-    passwordResetTokenExpiry
-    role
-    updatedAt
-  }
-}
-    `;
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetAllAdminsGQL extends Apollo.Query<GetAllAdminsQuery, GetAllAdminsQueryVariables> {
-    override document = GetAllAdminsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'UserPayload', token?: string | null, user: { __typename?: 'User', id: any, email?: string | null, role: UserRole } } };
+
+export type GetAllUsersQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', users?: { __typename?: 'UsersConnection', nodes?: Array<{ __typename?: 'User', id: any, email?: string | null, firstName?: string | null, lastName?: string | null, role: UserRole, createdAt: any, updatedAt?: any | null }> | null, edges?: Array<{ __typename?: 'UsersEdge', cursor: string }> | null, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
   login(input: $input) {
@@ -895,6 +915,69 @@ export const LoginDocument = gql`
   })
   export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
     override document = LoginDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateUserDocument = gql`
+    mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    token
+    user {
+      id
+      email
+      role
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
+    override document = CreateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetAllUsersDocument = gql`
+    query GetAllUsers($first: Int = 20, $after: String) {
+  users(
+    order: {createdAt: DESC}
+    where: {firstName: {startsWith: ""}}
+    first: $first
+    after: $after
+  ) {
+    nodes {
+      id
+      email
+      firstName
+      lastName
+      role
+      createdAt
+      updatedAt
+    }
+    edges {
+      cursor
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllUsersGQL extends Apollo.Query<GetAllUsersQuery, GetAllUsersQueryVariables> {
+    override document = GetAllUsersDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

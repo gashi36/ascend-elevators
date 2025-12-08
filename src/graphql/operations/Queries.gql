@@ -1,0 +1,27 @@
+query GetAllUsers($first: Int = 20, $after: String) {
+  users(
+    order: { createdAt: DESC }
+    where: { firstName: { startsWith: "" } }
+    first: $first
+    after: $after
+  ) {
+    nodes {
+      id
+      email
+      firstName
+      lastName
+      role
+      createdAt
+      updatedAt
+    }
+    edges {
+      cursor
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}

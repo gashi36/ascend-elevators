@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // <-- Added form imports
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { LoginGQL, LoginInput } from '../../../graphql/generated/graphql';
-
+import { Router } from '@angular/router';
+import { UserRole } from '../../../graphql/generated/graphql';
 @Component({
   selector: 'app-login',
-  // ADDED ReactiveFormsModule to handle dynamic forms
   imports: [CommonModule, NgClass, ReactiveFormsModule],
   standalone: true,
   templateUrl: './login.component.html',
@@ -14,18 +14,17 @@ import { LoginGQL, LoginInput } from '../../../graphql/generated/graphql';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup; // Declare the form group
-
+  loginForm: FormGroup;
   isLoading = false;
   statusMessage: string | null = null;
   statusClass: string = '';
 
-  // Inject the generated Apollo service and FormBuilder
+  private router = inject(Router);
+
   constructor(private loginGQL: LoginGQL, private fb: FormBuilder) {
-    // Initialize the form group with controls and validation
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['ascend.rks@gmail.com', [Validators.required, Validators.email]],
+      password: ['dnecsa2025$', [Validators.required, Validators.minLength(8)]],
     });
   }
 
@@ -36,9 +35,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // Renamed to handleLogin to reflect dynamic input
   handleLogin(): void {
-    // Check if the form is valid before submitting
     if (this.loginForm.invalid) {
       this.statusMessage = 'Validation failed: Please enter a valid email and a password of at least 8 characters.';
       this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm';
@@ -49,10 +46,8 @@ export class LoginComponent implements OnInit {
     this.statusMessage = 'Attempting login...';
     this.statusClass = 'p-3 bg-blue-100 text-blue-800 rounded-lg text-sm';
 
-    // Extract credentials from the form
     const credentials: LoginInput = this.loginForm.value;
 
-    // FIX: Wrapping the mutation variables in the 'variables' property
     this.loginGQL.mutate({ variables: { input: credentials } })
       .pipe(take(1))
       .subscribe({
@@ -61,26 +56,31 @@ export class LoginComponent implements OnInit {
           const payload = result.data?.login;
 
           if (payload?.token && payload.success) {
-            // CRITICAL STEP: Save the token for the Apollo AuthLink to pick up!
             localStorage.setItem('jwt_token', payload.token);
 
-            this.statusMessage = `SUCCESS! Token saved for user ${payload.user?.email} (${payload.user?.role}).`;
+            this.statusMessage = `SUCCESS! Logged in as ${payload.user?.email} (${payload.user?.role}).`;
             this.statusClass = 'p-3 bg-green-100 text-green-800 rounded-lg text-sm font-semibold';
+            const role = payload.user?.role;
+            // Redirect based on role
+            if (role === UserRole.SuperAdmin) {
+              this.router.navigate(['/superadmin-panel']);
+            } else if (role === UserRole.Admin) {
+              this.router.navigate(['/admin-panel']);
+            } else {
+              this.router.navigate(['/']); // fallback
+            }
 
           } else if (payload?.message) {
-            // Login failed due to credential issue
             this.statusMessage = `Login Failed: ${payload.message}`;
             this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm';
           } else {
-            // Unexpected server response
             this.statusMessage = 'Login Failed: Unexpected response or network error.';
             this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm';
           }
         },
         error: (e) => {
           this.isLoading = false;
-          // Network error, CORS error, etc.
-          this.statusMessage = `Authentication Error: Network problem or server connection failed. See console for details.`;
+          this.statusMessage = 'Authentication Error: Network problem or server connection failed.';
           this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm font-semibold';
           console.error('GraphQL Mutation Error:', e);
         }

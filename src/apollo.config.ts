@@ -5,7 +5,6 @@ import { HttpLink } from 'apollo-angular/http';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { HttpHeaders } from '@angular/common/http';
-
 const GRAPHQL_URI = 'https://localhost:5001/graphql';
 
 // --- 1. Error Link ---
@@ -25,19 +24,18 @@ const errorLink = onError(({ graphQLErrors, networkError }: any) => {
 
 // --- 2. Apollo Factory ---
 export function createApollo(httpLink: HttpLink) {
-
-  // Authentication Link
   const authLink = setContext((operation, context) => {
     const token = localStorage.getItem('jwt_token') || '';
 
-    // Convert existing headers (if any) into HttpHeaders
-    let headers = new HttpHeaders(context.headers as any || {});
-    headers = headers.set('Authorization', token ? `Bearer ${token}` : '');
+    const headers = context.headers instanceof HttpHeaders
+      ? context.headers
+      : new HttpHeaders();
 
     return {
-      headers,
+      headers: headers.set('Authorization', token ? `Bearer ${token}` : '')
     };
   });
+
 
   // HTTP Link
   const http = httpLink.create({ uri: GRAPHQL_URI });

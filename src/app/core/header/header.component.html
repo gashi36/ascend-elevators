@@ -1,13 +1,15 @@
 <header class="bg-white fixed top-0 w-full z-50 shadow-md">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
     <!-- Logo -->
     <a class="flex items-center gap-3" routerLink="/">
       <img src="https://i.imgur.com/azUwjQZ.png" alt="Logo Ascend" class="h-12 w-auto rounded-full" />
-
     </a>
+
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex items-center gap-6 font-medium text-gray-800">
-      <!-- Dropdown -->
+
+      <!-- Services dropdown -->
       <div class="relative group">
         <a routerLink="/services" class="hover:text-red-600 transition-colors duration-200 flex items-center gap-1">
           Shërbimet
@@ -19,25 +21,21 @@
           </svg>
         </a>
 
-        <!-- Dropdown menu -->
         <div
           class="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg border border-gray-200 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50">
-          <a routerLink="/repair" class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
-            Riparimi
-          </a>
+          <a routerLink="/repair"
+            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">Riparimi</a>
           <a routerLink="/maintenance"
-            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
-            Mirëmbajtja
-          </a>
+            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">Mirëmbajtja</a>
           <a routerLink="/modernization"
-            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">
-            Modernizimi
-          </a>
+            class="block px-4 py-2 hover:bg-red-600 hover:text-white rounded transition-colors">Modernizimi</a>
         </div>
       </div>
-      <a routerLink="about" class="hover:text-red-600 transition-colors duration-200">Rreth Nesh</a>
-      <a routerLink="blog" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
-      <!-- Contact button (smaller on large screens) -->
+
+      <a routerLink="/about" class="hover:text-red-600 transition-colors duration-200">Rreth Nesh</a>
+      <a routerLink="/blog" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
+
+      <!-- Contact -->
       <a routerLink="/contact"
         class="inline-flex items-center justify-center gap-2 px-5 py-2 border-2 border-red-600 text-red-600 rounded-full font-semibold tracking-wide transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:shadow-lg hover:-translate-y-0.5 text-sm">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -47,6 +45,43 @@
         </svg>
         Na Kontaktoni
       </a>
+
+      <!-- USER MENU DESKTOP -->
+      <div class="flex items-center gap-4 ml-4">
+
+        <!-- Not logged in -->
+        @if (!currentUser) {
+        <a routerLink="/login" class="flex items-center gap-2 text-gray-800 hover:text-red-600 transition-colors">
+          <i class="fas fa-sign-in-alt text-xl"></i>
+          Hyrje
+        </a>
+        }
+
+        <!-- Logged in -->
+        @if (currentUser) {
+        <div class="relative group">
+          <button class="flex items-center gap-2 font-medium text-gray-800 hover:text-red-600 transition">
+            <i class="fas fa-user-circle text-2xl"></i>
+            {{ currentUser.username }}
+            <svg class="w-4 h-4 mt-1 transition-transform duration-200 group-hover:rotate-180" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <div
+            class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg border border-gray-200 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50">
+            <a routerLink="/profile"
+              class="block px-4 py-2 hover:bg-red-600 hover:text-white transition-colors">Profili</a>
+            <a (click)="logout()"
+              class="block px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer">Çkyçu</a>
+          </div>
+        </div>
+        }
+
+      </div>
     </nav>
 
     <!-- Mobile menu toggle -->
@@ -62,14 +97,14 @@
     </button>
   </div>
 
-  <!-- Mobile Navigation -->
+  <!-- MOBILE NAV -->
   @if (isOpen) {
   <div class="md:hidden p-5 bg-white border-t border-gray-200 shadow-inner space-y-2">
+
     <div class="border-b border-gray-100 pb-2 mb-2">
       <div class="flex items-center justify-between px-4 py-3">
-        <a routerLink="/services" class="text-gray-800 font-medium hover:text-red-600 transition">
-          Shërbimet
-        </a>
+        <a routerLink="/services" class="text-gray-800 font-medium hover:text-red-600 transition">Shërbimet</a>
+
         <button (click)="toggleMobileServices()" class="flex items-center text-gray-800 hover:text-red-600 transition">
           <svg class="w-5 h-5 ml-2 transition-transform duration-200" [ngClass]="{'rotate-180': mobileServicesOpen}"
             fill="currentColor" viewBox="0 0 20 20">
@@ -79,29 +114,25 @@
           </svg>
         </button>
       </div>
-      <!-- Mobile dropdown submenu -->
+
       @if (mobileServicesOpen) {
       <div class="pl-8 mt-2 space-y-1">
         <a routerLink="/repair"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
-          Riparimi
-        </a>
+          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">Riparimi</a>
         <a routerLink="/maintenance"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
-          Mirëmbajtja
-        </a>
+          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">Mirëmbajtja</a>
         <a routerLink="/modernization"
-          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">
-          Modernizimi
-        </a>
+          class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white rounded transition-colors">Modernizimi</a>
       </div>
       }
     </div>
-    <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="about">Rreth Nesh</a>
-    <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="blog">Ashensori</a>
-    <!-- Mobile Contact Button -->
+
+    <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="/about">Rreth Nesh</a>
+    <a class="block px-4 py-2 text-gray-800 hover:text-red-600 transition" routerLink="/blog">Ashensori</a>
+
+    <!-- Contact -->
     <a routerLink="/contact"
-      class="w-full flex items-center justify-center gap-2 px-6 py-3 mt-3 border-2 border-red-600 text-red-600 rounded-full font-semibold tracking-wide transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:shadow-lg">
+      class="w-full flex items-center justify-center gap-2 px-6 py-3 mt-3 border-2 border-red-600 text-red-600 rounded-full font-semibold transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
         <path
@@ -109,6 +140,31 @@
       </svg>
       Na Kontaktoni
     </a>
+
+    <!-- USER MENU MOBILE -->
+    <div class="border-t border-gray-200 pt-4 mt-3">
+
+      <!-- Not logged in -->
+      @if (!currentUser) {
+      <a routerLink="/login"
+        class="block px-4 py-2 text-gray-800 hover:text-red-600 transition flex items-center gap-2">
+        <i class="fas fa-sign-in-alt text-lg"></i>
+        Kyqu
+      </a>
+      }
+
+      <!-- Logged in -->
+      @if (currentUser) {
+      <div class="px-4 py-2 font-medium text-gray-800 flex items-center gap-2">
+        <i class="fas fa-user-circle text-2xl"></i>
+        {{ currentUser.username }}
+      </div>
+
+      <a routerLink="/profile" class="block px-4 py-2 text-gray-800 hover:text-red-600 transition">Profili</a>
+
+      <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:text-red-600 transition cursor-pointer">Çkyçu</a>
+      }
+    </div>
   </div>
   }
 </header>

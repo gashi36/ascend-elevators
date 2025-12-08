@@ -1,7 +1,7 @@
-query GetAllUsers($first: Int = 20, $after: String) {
+query GetAllUsers($first: Int = 20, $after: String, $firstName: String = "") {
   users(
     order: { createdAt: DESC }
-    where: { firstName: { startsWith: "" } }
+    where: { firstName: { startsWith: $firstName } }
     first: $first
     after: $after
   ) {
@@ -22,6 +22,33 @@ query GetAllUsers($first: Int = 20, $after: String) {
       endCursor
       hasNextPage
       hasPreviousPage
+    }
+  }
+}
+query GetUserById($id: UUID!) {
+  userById(id: $id) {
+    createdAt
+    email
+    firstName
+    id
+    lastName
+    passwordHash
+    passwordResetToken
+    passwordResetTokenExpiry
+    role
+    updatedAt
+    managedBuildings {
+      address
+      cityId
+      createdAt
+      id
+      name
+      entries {
+        buildingId
+        createdAt
+        id
+        name
+      }
     }
   }
 }

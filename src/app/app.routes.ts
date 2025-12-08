@@ -16,8 +16,10 @@ import { AuthGuard } from './Guards/auth.guard';
 import { AdminPanelComponent } from './dashboard/admin-panel/admin-panel.component';
 import { SuperadminGuard } from './Guards/superadmin.guard';
 import { UsersSuperadminComponent } from './dashboard/superadmin-panel/users-superadmin/users-superadmin.component';
+import { UsersDetailsSuperadminComponent } from './dashboard/superadmin-panel/users-details-superadmin/users-details-superadmin.component';
 
 export const routes: Routes = [
+  // Public routes
   { path: '', component: HeroComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'testimonials', component: TestimonialsComponent },
@@ -27,30 +29,38 @@ export const routes: Routes = [
   { path: 'modernization', component: ModernizationComponent },
   { path: 'maintenance', component: MaintenanceComponent },
   { path: 'repair', component: RepairComponent },
-  // 1. General Admin Panel (Auth Required)
+  { path: 'blog', component: BlogListComponent },
+  { path: 'blog/:slug', component: BlogDetailComponent },
+
+  // Admin Panel (Auth Required)
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
     canActivate: [AuthGuard]
   },
 
-  // 2. SuperAdmin Panel (Auth + SuperAdmin Role Required)
+  // SuperAdmin Panel (Auth + SuperAdmin Role Required)
   {
     path: 'superadmin-panel',
     component: SuperadminPanelComponent,
-    // Uses the imported names for activation checks
     canActivate: [AuthGuard, SuperadminGuard],
     children: [
       {
         path: 'users',
         component: UsersSuperadminComponent
-      }]
+      },
+      {
+        path: 'users/:id',
+        component: UsersDetailsSuperadminComponent
+      },
+      {
+        path: '',
+        redirectTo: 'users',
+        pathMatch: 'full'
+      }
+    ]
   },
 
-  // ... wildcard route
-  { path: 'blog', component: BlogListComponent },
-  { path: 'blog/:slug', component: BlogDetailComponent },
-  { path: 'services', component: ServicesComponent },
-  { path: '**', redirectTo: '' } // wildcard → home
-
+  // Wildcard route - MUST BE LAST
+  { path: '**', redirectTo: '' }
 ];

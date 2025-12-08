@@ -885,13 +885,35 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'UserPayload', token?: string | null, user: { __typename?: 'User', id: any, email?: string | null, role: UserRole } } };
 
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'UserPayload', token?: string | null, user: { __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, passwordHash: string, passwordResetToken?: string | null, passwordResetTokenExpiry?: any | null, role: UserRole, updatedAt?: any | null } } };
+
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'SuccessPayload', message: string, success: boolean } };
+
 export type GetAllUsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type GetAllUsersQuery = { __typename?: 'Query', users?: { __typename?: 'UsersConnection', nodes?: Array<{ __typename?: 'User', id: any, email?: string | null, firstName?: string | null, lastName?: string | null, role: UserRole, createdAt: any, updatedAt?: any | null }> | null, edges?: Array<{ __typename?: 'UsersEdge', cursor: string }> | null, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+
+export type GetUserByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetUserByIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, passwordHash: string, passwordResetToken?: string | null, passwordResetTokenExpiry?: any | null, role: UserRole, updatedAt?: any | null, managedBuildings: Array<{ __typename?: 'Building', address: string, cityId: any, createdAt: any, id: any, name: string, entries: Array<{ __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string }> }> } | null };
 
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
@@ -943,11 +965,60 @@ export const CreateUserDocument = gql`
       super(apollo);
     }
   }
+export const UpdateUserDocument = gql`
+    mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    token
+    user {
+      createdAt
+      email
+      firstName
+      id
+      lastName
+      passwordHash
+      passwordResetToken
+      passwordResetTokenExpiry
+      role
+      updatedAt
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    override document = UpdateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteUserDocument = gql`
+    mutation DeleteUser($id: UUID!) {
+  deleteUser(id: $id) {
+    message
+    success
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteUserGQL extends Apollo.Mutation<DeleteUserMutation, DeleteUserMutationVariables> {
+    override document = DeleteUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetAllUsersDocument = gql`
-    query GetAllUsers($first: Int = 20, $after: String) {
+    query GetAllUsers($first: Int = 20, $after: String, $firstName: String = "") {
   users(
     order: {createdAt: DESC}
-    where: {firstName: {startsWith: ""}}
+    where: {firstName: {startsWith: $firstName}}
     first: $first
     after: $after
   ) {
@@ -978,6 +1049,46 @@ export const GetAllUsersDocument = gql`
   })
   export class GetAllUsersGQL extends Apollo.Query<GetAllUsersQuery, GetAllUsersQueryVariables> {
     override document = GetAllUsersDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetUserByIdDocument = gql`
+    query GetUserById($id: UUID!) {
+  userById(id: $id) {
+    createdAt
+    email
+    firstName
+    id
+    lastName
+    passwordHash
+    passwordResetToken
+    passwordResetTokenExpiry
+    role
+    updatedAt
+    managedBuildings {
+      address
+      cityId
+      createdAt
+      id
+      name
+      entries {
+        buildingId
+        createdAt
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetUserByIdGQL extends Apollo.Query<GetUserByIdQuery, GetUserByIdQueryVariables> {
+    override document = GetUserByIdDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

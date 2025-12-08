@@ -23,3 +23,26 @@ mutation CreateUser($input: CreateUserInput!) {
     }
   }
 }
+# Update User
+mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    token
+    user {
+      createdAt
+      email
+      firstName
+      id
+      lastName
+      role
+      updatedAt
+    }
+  }
+}
+
+# Delete User
+mutation DeleteUser($id: UUID!) {
+  deleteUser(id: $id) {
+    message
+    success
+  }
+}

@@ -105,14 +105,68 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     id: 3,
-    title: 'TESTESTESTEST',
-    slug: 'zgjidhjet-moderne-ndertesat-e-larta-ptest',
-    excerpt: 'Zbuloni teknologjitë më të fundit që po revolucionarizojnë industrinë e ashensorëve.',
-    content: `...`,
-    date: '2025-10-15',
+    title: 'Modernizimi i Panelit të Kontrollit të Ashensorëve: Pse Teknologjia e Re është Detyrë, Jo Dëshirë',
+    slug: 'modernizimi-panelit-kontrollit-ashensoreve',
+    excerpt: 'Panelet e vjetra të kontrollit janë ndër shkaqet kryesore të defekteve, bllokimeve dhe ndërprerjeve të funksionimit të ashensorëve. Modernizimi i tyre rrit sigurinë, efikasitetin dhe jetëgjatësinë e sistemit.',
+    content: `
+    <p class="text-lg font-medium text-gray-900 mb-6">
+      Panelet e kontrollit përbëjnë "trurin" e ashensorit. Kur ato mbështeten në elektronikë të vjetruar, kontaktorë të konsumuar ose logjikë mekanike të shekullit të kaluar, çdo udhëtim bëhet më pak i sigurt dhe më pak i besueshëm. Modernizimi i panelit nuk është thjesht një përmirësim teknik, por një investim që garanton funksionim të qetë, kosto më të ulëta mirëmbajtjeje dhe pajtueshmëri me standardet moderne.
+    </p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">Problemet e Paneleve të Vjetra të Kontrollit</h2>
+    <ul class="list-disc list-inside space-y-2 ml-4">
+      <li>Kontaktorë të konsumuar që krijojnë dridhje, zhurmë dhe ndërprerje të papritura.</li>
+      <li>Elektronikë analoge të paqëndrueshme dhe të vështira për t'u riparuar.</li>
+      <li>Pjesë të vështira ose të pamundura për t’u zëvendësuar për shkak të daljes jashtë prodhimit.</li>
+      <li>Koha më e gjatë e përgjigjes së ashensorit dhe ulje e efikasitetit energjetik.</li>
+      <li>Mospërputhje me kodet moderne të sigurisë dhe inspektimet periodike.</li>
+    </ul>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">Pse Modernizimi është Zgjidhja</h2>
+    <p>
+      Panelet e reja ofrojnë më shumë sesa stabilitet. Ato sjellin teknologji inteligjente, monitorim të vazhdueshëm dhe efikasitet të përmirësuar:
+    </p>
+    <ul class="list-disc list-inside space-y-2 ml-4">
+      <li>Reagim më i shpejtë i komandave dhe udhëtime më të lëmuara.</li>
+      <li>Reduktim i konsumit të energjisë falë inverterëve të rinj.</li>
+      <li>Monitorim në kohë reale përmes sistemeve IoT.</li>
+      <li>Komponentë të standardizuar dhe të lehtë për t’u mirëmbajtur.</li>
+      <li>Përputhshmëri me kërkesat e ASME A17.1 dhe EN81.</li>
+    </ul>
+
+    <p class="mt-4 border-l-4 border-blue-500 pl-4 italic bg-gray-50 p-3 rounded-md">
+      Panelet e kontrollit që kanë më shumë se 20 vite në funksion janë kandidatët idealë për modernizim. Në shumicën e rasteve, defektet e shpeshta tregojnë qartë që sistemi ka arritur limitin e tij teknik.
+    </p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">Rreziqet e Mosmodernizimit</h2>
+    <p>Nëse ndërtesa vazhdon të përdorë panele të vjetra, përgatituni për pasoja të pashmangshme:</p>
+    <ul class="list-disc list-inside space-y-2 ml-4">
+      <li>Bllokime të përsëritura të kabinës dhe ankesa nga përdoruesit.</li>
+      <li>Kosto të larta riparimi për komponentë që s'gjenden më në treg.</li>
+      <li>Inspektime të dështuara dhe rritje e përgjegjësisë ligjore.</li>
+      <li>Rritje e konsumit të energjisë për shkak të teknologjisë së vjetruar.</li>
+    </ul>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">Procesi i Modernizimit të Panelit</h2>
+    <p>
+      Një ekip profesional ndjek një proces të qartë për garantimin e instalimit korrekt:
+    </p>
+    <ol class="list-decimal list-inside space-y-2 ml-4">
+      <li>Analiza teknike e panelit ekzistues dhe diagnostikimi i problemeve.</li>
+      <li>Përzgjedhja e panelit të ri sipas llojit të ashensorit (hidraulik ose elektrik).</li>
+      <li>Instalimi i kontaktorëve, inverterit, PLC-së dhe moduleve të reja të komunikimit.</li>
+      <li>Testime funksionale dhe certifikim sipas standardeve të sigurisë.</li>
+    </ol>
+
+    <p class="mt-6">
+      Modernizimi i panelit të kontrollit është një investim që rikthen stabilitetin, zgjat jetën e sistemit të ashensorit dhe siguron siguri maksimale për çdo pasagjer që e përdor.
+    </p>
+  `,
+    date: '2025-10-25',
     image: 'https://imgur.com/hdsgSi7.jpg',
-    category: 'MODERNIZIM, SHËRBIM & RIPARIM',
-    tags: ['INSPEKTIM']
+    category: 'MODERNIZIM',
+    tags: ['MODERNIZIM', 'SIGURIA']
   }
+
   // ... more posts ...
 ];

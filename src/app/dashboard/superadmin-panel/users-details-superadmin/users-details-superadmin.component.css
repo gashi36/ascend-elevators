@@ -1,0 +1,6 @@
+/* users-details-superadmin.component.css */
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}

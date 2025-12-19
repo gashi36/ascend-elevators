@@ -46,3 +46,60 @@ mutation DeleteUser($id: UUID!) {
     success
   }
 }
+# Change My Password
+mutation ChangeMyPassword($currentPassword: String!, $newPassword: String!) {
+  changeMyPassword(
+    currentPassword: $currentPassword
+    newPassword: $newPassword
+  ) {
+    message
+    success
+  }
+}
+
+mutation createOrUpdateMonthlyDecision($input: CreateMonthlyDecisionInput!) {
+  createOrUpdateMonthlyDecision(input: $input) {
+    message
+    decision {
+      id
+      year
+      month
+      status
+      notes
+      decisionDate
+      tenantId
+      decidedByUserId
+    }
+  }
+}
+mutation CreateTenant(
+  $buildingEntryId: UUID!
+  $buildingId: UUID!
+  $contactEmail: String!
+  $contactPhone: String!
+  $name: String!
+  $unitNumber: String!
+) {
+  createTenant(
+    input: {
+      buildingEntryId: $buildingEntryId
+      buildingId: $buildingId
+      contactEmail: $contactEmail
+      contactPhone: $contactPhone
+      name: $name
+      unitNumber: $unitNumber
+    }
+  ) {
+    buildingEntry {
+      buildingId
+      createdAt
+      id
+      name
+    }
+    id
+    name
+    contactEmail
+    contactPhone
+    unitNumber
+  }
+}

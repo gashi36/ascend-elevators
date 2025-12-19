@@ -1,0 +1,492 @@
+<!-- tenants-superadmin.component.html -->
+<div class="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+  <!-- Back Button -->
+  <button (click)="goBack()" class="mb-6 flex items-center text-indigo-600 hover:text-indigo-800">
+    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    Back to Building
+  </button>
+
+  <!-- Header -->
+  <div class="mb-6 bg-white rounded-xl shadow-lg p-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">Tenants: {{entryName}}</h1>
+        <p *ngIf="buildingName" class="text-gray-600">Building: {{ buildingName }}</p>
+        <div class="mt-2 flex flex-wrap gap-2">
+          <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
+            {{ totalCount }} tenant(s)
+          </span>
+          <span *ngIf="filteredTenants.length !== tenants.length"
+            class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+            Showing {{ filteredTenants.length }} of {{ tenants.length }}
+          </span>
+        </div>
+      </div>
+      <!-- Add this button to your existing template -->
+      <button (click)="openAddTenantModal()" class="btn btn-primary">
+        + Add New Tenant
+      </button>
+
+      <!-- Add Tenant Modal -->
+      <div *ngIf="showAddTenantModal" class="modal-overlay">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Add New Tenant</h3>
+            <button (click)="closeAddTenantModal()" class="close-btn">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+            <form (ngSubmit)="createTenant()" #tenantForm="ngForm">
+              <div class="form-group">
+                <label>Tenant Name *</label>
+                <input type="text" [(ngModel)]="newTenant.name" name="name" class="form-control" required
+                  [disabled]="isCreatingTenant">
+              </div>
+
+              <div class="form-group">
+                <label>Unit Number *</label>
+                <input type="text" [(ngModel)]="newTenant.unitNumber" name="unitNumber" class="form-control" required
+                  [disabled]="isCreatingTenant">
+              </div>
+
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" [(ngModel)]="newTenant.contactEmail" name="contactEmail" class="form-control"
+                  [disabled]="isCreatingTenant">
+              </div>
+
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" [(ngModel)]="newTenant.contactPhone" name="contactPhone" class="form-control"
+                  [disabled]="isCreatingTenant">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" (click)="closeAddTenantModal()" class="btn btn-secondary"
+                  [disabled]="isCreatingTenant">
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" [disabled]="!tenantForm.form.valid || isCreatingTenant">
+                  <span *ngIf="isCreatingTenant">Creating...</span>
+                  <span *ngIf="!isCreatingTenant">Create Tenant</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="mb-6 bg-white rounded-xl shadow-lg p-4">
+    <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+      <!-- Search -->
+      <div class="flex-1">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Search tenants by name..."
+            class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+      </div>
+
+      <!-- Status Filter -->
+      <div>
+        <select [(ngModel)]="filterStatus" (change)="onFilterChange()"
+          class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+          <option value="all">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="allowed">Allowed</option>
+          <option value="denied">Declined</option>
+        </select>
+      </div>
+
+      <!-- Clear Filters -->
+      <button (click)="clearSearch()"
+        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+        Clear Search
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-12">
+    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
+    <p class="mt-4 text-gray-600">Loading tenants...</p>
+  </div>
+
+  <!-- Loading More State -->
+  <div *ngIf="isLoadingMore" class="text-center py-4">
+    <div class="inline-block animate-spin rounded-full h-6 w-6 border-2 border-indigo-600 border-t-transparent"></div>
+    <p class="mt-2 text-sm text-gray-600">Loading more tenants...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading && !isLoadingMore" class="mb-6 bg-red-50 border border-red-200 rounded-lg p-6">
+    <div class="flex items-center">
+      <svg class="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clip-rule="evenodd" />
+      </svg>
+      <span class="font-medium text-red-800">{{ error }}</span>
+    </div>
+  </div>
+
+  <!-- Tenants Table -->
+  <div *ngIf="!isLoading && !error && filteredTenants.length > 0" class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <!-- Sortable headers -->
+            <th (click)="onSort('name')"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center">
+                Tenant Name
+                <span *ngIf="sortField === 'name'" class="ml-1">
+                  {{ sortDirection === 'ASC' ? '↑' : '↓' }}
+                </span>
+              </div>
+            </th>
+            <th (click)="onSort('unitNumber')"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center">
+                Unit
+                <span *ngIf="sortField === 'unitNumber'" class="ml-1">
+                  {{ sortDirection === 'ASC' ? '↑' : '↓' }}
+                </span>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Contact Info
+            </th>
+            <th (click)="onSort('createdAt')"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center">
+                Created
+                <span *ngIf="sortField === 'createdAt'" class="ml-1">
+                  {{ sortDirection === 'ASC' ? '↑' : '↓' }}
+                </span>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Payment Status
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let tenant of filteredTenants" class="hover:bg-gray-50 transition-colors">
+
+            <!-- Tenant Name -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <span class="text-indigo-600 font-semibold">{{ tenant.name?.charAt(0) || 'T' }}</span>
+                </div>
+                <div class="ml-4">
+                  <div class="font-medium text-gray-900">{{ tenant.name || 'Unnamed Tenant' }}</div>
+                  <div class="text-sm text-gray-500">{{ tenant.formattedMonthlyRent }} monthly</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Unit Number -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">Unit {{ tenant.unitNumber || 'N/A' }}</div>
+
+            </td>
+
+            <!-- Contact Info -->
+            <td class="px-6 py-4">
+              <div class="text-sm text-gray-900">{{ tenant.contactEmail || 'No email' }}</div>
+              <div class="text-sm text-gray-500">{{ tenant.contactPhone || 'No phone' }}</div>
+            </td>
+
+            <!-- Created Date & Lease Info -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">Created: {{ tenant.formattedCreatedAt }}</div>
+              <div *ngIf="tenant.formattedLeaseEnd !== 'N/A'" class="text-xs text-gray-500 mt-1">
+                Lease ends: {{ tenant.formattedLeaseEnd }}
+              </div>
+              <div *ngIf="tenant.formattedLastPayment !== 'N/A'" class="text-xs text-gray-500 mt-1">
+                Last payment: {{ tenant.formattedLastPayment }}
+              </div>
+            </td>
+
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex flex-col space-y-1">
+                <!-- Single pill with emoji and status -->
+                <div [ngClass]="tenant.statusClass"
+                  class="px-3 py-1.5 rounded-full text-xs font-medium inline-flex items-center justify-center w-fit">
+                  <span class="mr-1.5">{{
+                    tenant.currentDecision?.status === 'ALLOWED' ? '✅' :
+                    tenant.currentDecision?.status === 'DENIED' ? '❌' :
+                    tenant.isPaymentPending ? '⚠️' : '⏳'
+                    }}</span>
+                  <span>{{
+                    tenant.currentDecision?.status === 'ALLOWED' ? 'Allowed' :
+                    tenant.currentDecision?.status === 'DENIED' ? 'Denied' :
+                    tenant.isPaymentPending ? 'Pending' : 'Pending'
+                    }}</span>
+                </div>
+
+                <!-- Status details below -->
+                <div class="text-xs text-gray-600">
+                  <!-- If Allowed (Allowed) -->
+                  <div *ngIf="tenant.currentDecision?.status === 'ALLOWED'" class="font-medium">
+                    Allowed for {{ getMonthName(tenant.currentDecision.month) }} {{ tenant.currentDecision.year }}
+                  </div>
+
+                  <!-- If Denied (Denied) -->
+                  <div *ngIf="tenant.currentDecision?.status === 'DENIED'" class="font-medium text-red-600">
+                    Denied for {{ getMonthName(tenant.currentDecision.month) }} {{ tenant.currentDecision.year }}
+                  </div>
+
+                  <!-- If pending and Pending -->
+                  <div
+                    *ngIf="(!tenant.currentDecision || tenant.currentDecision.status === 'PENDING') && tenant.isPaymentPending"
+                    class="font-medium text-red-600">
+                    {{ tenant.daysPending }} days Pending
+                  </div>
+
+                  <!-- If pending and due soon -->
+                  <div
+                    *ngIf="(!tenant.currentDecision || tenant.currentDecision.status === 'PENDING') && !tenant.isPaymentPending && tenant.daysUntilNextPayment <= 7"
+                    class="font-medium text-amber-600">
+                    Due in {{ tenant.daysUntilNextPayment }} days
+                  </div>
+
+                  <!-- If pending and not due soon -->
+                  <div
+                    *ngIf="(!tenant.currentDecision || tenant.currentDecision.status === 'PENDING') && !tenant.isPaymentPending && tenant.daysUntilNextPayment > 7"
+                    class="text-gray-500">
+                    Due on {{ tenant.formattedPaymentDue }}
+                  </div>
+
+                  <!-- Decision date only -->
+                  <div *ngIf="tenant.currentDecision?.decisionDate" class="text-xs text-gray-400 mt-0.5">
+                    Updated: {{ formatDate(tenant.currentDecision.decisionDate) }}
+                  </div>
+                </div>
+              </div>
+            </td>
+            <!-- Actions -->
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <div class="flex flex-col space-y-2">
+                <button (click)="openDecisionModal(tenant)"
+                  class="px-3 py-1 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded text-sm font-medium transition-colors">
+                  Update Decision
+                </button>
+                <button (click)="viewTenantDetails(tenant.id)"
+                  class="px-3 py-1 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded text-sm font-medium transition-colors">
+                  View Details
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div *ngIf="tenants.length > 0" class="border-t border-gray-200 bg-gray-50 px-6 py-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <!-- Pagination info -->
+        <div class="mb-4 sm:mb-0">
+          <p class="text-sm text-gray-700">
+            Showing <span class="font-medium">{{ getDisplayRange() }}</span> tenants
+          </p>
+        </div>
+
+        <!-- Pagination buttons -->
+        <div class="flex space-x-2">
+          <!-- Refresh button -->
+          <button (click)="refreshTenants()" [disabled]="isLoading"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors">
+            Refresh
+          </button>
+
+          <!-- Load more button -->
+          <button *ngIf="!allLoaded" (click)="loadMore()" [disabled]="isLoadingMore"
+            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors">
+            <span *ngIf="!isLoadingMore">Load More</span>
+            <span *ngIf="isLoadingMore" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              Loading...
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Tenants Message -->
+  <div *ngIf="!isLoading && !error && filteredTenants.length === 0 && tenants.length > 0"
+    class="bg-white rounded-xl shadow-lg p-12 text-center">
+    <svg class="mx-auto h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <h3 class="mt-4 text-lg font-medium text-gray-900">No matching tenants</h3>
+    <p class="mt-2 text-gray-500">Try changing your search or filter criteria.</p>
+    <button (click)="clearSearch()"
+      class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+      Clear Search
+    </button>
+  </div>
+
+  <!-- No Tenants at All -->
+  <div *ngIf="!isLoading && !error && tenants.length === 0" class="bg-white rounded-xl shadow-lg p-12 text-center">
+    <svg class="mx-auto h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+    <h3 class="mt-4 text-lg font-medium text-gray-900">No tenants found</h3>
+    <p class="mt-2 text-gray-500">There are no tenants in this entry yet.</p>
+    <!-- Add this button to your existing template -->
+    <button (click)="openAddTenantModal()" class="btn btn-primary">
+      + Add New Tenant
+    </button>
+
+    <!-- Add Tenant Modal -->
+    <div *ngIf="showAddTenantModal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Add New Tenant</h3>
+          <button (click)="closeAddTenantModal()" class="close-btn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+          <form (ngSubmit)="createTenant()" #tenantForm="ngForm">
+            <div class="form-group">
+              <label>Tenant Name *</label>
+              <input type="text" [(ngModel)]="newTenant.name" name="name" class="form-control" required
+                [disabled]="isCreatingTenant">
+            </div>
+
+            <div class="form-group">
+              <label>Unit Number *</label>
+              <input type="text" [(ngModel)]="newTenant.unitNumber" name="unitNumber" class="form-control" required
+                [disabled]="isCreatingTenant">
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" [(ngModel)]="newTenant.contactEmail" name="contactEmail" class="form-control"
+                [disabled]="isCreatingTenant">
+            </div>
+
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" [(ngModel)]="newTenant.contactPhone" name="contactPhone" class="form-control"
+                [disabled]="isCreatingTenant">
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" (click)="closeAddTenantModal()" class="btn btn-secondary"
+                [disabled]="isCreatingTenant">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="!tenantForm.form.valid || isCreatingTenant">
+                <span *ngIf="isCreatingTenant">Creating...</span>
+                <span *ngIf="!isCreatingTenant">Create Tenant</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly Decision Modal -->
+  <div *ngIf="showDecisionModal" class="fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeDecisionModal()"></div>
+
+      <!-- Modal panel -->
+      <div
+        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div
+              class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+              <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Payment Decision for {{ selectedTenant?.name }}
+              </h3>
+              <p class="text-sm text-gray-500 mt-1">
+                Month: {{ getMonthName(decisionMonth) }} {{ decisionYear }}
+              </p>
+              <div class="mt-4 space-y-4">
+                <!-- Status -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
+                  <div class="flex space-x-2">
+                    <button
+                      *ngFor="let status of [DecisionStatus.Pending, DecisionStatus.Allowed, DecisionStatus.Denied]"
+                      [ngClass]="{
+                              'bg-indigo-600 text-white': decisionStatus === status,
+                              'bg-gray-100 text-gray-700 hover:bg-gray-200': decisionStatus !== status
+                            }" (click)="decisionStatus = status"
+                      class="flex-1 px-3 py-2 rounded-lg font-medium transition-colors">
+                      {{ status === DecisionStatus.Allowed ? 'Allowed' :
+                      status === DecisionStatus.Denied ? 'Denied' : 'Pending' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" (click)="saveMonthlyDecision()" [disabled]="isSavingDecision" [ngClass]="{
+                    'bg-indigo-600 hover:bg-indigo-700': !isSavingDecision,
+                    'bg-indigo-400 cursor-not-allowed': isSavingDecision
+                  }"
+            class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+            <span *ngIf="!isSavingDecision">Save Decision</span>
+            <span *ngIf="isSavingDecision" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              Saving...
+            </span>
+          </button>
+          <button type="button" (click)="closeDecisionModal()" [disabled]="isSavingDecision"
+            class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

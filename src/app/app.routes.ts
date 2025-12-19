@@ -17,6 +17,9 @@ import { AdminPanelComponent } from './dashboard/admin-panel/admin-panel.compone
 import { SuperadminGuard } from './Guards/superadmin.guard';
 import { UsersSuperadminComponent } from './dashboard/superadmin-panel/users-superadmin/users-superadmin.component';
 import { UsersDetailsSuperadminComponent } from './dashboard/superadmin-panel/users-details-superadmin/users-details-superadmin.component';
+import { BuildingsDetailsSuperadminComponent } from './dashboard/superadmin-panel/buildings-details-superadmin/buildings-details-superadmin.component';
+import { TenantsEntrySuperadminComponent } from './dashboard/superadmin-panel/tenants-entry-superadmin/tenants-entry-superadmin.component';
+import { TenantsComponent } from './dashboard/superadmin-panel/tenants/tenants.component';
 
 export const routes: Routes = [
   // Public routes
@@ -54,9 +57,21 @@ export const routes: Routes = [
         component: UsersDetailsSuperadminComponent
       },
       {
+        path: 'buildings/:id',
+        component: BuildingsDetailsSuperadminComponent
+      },
+      {
         path: '',
         redirectTo: 'users',
         pathMatch: 'full'
+      },
+      {
+        path: 'tenants-entry',
+        component: TenantsEntrySuperadminComponent
+      },
+      {
+        path: 'tenants',
+        component: TenantsComponent
       }
     ]
   },

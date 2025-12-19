@@ -17,6 +17,8 @@ export type Scalars = {
   Float: { input: number; output: number; }
   /** The `DateTime` scalar represents an ISO-8601 compliant date time type. */
   DateTime: { input: any; output: any; }
+  /** The `Decimal` scalar type represents a decimal floating-point number. */
+  Decimal: { input: any; output: any; }
   UUID: { input: any; output: any; }
 };
 
@@ -33,6 +35,11 @@ export enum ApplyPolicy {
 export type AssignBuildingAdminInput = {
   buildingId: Scalars['UUID']['input'];
   userId: Scalars['UUID']['input'];
+};
+
+export type BooleanOperationFilterInput = {
+  eq?: InputMaybe<Scalars['Boolean']['input']>;
+  neq?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Building = {
@@ -185,6 +192,7 @@ export type CreateMonthlyDecisionInput = {
 
 export type CreateSingleTenantInput = {
   buildingEntryId: Scalars['UUID']['input'];
+  buildingId: Scalars['UUID']['input'];
   contactEmail: Scalars['String']['input'];
   contactPhone: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -219,6 +227,21 @@ export type DateTimeOperationFilterInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   nlt?: InputMaybe<Scalars['DateTime']['input']>;
   nlte?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type DecimalOperationFilterInput = {
+  eq?: InputMaybe<Scalars['Decimal']['input']>;
+  gt?: InputMaybe<Scalars['Decimal']['input']>;
+  gte?: InputMaybe<Scalars['Decimal']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Decimal']['input']>>>;
+  lt?: InputMaybe<Scalars['Decimal']['input']>;
+  lte?: InputMaybe<Scalars['Decimal']['input']>;
+  neq?: InputMaybe<Scalars['Decimal']['input']>;
+  ngt?: InputMaybe<Scalars['Decimal']['input']>;
+  ngte?: InputMaybe<Scalars['Decimal']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['Decimal']['input']>>>;
+  nlt?: InputMaybe<Scalars['Decimal']['input']>;
+  nlte?: InputMaybe<Scalars['Decimal']['input']>;
 };
 
 export type DecisionStats = {
@@ -488,6 +511,72 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+/** A connection to a list of items. */
+export type MyPendingTenantsConnection = {
+  __typename?: 'MyPendingTenantsConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<MyPendingTenantsEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Tenant>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type MyPendingTenantsEdge = {
+  __typename?: 'MyPendingTenantsEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Tenant;
+};
+
+/** A connection to a list of items. */
+export type MyTenantsConnection = {
+  __typename?: 'MyTenantsConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<MyTenantsEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Tenant>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type MyTenantsEdge = {
+  __typename?: 'MyTenantsEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Tenant;
+};
+
+/** A connection to a list of items. */
+export type MyTenantsWithDecisionStatusConnection = {
+  __typename?: 'MyTenantsWithDecisionStatusConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<MyTenantsWithDecisionStatusEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<TenantWithDecisionStatus>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type MyTenantsWithDecisionStatusEdge = {
+  __typename?: 'MyTenantsWithDecisionStatusEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: TenantWithDecisionStatus;
+};
+
 /** Information about pagination in a connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -520,18 +609,19 @@ export type Query = {
   myCities: Array<City>;
   myDecisionStats: DecisionStats;
   myPendingDecisions: Array<TenantDecisionStatus>;
-  myPendingTenants: Array<Tenant>;
+  myPendingTenants?: Maybe<MyPendingTenantsConnection>;
   myProfile?: Maybe<User>;
-  myTenants: Array<Tenant>;
-  myTenantsWithDecisionStatus: Array<TenantWithDecisionStatus>;
+  myTenants?: Maybe<MyTenantsConnection>;
+  myTenantsWithDecisionStatus?: Maybe<MyTenantsWithDecisionStatusConnection>;
   pendingDecisions: Array<TenantDecisionStatus>;
-  searchTenants: Array<Tenant>;
+  searchTenants?: Maybe<SearchTenantsConnection>;
   searchUsers: Array<User>;
-  tenantById?: Maybe<Tenant>;
   tenantDecisionHistory: Array<MonthlyDecision>;
-  tenants: Array<Tenant>;
-  tenantsByBuilding: Array<Tenant>;
-  tenantsByBuildingEntry: Array<Tenant>;
+  tenantStatistics: TenantStatistics;
+  tenants?: Maybe<TenantsConnection>;
+  tenantsByBuilding?: Maybe<TenantsByBuildingConnection>;
+  tenantsByBuildingEntry?: Maybe<TenantsByBuildingEntryConnection>;
+  tenantsWithEnhancedFilter?: Maybe<TenantsWithEnhancedFilterConnection>;
   userById?: Maybe<User>;
   userStats: UserStats;
   users?: Maybe<UsersConnection>;
@@ -582,23 +672,54 @@ export type QueryMonthlyDecisionsArgs = {
 };
 
 
+export type QueryMyPendingTenantsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantSortInput>>;
+  where?: InputMaybe<TenantFilterInput>;
+};
+
+
+export type QueryMyTenantsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantSortInput>>;
+  where?: InputMaybe<TenantFilterInput>;
+};
+
+
+export type QueryMyTenantsWithDecisionStatusArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantWithDecisionStatusSortInput>>;
+  where?: InputMaybe<TenantWithDecisionStatusFilterInput>;
+};
+
+
 export type QueryPendingDecisionsArgs = {
   buildingId?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 
 export type QuerySearchTenantsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantSortInput>>;
   searchTerm: Scalars['String']['input'];
+  where?: InputMaybe<TenantFilterInput>;
 };
 
 
 export type QuerySearchUsersArgs = {
   searchTerm: Scalars['String']['input'];
-};
-
-
-export type QueryTenantByIdArgs = {
-  id: Scalars['UUID']['input'];
 };
 
 
@@ -608,19 +729,56 @@ export type QueryTenantDecisionHistoryArgs = {
 };
 
 
+export type QueryTenantStatisticsArgs = {
+  buildingId?: InputMaybe<Scalars['UUID']['input']>;
+  entryId?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+
 export type QueryTenantsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<TenantSortInput>>;
   where?: InputMaybe<TenantFilterInput>;
 };
 
 
 export type QueryTenantsByBuildingArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
   buildingId: Scalars['UUID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantSortInput>>;
+  where?: InputMaybe<TenantFilterInput>;
 };
 
 
 export type QueryTenantsByBuildingEntryArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
   buildingEntryId: Scalars['UUID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantSortInput>>;
+  where?: InputMaybe<TenantFilterInput>;
+};
+
+
+export type QueryTenantsWithEnhancedFilterArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  buildingId?: InputMaybe<Scalars['UUID']['input']>;
+  decisionStatus?: InputMaybe<DecisionStatus>;
+  entryId?: InputMaybe<Scalars['UUID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  hasPendingDecision?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantWithDecisionStatusSortInput>>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<TenantWithDecisionStatusFilterInput>;
 };
 
 
@@ -636,6 +794,28 @@ export type QueryUsersArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<UserSortInput>>;
   where?: InputMaybe<UserFilterInput>;
+};
+
+/** A connection to a list of items. */
+export type SearchTenantsConnection = {
+  __typename?: 'SearchTenantsConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<SearchTenantsEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Tenant>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type SearchTenantsEdge = {
+  __typename?: 'SearchTenantsEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Tenant;
 };
 
 export enum SortEnumType {
@@ -668,12 +848,18 @@ export type Tenant = {
   __typename?: 'Tenant';
   buildingEntry: BuildingEntry;
   buildingEntryId: Scalars['UUID']['output'];
+  buildingId: Scalars['UUID']['output'];
   contactEmail: Scalars['String']['output'];
   contactPhone: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['UUID']['output'];
+  lastPaymentDate?: Maybe<Scalars['DateTime']['output']>;
+  leaseEndDate?: Maybe<Scalars['DateTime']['output']>;
+  leaseStartDate?: Maybe<Scalars['DateTime']['output']>;
   monthlyDecisions: Array<MonthlyDecision>;
+  monthlyRent: Scalars['Decimal']['output'];
   name: Scalars['String']['output'];
+  rentDueDayOfMonth: Scalars['Int']['output'];
   unitNumber: Scalars['String']['output'];
 };
 
@@ -693,25 +879,46 @@ export type TenantFilterInput = {
   and?: InputMaybe<Array<TenantFilterInput>>;
   buildingEntry?: InputMaybe<BuildingEntryFilterInput>;
   buildingEntryId?: InputMaybe<UuidOperationFilterInput>;
+  buildingId?: InputMaybe<UuidOperationFilterInput>;
   contactEmail?: InputMaybe<StringOperationFilterInput>;
   contactPhone?: InputMaybe<StringOperationFilterInput>;
   createdAt?: InputMaybe<DateTimeOperationFilterInput>;
   id?: InputMaybe<UuidOperationFilterInput>;
+  lastPaymentDate?: InputMaybe<DateTimeOperationFilterInput>;
+  leaseEndDate?: InputMaybe<DateTimeOperationFilterInput>;
+  leaseStartDate?: InputMaybe<DateTimeOperationFilterInput>;
   monthlyDecisions?: InputMaybe<ListFilterInputTypeOfMonthlyDecisionFilterInput>;
+  monthlyRent?: InputMaybe<DecimalOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<TenantFilterInput>>;
+  rentDueDayOfMonth?: InputMaybe<IntOperationFilterInput>;
   unitNumber?: InputMaybe<StringOperationFilterInput>;
 };
 
 export type TenantSortInput = {
   buildingEntry?: InputMaybe<BuildingEntrySortInput>;
   buildingEntryId?: InputMaybe<SortEnumType>;
+  buildingId?: InputMaybe<SortEnumType>;
   contactEmail?: InputMaybe<SortEnumType>;
   contactPhone?: InputMaybe<SortEnumType>;
   createdAt?: InputMaybe<SortEnumType>;
   id?: InputMaybe<SortEnumType>;
+  lastPaymentDate?: InputMaybe<SortEnumType>;
+  leaseEndDate?: InputMaybe<SortEnumType>;
+  leaseStartDate?: InputMaybe<SortEnumType>;
+  monthlyRent?: InputMaybe<SortEnumType>;
   name?: InputMaybe<SortEnumType>;
+  rentDueDayOfMonth?: InputMaybe<SortEnumType>;
   unitNumber?: InputMaybe<SortEnumType>;
+};
+
+export type TenantStatistics = {
+  __typename?: 'TenantStatistics';
+  allowedDecisions: Scalars['Int']['output'];
+  declinedDecisions: Scalars['Int']['output'];
+  noDecision: Scalars['Int']['output'];
+  pendingDecisions: Scalars['Int']['output'];
+  totalTenants: Scalars['Int']['output'];
 };
 
 export type TenantWithDecisionStatus = {
@@ -727,6 +934,124 @@ export type TenantWithDecisionStatus = {
   id: Scalars['UUID']['output'];
   name: Scalars['String']['output'];
   unitNumber: Scalars['String']['output'];
+};
+
+export type TenantWithDecisionStatusFilterInput = {
+  and?: InputMaybe<Array<TenantWithDecisionStatusFilterInput>>;
+  buildingName?: InputMaybe<StringOperationFilterInput>;
+  cityName?: InputMaybe<StringOperationFilterInput>;
+  contactEmail?: InputMaybe<StringOperationFilterInput>;
+  contactPhone?: InputMaybe<StringOperationFilterInput>;
+  createdAt?: InputMaybe<DateTimeOperationFilterInput>;
+  currentMonthDecision?: InputMaybe<MonthlyDecisionFilterInput>;
+  entryName?: InputMaybe<StringOperationFilterInput>;
+  hasPendingDecision?: InputMaybe<BooleanOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
+  name?: InputMaybe<StringOperationFilterInput>;
+  or?: InputMaybe<Array<TenantWithDecisionStatusFilterInput>>;
+  unitNumber?: InputMaybe<StringOperationFilterInput>;
+};
+
+export type TenantWithDecisionStatusSortInput = {
+  buildingName?: InputMaybe<SortEnumType>;
+  cityName?: InputMaybe<SortEnumType>;
+  contactEmail?: InputMaybe<SortEnumType>;
+  contactPhone?: InputMaybe<SortEnumType>;
+  createdAt?: InputMaybe<SortEnumType>;
+  currentMonthDecision?: InputMaybe<MonthlyDecisionSortInput>;
+  entryName?: InputMaybe<SortEnumType>;
+  hasPendingDecision?: InputMaybe<SortEnumType>;
+  id?: InputMaybe<SortEnumType>;
+  name?: InputMaybe<SortEnumType>;
+  unitNumber?: InputMaybe<SortEnumType>;
+};
+
+/** A connection to a list of items. */
+export type TenantsByBuildingConnection = {
+  __typename?: 'TenantsByBuildingConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<TenantsByBuildingEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Tenant>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type TenantsByBuildingEdge = {
+  __typename?: 'TenantsByBuildingEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Tenant;
+};
+
+/** A connection to a list of items. */
+export type TenantsByBuildingEntryConnection = {
+  __typename?: 'TenantsByBuildingEntryConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<TenantsByBuildingEntryEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Tenant>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type TenantsByBuildingEntryEdge = {
+  __typename?: 'TenantsByBuildingEntryEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Tenant;
+};
+
+/** A connection to a list of items. */
+export type TenantsConnection = {
+  __typename?: 'TenantsConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<TenantsEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<Tenant>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type TenantsEdge = {
+  __typename?: 'TenantsEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Tenant;
+};
+
+/** A connection to a list of items. */
+export type TenantsWithEnhancedFilterConnection = {
+  __typename?: 'TenantsWithEnhancedFilterConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<TenantsWithEnhancedFilterEdge>>;
+  /** A flattened list of the nodes. */
+  nodes?: Maybe<Array<TenantWithDecisionStatus>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type TenantsWithEnhancedFilterEdge = {
+  __typename?: 'TenantsWithEnhancedFilterEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: TenantWithDecisionStatus;
 };
 
 export type UpdateBuildingInput = {
@@ -750,6 +1075,7 @@ export type UpdateMonthlyDecisionInput = {
 
 export type UpdateTenantInput = {
   buildingEntryId?: InputMaybe<Scalars['UUID']['input']>;
+  buildingId?: InputMaybe<Scalars['UUID']['input']>;
   contactEmail?: InputMaybe<Scalars['String']['input']>;
   contactPhone?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
@@ -890,7 +1216,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'UserPayload', token?: string | null, user: { __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, passwordHash: string, passwordResetToken?: string | null, passwordResetTokenExpiry?: any | null, role: UserRole, updatedAt?: any | null } } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'UserPayload', token?: string | null, user: { __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null } } };
 
 export type DeleteUserMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -898,6 +1224,33 @@ export type DeleteUserMutationVariables = Exact<{
 
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'SuccessPayload', message: string, success: boolean } };
+
+export type ChangeMyPasswordMutationVariables = Exact<{
+  currentPassword: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
+}>;
+
+
+export type ChangeMyPasswordMutation = { __typename?: 'Mutation', changeMyPassword: { __typename?: 'SuccessPayload', message: string, success: boolean } };
+
+export type CreateOrUpdateMonthlyDecisionMutationVariables = Exact<{
+  input: CreateMonthlyDecisionInput;
+}>;
+
+
+export type CreateOrUpdateMonthlyDecisionMutation = { __typename?: 'Mutation', createOrUpdateMonthlyDecision: { __typename?: 'MonthlyDecisionPayload', message: string, decision: { __typename?: 'MonthlyDecision', id: any, year: number, month: number, status: DecisionStatus, notes: string, decisionDate: any, tenantId: any, decidedByUserId: any } } };
+
+export type CreateTenantMutationVariables = Exact<{
+  buildingEntryId: Scalars['UUID']['input'];
+  buildingId: Scalars['UUID']['input'];
+  contactEmail: Scalars['String']['input'];
+  contactPhone: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  unitNumber: Scalars['String']['input'];
+}>;
+
+
+export type CreateTenantMutation = { __typename?: 'Mutation', createTenant: { __typename?: 'Tenant', id: any, name: string, contactEmail: string, contactPhone: string, unitNumber: string, buildingEntry: { __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string } } };
 
 export type GetAllUsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -913,7 +1266,40 @@ export type GetUserByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, passwordHash: string, passwordResetToken?: string | null, passwordResetTokenExpiry?: any | null, role: UserRole, updatedAt?: any | null, managedBuildings: Array<{ __typename?: 'Building', address: string, cityId: any, createdAt: any, id: any, name: string, entries: Array<{ __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string }> }> } | null };
+export type GetUserByIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, role: UserRole, updatedAt?: any | null, managedBuildings: Array<{ __typename?: 'Building', address: string, cityId: any, createdAt: any, id: any, name: string, city: { __typename?: 'City', code: string, createdAt: any, id: any, name: string }, entries: Array<{ __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string }> }> } | null };
+
+export type GetBuildingByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetBuildingByIdQuery = { __typename?: 'Query', buildingById?: { __typename?: 'Building', address: string, createdAt: any, id: any, name: string, city: { __typename?: 'City', code: string, createdAt: any, id: any, name: string }, administrators: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null }>, entries: Array<{ __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string, tenants: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, name: string, unitNumber: string, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId: any, decisionDate: any, id: any, month: number, status: DecisionStatus, tenantId: any, year: number, decidedByUser: { __typename?: 'User', firstName?: string | null, id: any, lastName?: string | null, role: UserRole } }> }> }> } | null };
+
+export type TenantsByBuildingEntryQueryVariables = Exact<{
+  buildingEntryId: Scalars['UUID']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TenantSortInput> | TenantSortInput>;
+  after?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TenantsByBuildingEntryQuery = { __typename?: 'Query', tenantsByBuildingEntry?: { __typename?: 'TenantsByBuildingEntryConnection', totalCount: number, nodes?: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, lastPaymentDate?: any | null, leaseEndDate?: any | null, leaseStartDate?: any | null, monthlyRent: any, name: string, rentDueDayOfMonth: number, unitNumber: string, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId: any, decisionDate: any, id: any, month: number, status: DecisionStatus, tenantId: any, year: number }> }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type GetAllTenantsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Array<TenantSortInput> | TenantSortInput>;
+}>;
+
+
+export type GetAllTenantsQuery = { __typename?: 'Query', tenants?: { __typename?: 'TenantsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, nodes?: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, lastPaymentDate?: any | null, leaseEndDate?: any | null, leaseStartDate?: any | null, monthlyRent: any, name: string, rentDueDayOfMonth: number, unitNumber: string, buildingEntry: { __typename?: 'BuildingEntry', id: any, name: string, createdAt: any, building: { __typename?: 'Building', address: string, cityId: any, createdAt: any, id: any, name: string, administrators: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null }>, city: { __typename?: 'City', id: any, name: string, code: string } } }, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId: any, decisionDate: any, id: any, month: number, notes: string, status: DecisionStatus, tenantId: any, year: number }> }> | null } | null };
+
+export type GetBuildingsWithEntriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBuildingsWithEntriesQuery = { __typename?: 'Query', buildings: Array<{ __typename?: 'Building', id: any, name: string, address: string, city: { __typename?: 'City', name: string, code: string }, entries: Array<{ __typename?: 'BuildingEntry', id: any, name: string, buildingId: any }> }> };
 
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
@@ -975,9 +1361,6 @@ export const UpdateUserDocument = gql`
       firstName
       id
       lastName
-      passwordHash
-      passwordResetToken
-      passwordResetTokenExpiry
       role
       updatedAt
     }
@@ -1009,6 +1392,83 @@ export const DeleteUserDocument = gql`
   })
   export class DeleteUserGQL extends Apollo.Mutation<DeleteUserMutation, DeleteUserMutationVariables> {
     override document = DeleteUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ChangeMyPasswordDocument = gql`
+    mutation ChangeMyPassword($currentPassword: String!, $newPassword: String!) {
+  changeMyPassword(currentPassword: $currentPassword, newPassword: $newPassword) {
+    message
+    success
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeMyPasswordGQL extends Apollo.Mutation<ChangeMyPasswordMutation, ChangeMyPasswordMutationVariables> {
+    override document = ChangeMyPasswordDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateOrUpdateMonthlyDecisionDocument = gql`
+    mutation createOrUpdateMonthlyDecision($input: CreateMonthlyDecisionInput!) {
+  createOrUpdateMonthlyDecision(input: $input) {
+    message
+    decision {
+      id
+      year
+      month
+      status
+      notes
+      decisionDate
+      tenantId
+      decidedByUserId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateOrUpdateMonthlyDecisionGQL extends Apollo.Mutation<CreateOrUpdateMonthlyDecisionMutation, CreateOrUpdateMonthlyDecisionMutationVariables> {
+    override document = CreateOrUpdateMonthlyDecisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateTenantDocument = gql`
+    mutation CreateTenant($buildingEntryId: UUID!, $buildingId: UUID!, $contactEmail: String!, $contactPhone: String!, $name: String!, $unitNumber: String!) {
+  createTenant(
+    input: {buildingEntryId: $buildingEntryId, buildingId: $buildingId, contactEmail: $contactEmail, contactPhone: $contactPhone, name: $name, unitNumber: $unitNumber}
+  ) {
+    buildingEntry {
+      buildingId
+      createdAt
+      id
+      name
+    }
+    id
+    name
+    contactEmail
+    contactPhone
+    unitNumber
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateTenantGQL extends Apollo.Mutation<CreateTenantMutation, CreateTenantMutationVariables> {
+    override document = CreateTenantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1061,10 +1521,6 @@ export const GetUserByIdDocument = gql`
     email
     firstName
     id
-    lastName
-    passwordHash
-    passwordResetToken
-    passwordResetTokenExpiry
     role
     updatedAt
     managedBuildings {
@@ -1073,6 +1529,12 @@ export const GetUserByIdDocument = gql`
       createdAt
       id
       name
+      city {
+        code
+        createdAt
+        id
+        name
+      }
       entries {
         buildingId
         createdAt
@@ -1089,6 +1551,233 @@ export const GetUserByIdDocument = gql`
   })
   export class GetUserByIdGQL extends Apollo.Query<GetUserByIdQuery, GetUserByIdQueryVariables> {
     override document = GetUserByIdDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetBuildingByIdDocument = gql`
+    query GetBuildingById($id: UUID!) {
+  buildingById(id: $id) {
+    address
+    createdAt
+    id
+    name
+    city {
+      code
+      createdAt
+      id
+      name
+    }
+    administrators {
+      createdAt
+      email
+      firstName
+      id
+      lastName
+      role
+      updatedAt
+    }
+    entries {
+      buildingId
+      createdAt
+      id
+      name
+      tenants {
+        buildingEntryId
+        contactEmail
+        contactPhone
+        createdAt
+        id
+        name
+        unitNumber
+        monthlyDecisions {
+          decidedByUserId
+          decisionDate
+          id
+          month
+          status
+          tenantId
+          year
+          decidedByUser {
+            firstName
+            id
+            lastName
+            role
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetBuildingByIdGQL extends Apollo.Query<GetBuildingByIdQuery, GetBuildingByIdQueryVariables> {
+    override document = GetBuildingByIdDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TenantsByBuildingEntryDocument = gql`
+    query TenantsByBuildingEntry($buildingEntryId: UUID!, $search: String, $first: Int, $order: [TenantSortInput!], $after: String) {
+  tenantsByBuildingEntry(
+    buildingEntryId: $buildingEntryId
+    where: {name: {startsWith: $search}}
+    first: $first
+    order: $order
+    after: $after
+  ) {
+    totalCount
+    nodes {
+      buildingEntryId
+      contactEmail
+      contactPhone
+      createdAt
+      id
+      lastPaymentDate
+      leaseEndDate
+      leaseStartDate
+      monthlyRent
+      name
+      rentDueDayOfMonth
+      unitNumber
+      monthlyDecisions {
+        decidedByUserId
+        decisionDate
+        id
+        month
+        status
+        tenantId
+        year
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TenantsByBuildingEntryGQL extends Apollo.Query<TenantsByBuildingEntryQuery, TenantsByBuildingEntryQueryVariables> {
+    override document = TenantsByBuildingEntryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetAllTenantsDocument = gql`
+    query GetAllTenants($first: Int, $after: String, $search: String, $order: [TenantSortInput!]) {
+  tenants(
+    first: $first
+    after: $after
+    where: {name: {startsWith: $search}}
+    order: $order
+  ) {
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    nodes {
+      buildingEntryId
+      contactEmail
+      contactPhone
+      createdAt
+      id
+      lastPaymentDate
+      leaseEndDate
+      leaseStartDate
+      monthlyRent
+      name
+      rentDueDayOfMonth
+      unitNumber
+      buildingEntry {
+        id
+        name
+        createdAt
+        building {
+          address
+          cityId
+          createdAt
+          id
+          name
+          administrators {
+            createdAt
+            email
+            firstName
+            id
+            lastName
+            role
+            updatedAt
+          }
+          city {
+            id
+            name
+            code
+          }
+        }
+      }
+      monthlyDecisions {
+        decidedByUserId
+        decisionDate
+        id
+        month
+        notes
+        status
+        tenantId
+        year
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllTenantsGQL extends Apollo.Query<GetAllTenantsQuery, GetAllTenantsQueryVariables> {
+    override document = GetAllTenantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetBuildingsWithEntriesDocument = gql`
+    query GetBuildingsWithEntries {
+  buildings {
+    id
+    name
+    address
+    city {
+      name
+      code
+    }
+    entries {
+      id
+      name
+      buildingId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetBuildingsWithEntriesGQL extends Apollo.Query<GetBuildingsWithEntriesQuery, GetBuildingsWithEntriesQueryVariables> {
+    override document = GetBuildingsWithEntriesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

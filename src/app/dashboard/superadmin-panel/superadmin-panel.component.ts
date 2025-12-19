@@ -15,10 +15,6 @@ export class SuperadminPanelComponent implements OnInit {
   isProfileOpen = false;
   isMobile = false;
 
-  currentUser = {
-    username: 'Superadmin'
-  };
-
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -33,14 +29,5 @@ export class SuperadminPanelComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
-  }
-
-  toggleProfile() {
-    this.isProfileOpen = !this.isProfileOpen;
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
   }
 }

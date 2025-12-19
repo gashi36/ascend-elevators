@@ -31,10 +31,6 @@ query GetUserById($id: UUID!) {
     email
     firstName
     id
-    lastName
-    passwordHash
-    passwordResetToken
-    passwordResetTokenExpiry
     role
     updatedAt
     managedBuildings {
@@ -43,12 +39,209 @@ query GetUserById($id: UUID!) {
       createdAt
       id
       name
+      city {
+        code
+        createdAt
+        id
+        name
+      }
       entries {
         buildingId
         createdAt
         id
         name
       }
+    }
+  }
+}
+query GetBuildingById($id: UUID!) {
+  buildingById(id: $id) {
+    address
+    createdAt
+    id
+    name
+    city {
+      code
+      createdAt
+      id
+      name
+    }
+    administrators {
+      createdAt
+      email
+      firstName
+      id
+      lastName
+      role
+      updatedAt
+    }
+    entries {
+      buildingId
+      createdAt
+      id
+      name
+      tenants {
+        buildingEntryId
+        contactEmail
+        contactPhone
+        createdAt
+        id
+        name
+        unitNumber
+        monthlyDecisions {
+          decidedByUserId
+          decisionDate
+          id
+          month
+          status
+          tenantId
+          year
+          decidedByUser {
+            firstName
+            id
+            lastName
+            role
+          }
+        }
+      }
+    }
+  }
+}
+# In your GraphQL query file
+query TenantsByBuildingEntry(
+  $buildingEntryId: UUID!
+  $search: String
+  $first: Int
+  $order: [TenantSortInput!]
+  $after: String
+) {
+  tenantsByBuildingEntry(
+    buildingEntryId: $buildingEntryId
+    where: { name: { startsWith: $search } }
+    first: $first
+    order: $order
+    after: $after
+  ) {
+    totalCount
+    nodes {
+      buildingEntryId
+      contactEmail
+      contactPhone
+      createdAt
+      id
+      lastPaymentDate
+      leaseEndDate
+      leaseStartDate
+      monthlyRent
+      name
+      rentDueDayOfMonth
+      unitNumber
+      monthlyDecisions {
+        decidedByUserId
+        decisionDate
+        id
+        month
+        status
+        tenantId
+        year
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+}
+# tenants.query.graphql - UPDATED
+query GetAllTenants(
+  $first: Int
+  $after: String
+  $search: String
+  $order: [TenantSortInput!]
+) {
+  tenants(
+    first: $first
+    after: $after
+    where: { name: { startsWith: $search } }
+    order: $order
+  ) {
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    nodes {
+      buildingEntryId
+      contactEmail
+      contactPhone
+      createdAt
+      id
+      lastPaymentDate
+      leaseEndDate
+      leaseStartDate
+      monthlyRent
+      name
+      rentDueDayOfMonth
+      unitNumber
+
+      buildingEntry {
+        id
+        name
+        createdAt
+        building {
+          address
+          cityId
+          createdAt
+          id
+          name
+          administrators {
+            createdAt
+            email
+            firstName
+            id
+            lastName
+            role
+            updatedAt
+          }
+          city {
+            id
+            name
+            code
+          }
+        }
+      }
+
+      monthlyDecisions {
+        decidedByUserId
+        decisionDate
+        id
+        month
+        notes
+        status
+        tenantId
+        year
+      }
+    }
+  }
+}
+
+query GetBuildingsWithEntries {
+  buildings {
+    id
+    name
+    address
+    city {
+      name
+      code
+    }
+    entries {
+      id
+      name
+      buildingId
     }
   }
 }

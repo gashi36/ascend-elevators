@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginGQL: LoginGQL, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['ascend.rks@gmail.com', [Validators.required, Validators.email]],
-      password: ['dnecsa2025$', [Validators.required, Validators.minLength(8)]],
+      password: ['ilirsllamniku', [Validators.required, Validators.minLength(8)]],
     });
   }
 

@@ -1,0 +1,44 @@
+/* superadmin-panel.component.scss */
+:host {
+  display: block;
+}
+
+/* Sidebar styles */
+aside {
+  height: calc(100vh - 5rem);
+  top: 5rem;
+}
+
+/* Profile dropdown animation */
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Mobile optimizations */
+@media (max-width: 1024px) {
+
+  /* Close profile dropdown when clicking outside */
+  :host-context(body) {
+    position: relative;
+  }
+
+  /* Make main content full width when sidebar is closed */
+  .fixed+div {
+    width: 100%;
+  }
+}
+
+/* Ensure dropdown is on top */
+.z-50 {
+  z-index: 50;
+}
+
+/* Overlay z-index */
+.z-30 {
+  z-index: 30;
+}
+
+/* Sidebar z-index */
+.z-40 {
+  z-index: 40;
+}

@@ -129,12 +129,7 @@ query TenantsByBuildingEntry(
       contactPhone
       createdAt
       id
-      lastPaymentDate
-      leaseEndDate
-      leaseStartDate
-      monthlyRent
       name
-      rentDueDayOfMonth
       unitNumber
       monthlyDecisions {
         decidedByUserId
@@ -180,12 +175,7 @@ query GetAllTenants(
       contactPhone
       createdAt
       id
-      lastPaymentDate
-      leaseEndDate
-      leaseStartDate
-      monthlyRent
       name
-      rentDueDayOfMonth
       unitNumber
 
       buildingEntry {

@@ -51,10 +51,10 @@
 
         <!-- Not logged in -->
         <!-- @if (!currentUser) {
-        <a routerLink="/login" class="flex items-center gap-2 text-gray-800 hover:text-red-600 transition-colors">
-          <i class="fas fa-sign-in-alt text-xl"></i>
-          Hyrje
-        </a>
+          <a routerLink="/login" class="flex items-center gap-2 text-gray-800 hover:text-red-600 transition-colors">
+            <i class="fas fa-sign-in-alt text-xl"></i>
+            Kycu
+          </a>
         } -->
 
         <!-- Logged in -->
@@ -79,13 +79,13 @@
             @if (hasAdminAccess()) {
             @if (isSuperAdmin()) {
             <a routerLink="/superadmin-panel"
-              class="block px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+              class=" px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
               <i class="fas fa-shield-alt"></i>
               SuperAdmin Panel
             </a>
             } @else if (isAdmin()) {
             <a routerLink="/admin-panel"
-              class="block px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+              class=" px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
               <i class="fas fa-cog"></i>
               Admin Panel
             </a>
@@ -94,12 +94,12 @@
             }
 
             <a (click)="openProfileModal()"
-              class="block px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+              class=" px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
               <i class="fas fa-user"></i>
               My Profile
             </a>
             <a (click)="logout()"
-              class="block px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+              class=" px-4 py-2 hover:bg-red-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
               <i class="fas fa-sign-out-alt"></i>
               Çkyçu
             </a>
@@ -171,13 +171,12 @@
     <div class="border-t border-gray-200 pt-4 mt-3">
 
       <!-- Not logged in -->
-      @if (!currentUser) {
-      <a routerLink="/login"
-        class="block px-4 py-2 text-gray-800 hover:text-red-600 transition flex items-center gap-2">
+      <!-- @if (!currentUser) {
+      <a routerLink="/login" class=" px-4 py-2 text-gray-800 hover:text-red-600 transition flex items-center gap-2">
         <i class="fas fa-sign-in-alt text-lg"></i>
         Kyqu
       </a>
-      }
+      } -->
 
       <!-- Logged in -->
       @if (currentUser) {

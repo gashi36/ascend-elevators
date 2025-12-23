@@ -1,83 +1,141 @@
-<div class="flex min-h-screen pt-20 bg-gray-100 dark:bg-gray-900">
+<!-- <div class="flex min-h-screen bg-white">
 
   <!-- Mobile Sidebar Toggle -->
-  <button (click)="toggleSidebar()"
-    class="lg:hidden fixed top-24 left-4 z-40 p-2 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path *ngIf="!isSidebarOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M4 6h16M4 12h16M4 18h16" />
-      <path *ngIf="isSidebarOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  </button>
+<button (click)="toggleSidebar()"
+  class="lg:hidden fixed top-6 left-4 z-40 p-2 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path *ngIf="!isSidebarOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M4 6h16M4 12h16M4 18h16" />
+    <path *ngIf="isSidebarOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M6 18L18 6M6 6l12 12" />
+  </svg>
+</button>
 
-  <!-- Sidebar Overlay (Mobile) -->
-  <div *ngIf="isSidebarOpen && isMobile" class="lg:hidden fixed inset-0 z-30 bg-black bg-opacity-50"
-    (click)="toggleSidebar()"></div>
+<!-- Sidebar Overlay (Mobile) -->
+<div *ngIf="isSidebarOpen && isMobile" class="lg:hidden fixed inset-0 z-30 bg-black bg-opacity-50"
+  (click)="toggleSidebar()"></div>
 
-  <!-- Sidebar -->
-  <aside [class]="'z-40 w-64 bg-white dark:bg-gray-900 text-white flex-shrink-0 flex flex-col ' +
+<!-- Sidebar -->
+<aside [class]="'z-40 w-64 bg-gray-900 text-white flex-shrink-0 flex flex-col ' +
                   (isMobile ? 'fixed' : 'relative') + ' ' +
                   (isMobile && !isSidebarOpen ? '-translate-x-full' : 'translate-x-0') + ' ' +
-                  'transition-transform duration-300'">
+                  'transition-transform duration-300 h-screen'">
 
-    <!-- Sidebar Header -->
-    <div class="p-6 text-center border-b border-gray-700 flex items-center justify-between">
-      <h2 class="text-xl font-bold">SUPERADMIN</h2>
-      <button *ngIf="isMobile" (click)="toggleSidebar()" class="text-gray-400 hover:text-white">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+  <!-- Sidebar Header -->
+  <div class="p-6 text-center border-b border-gray-700 flex items-center justify-between">
+    <h2 class="text-xl font-bold">SUPERADMIN</h2>
+    <button *ngIf="isMobile" (click)="toggleSidebar()" class="text-gray-400 hover:text-white">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <nav class="flex-1 p-4 space-y-2">
+    <!-- Navigation Links -->
+    <a [routerLink]="['/superadmin-panel/cities']" routerLinkActive="bg-gray-800"
+      class="flex items-center p-3 rounded-lg hover:bg-gray-800 transition-colors"
+      (click)="isMobile && toggleSidebar()">
+      <i class="fas fa-city w-5"></i>
+      <span class="ml-3 font-medium">Qytetet</span>
+    </a>
+
+    <a [routerLink]="['/superadmin-panel/buildings']" routerLinkActive="bg-gray-800"
+      class="flex items-center p-3 rounded-lg hover:bg-gray-800 transition-colors"
+      (click)="isMobile && toggleSidebar()">
+      <i class="fas fa-building w-5"></i>
+      <span class="ml-3 font-medium">Ndertesat</span>
+    </a>
+
+    <a [routerLink]="['/superadmin-panel/tenants']" routerLinkActive="bg-gray-800"
+      class="flex items-center p-3 rounded-lg hover:bg-gray-800 transition-colors"
+      (click)="isMobile && toggleSidebar()">
+      <i class="fas fa-users w-5"></i>
+      <span class="ml-3 font-medium">Qiramarrësit</span>
+    </a>
+
+    <a [routerLink]="['/superadmin-panel/users']" routerLinkActive="bg-gray-800"
+      class="flex items-center p-3 rounded-lg hover:bg-gray-800 transition-colors"
+      (click)="isMobile && toggleSidebar()">
+      <i class="fas fa-user w-5"></i>
+      <span class="ml-3 font-medium">Përdoruesit</span>
+    </a>
+
+    <!-- Excel Template Download Button -->
+    <button (click)="downloadTenantExcelTemplate()" [disabled]="isDownloadingTemplate"
+      class="flex items-center p-3 rounded-lg hover:bg-gray-800 transition-colors w-full text-left mt-4"
+      (click)="isMobile && toggleSidebar()">
+      <i class="fas fa-file-excel w-5"></i>
+      <span class="ml-3 font-medium">
+        {{ isDownloadingTemplate ? 'Downloading...' : 'Excel Template' }}
+      </span>
+      <span *ngIf="isDownloadingTemplate" class="ml-auto">
+        <i class="fas fa-spinner fa-spin"></i>
+      </span>
+    </button>
+  </nav>
+
+  <!-- Download Messages (inside sidebar) -->
+  <div class="p-4 space-y-2 mt-auto border-t border-gray-700">
+    <!-- Success Message -->
+    <div *ngIf="downloadSuccess" class="p-3 bg-green-900 border border-green-700 text-green-300 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span class="text-sm">{{ downloadSuccess }}</span>
+      </div>
     </div>
 
-    <!-- Sidebar Navigation -->
-    <nav class="flex-1 p-4 space-y-2">
-      <a [routerLink]="['/superadmin-panel/cities']" routerLinkActive="bg-gray-900"
-        class="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
-        (click)="isMobile && toggleSidebar()">
-        <i class="fas fa-city w-5"></i>
-        <span class="ml-3 font-medium">Qytetet</span>
-      </a>
+    <!-- Error Message -->
+    <div *ngIf="downloadError" class="p-3 bg-red-900 border border-red-700 text-red-300 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span class="text-sm">{{ downloadError }}</span>
+      </div>
+    </div>
+  </div>
 
-      <a [routerLink]="['/superadmin-panel/buildings']" routerLinkActive="bg-gray-900"
-        class="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
-        (click)="isMobile && toggleSidebar()">
-        <i class="fas fa-building w-5"></i>
-        <span class="ml-3 font-medium">Ndertesat</span>
-      </a>
+  <!-- Sidebar Footer -->
+  <div class="p-4 border-t border-gray-700 text-xs text-gray-400">
+    <p>© 2025 Ascend Elevator</p>
+  </div>
+</aside>
 
-      <a [routerLink]="['/superadmin-panel/tenants']" routerLinkActive="bg-gray-900"
-        class="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
-        (click)="isMobile && toggleSidebar()">
-        <i class="fas fa-users w-5"></i>
-        <span class="ml-3 font-medium">Qiramarrësit</span>
-      </a>
+<div class="flex-grow flex flex-col h-screen bg-white">
 
-      <a [routerLink]="['/superadmin-panel/users']" routerLinkActive="bg-gray-900"
-        class="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
-        (click)="isMobile && toggleSidebar()">
-        <i class="fas fa-user w-5"></i>
-        <span class="ml-3 font-medium">Përdoruesit</span>
-      </a>
-    </nav>
-
-
-  </aside>
-
-  <!-- Main Content Area -->
-  <div class="flex-grow flex flex-col overflow-hidden bg-white">
-
-    <!-- Header/Top Bar -->
-    <header class="p-4 bg-white shadow-md flex justify-between items-center flex-shrink-0">
+  <header class="p-4 bg-white shadow-md flex justify-between items-center flex-shrink-0">
+    <div class="flex items-center space-x-4">
       <span class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full shadow-lg">
         SUPERADMIN MODE
       </span>
-    </header>
 
-    <!-- Dynamic Content Router Outlet -->
-    <main class="flex-grow p-4 md:p-6 overflow-y-auto">
-      <router-outlet></router-outlet>
-    </main>
+      <button (click)="downloadTenantExcelTemplate()" [disabled]="isDownloadingTemplate"
+        class="flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors">
+        <i class="fas fa-file-excel mr-2"></i>
+        {{ isDownloadingTemplate ? 'Downloading...' : 'Excel Template' }}
+        <i *ngIf="isDownloadingTemplate" class="fas fa-spinner fa-spin ml-2"></i>
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="downloadSuccess || downloadError" class="px-4 pt-2">
+    <div *ngIf="downloadSuccess" class="p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span>{{ downloadSuccess }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="downloadError" class="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span>{{ downloadError }}</span>
+      </div>
+    </div>
   </div>
+
+  <main class="flex-grow overflow-y-auto bg-white">
+    <router-outlet></router-outlet>
+  </main>
+</div>
 </div>

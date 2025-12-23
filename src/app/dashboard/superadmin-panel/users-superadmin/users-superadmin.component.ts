@@ -97,9 +97,9 @@ export class UsersSuperadminComponent implements OnInit {
         next: (result) => {
           this.isLoadingUsers = false;
           const usersConnection = result.data?.users;
-          this.users = usersConnection?.nodes?.filter((u): u is UserNode => u !== null) || [];
+          this.users = usersConnection?.nodes?.filter((u: UserNode | null): u is UserNode => u !== null) || [];
         },
-        error: (error) => {
+        error: (error: any) => {
           this.isLoadingUsers = false;
           this.showStatusMessage('Failed to load users.', 'error');
           console.error('Error loading users:', error);

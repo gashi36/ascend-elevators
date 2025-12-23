@@ -103,3 +103,33 @@ mutation CreateTenant(
     unitNumber
   }
 }
+
+# Add to your mutations.graphql file
+mutation DownloadTenantExcelTemplate {
+  downloadTenantExcelTemplate {
+    contentType
+    fileContent
+    fileName
+    message
+    success
+  }
+}
+
+# 1. First define the input type
+input UploadFileInput {
+  fileContent: String!
+  fileName: String!
+}
+
+# 2. Then use it in the mutation
+mutation UploadTenantsFromExcel($input: FileInput!) {
+  uploadTenantsFromExcel(input: $input) {
+    createdBuildings
+    createdEntries
+    createdTenants
+    errors
+    message
+    success
+    totalRecords
+  }
+}

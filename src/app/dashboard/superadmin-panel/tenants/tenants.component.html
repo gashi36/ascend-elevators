@@ -317,158 +317,184 @@
               <div class="mt-4 space-y-4">
                 <!-- Building Selection -->
 
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Building *</label>
-                  <select [(ngModel)]="newTenant.buildingId"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                    <option value="">Select a building</option>
-                    <option *ngFor="let building of buildings" [value]="building.id">
-                      {{ building.name || building.id }}
-                    </option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Building Entry *</label>
-                  <select [(ngModel)]="newTenant.buildingEntryId"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                    <option value="">Select a building entry</option>
-                    <option *ngFor="let building of buildings" [value]="building.id">
-                      {{ building.name || building.id }}
-                    </option>
-                  </select>
-                </div>
+                <!-- In the Create Tenant Modal section, replace the building selection part with: -->
+                <div class="mt-4 space-y-4">
+                  <!-- Building Selection -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Building *</label>
+                    <div *ngIf="isLoadingBuildings" class="flex items-center space-x-2 text-sm text-gray-500">
+                      <svg class="animate-spin h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                      </svg>
+                      <span>Loading buildings...</span>
+                    </div>
 
+                    <select *ngIf="!isLoadingBuildings" [(ngModel)]="newTenant.buildingId" (change)="onBuildingChange()"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                      <option value="">Select a building</option>
+                      <option *ngFor="let building of buildings" [value]="building.id">
+                        {{ building.name }}
+                        <span *ngIf="building.address" class="text-gray-500 text-xs">({{ building.address }})</span>
+                      </option>
+                    </select>
 
-                <!-- Tenant Name -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Tenant Name *</label>
-                  <input type="text" [(ngModel)]="newTenant.name"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Enter tenant name">
+                    <div *ngIf="!isLoadingBuildings && buildings.length === 0" class="text-sm text-amber-600 mt-1">
+                      No buildings available. Please create a building first.
+                    </div>
+                  </div>
+
+                  <!-- Building Entry Selection -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Building Entry *</label>
+                    <select [(ngModel)]="newTenant.buildingEntryId"
+                      [disabled]="!newTenant.buildingId || filteredBuildingEntries.length === 0"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-50 disabled:cursor-not-allowed">
+                      <option value="">Select a building entry</option>
+                      <option *ngFor="let entry of filteredBuildingEntries" [value]="entry.id"
+                        [disabled]="entry.hasNoEntry">
+                        {{ entry.displayName }}
+                        <span *ngIf="entry.hasNoEntry" class="text-red-500 text-xs"> - No entry available</span>
+                      </option>
+                    </select>
+
+                    <div *ngIf="newTenant.buildingId && filteredBuildingEntries.length === 0"
+                      class="text-sm text-amber-600 mt-1">
+                      No building entries available for this building. Please create entries for this building first.
+                    </div>
+                  </div>
+
+                  <!-- Tenant Name -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tenant Name *</label>
+                    <input type="text" [(ngModel)]="newTenant.name"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="Enter tenant name">
+                  </div>
+
+                  <!-- Unit Number -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Unit Number *</label>
+                    <input type="text" [(ngModel)]="newTenant.unitNumber"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="e.g., 101, A12">
+                  </div>
+
+                  <!-- Contact Email -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email *</label>
+                    <input type="email" [(ngModel)]="newTenant.contactEmail"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="tenant@example.com">
+                  </div>
+
+                  <!-- Contact Phone -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact Phone *</label>
+                    <input type="tel" [(ngModel)]="newTenant.contactPhone"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="(123) 456-7890">
+                  </div>
                 </div>
-
-                <!-- Unit Number -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Unit Number *</label>
-                  <input type="text" [(ngModel)]="newTenant.unitNumber"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="e.g., 101, A12">
-                </div>
-
-                <!-- Contact Email -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email *</label>
-                  <input type="email" [(ngModel)]="newTenant.contactEmail"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="tenant@example.com">
-                </div>
-
-                <!-- Contact Phone -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Contact Phone *</label>
-                  <input type="tel" [(ngModel)]="newTenant.contactPhone"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="(123) 456-7890">
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button type="button" (click)="createTenant()" [disabled]="isCreatingTenant" [ngClass]="{
+              'bg-indigo-600 hover:bg-indigo-700': !isCreatingTenant,
+              'bg-indigo-400 cursor-not-allowed': isCreatingTenant
+            }" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                    <span *ngIf="!isCreatingTenant">Create Tenant</span>
+                    <span *ngIf="isCreatingTenant" class="flex items-center">
+                      <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                      </svg>
+                      Creating...
+                    </span>
+                  </button>
+                  <button type="button" (click)="closeCreateTenantModal()" [disabled]="isCreatingTenant"
+                    class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" (click)="createTenant()" [disabled]="isCreatingTenant" [ngClass]="{
-              'bg-indigo-600 hover:bg-indigo-700': !isCreatingTenant,
-              'bg-indigo-400 cursor-not-allowed': isCreatingTenant
-            }"
-            class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
-            <span *ngIf="!isCreatingTenant">Create Tenant</span>
-            <span *ngIf="isCreatingTenant" class="flex items-center">
-              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                </path>
-              </svg>
-              Creating...
-            </span>
-          </button>
-          <button type="button" (click)="closeCreateTenantModal()" [disabled]="isCreatingTenant"
-            class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Monthly Decision Modal -->
-  <div *ngIf="showDecisionModal" class="fixed inset-0 z-50 overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <!-- Background overlay -->
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeDecisionModal()"></div>
+          <!-- Monthly Decision Modal -->
+          <div *ngIf="showDecisionModal" class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              <!-- Background overlay -->
+              <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeDecisionModal()">
+              </div>
 
-      <!-- Modal panel -->
-      <div
-        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <div class="sm:flex sm:items-start">
-            <div
-              class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
-              <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Payment Decision for {{ selectedTenant?.name }}
-              </h3>
-              <p class="text-sm text-gray-500 mt-1">
-                Month: {{ getMonthName(decisionMonth) }} {{ decisionYear }}
-              </p>
-              <div class="mt-4 space-y-4">
-                <!-- Status -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
-                  <div class="flex space-x-2">
-                    <button
-                      *ngFor="let status of [DecisionStatus.Pending, DecisionStatus.Allowed, DecisionStatus.Denied]"
-                      [ngClass]="{
+              <!-- Modal panel -->
+              <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <div class="sm:flex sm:items-start">
+                    <div
+                      class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                      <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Payment Decision for {{ selectedTenant?.name }}
+                      </h3>
+                      <p class="text-sm text-gray-500 mt-1">
+                        Month: {{ getMonthName(decisionMonth) }} {{ decisionYear }}
+                      </p>
+                      <div class="mt-4 space-y-4">
+                        <!-- Status -->
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
+                          <div class="flex space-x-2">
+                            <button
+                              *ngFor="let status of [DecisionStatus.Pending, DecisionStatus.Allowed, DecisionStatus.Denied]"
+                              [ngClass]="{
                         'bg-indigo-600 text-white': decisionStatus === status,
                         'bg-gray-100 text-gray-700 hover:bg-gray-200': decisionStatus !== status
                       }" (click)="decisionStatus = status"
-                      class="flex-1 px-3 py-2 rounded-lg font-medium transition-colors">
-                      {{ status === DecisionStatus.Allowed ? 'Allowed' :
-                      status === DecisionStatus.Denied ? 'Denied' : 'Pending' }}
-                    </button>
+                              class="flex-1 px-3 py-2 rounded-lg font-medium transition-colors">
+                              {{ status === DecisionStatus.Allowed ? 'Allowed' :
+                              status === DecisionStatus.Denied ? 'Denied' : 'Pending' }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button type="button" (click)="saveMonthlyDecision()" [disabled]="isSavingDecision" [ngClass]="{
+              'bg-indigo-600 hover:bg-indigo-700': !isSavingDecision,
+              'bg-indigo-400 cursor-not-allowed': isSavingDecision
+            }" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                    <span *ngIf="!isSavingDecision">Save Decision</span>
+                    <span *ngIf="isSavingDecision" class="flex items-center">
+                      <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                      </svg>
+                      Saving...
+                    </span>
+                  </button>
+                  <button type="button" (click)="closeDecisionModal()" [disabled]="isSavingDecision"
+                    class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" (click)="saveMonthlyDecision()" [disabled]="isSavingDecision" [ngClass]="{
-              'bg-indigo-600 hover:bg-indigo-700': !isSavingDecision,
-              'bg-indigo-400 cursor-not-allowed': isSavingDecision
-            }"
-            class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
-            <span *ngIf="!isSavingDecision">Save Decision</span>
-            <span *ngIf="isSavingDecision" class="flex items-center">
-              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                </path>
-              </svg>
-              Saving...
-            </span>
-          </button>
-          <button type="button" (click)="closeDecisionModal()" [disabled]="isSavingDecision"
-            class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

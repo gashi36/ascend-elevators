@@ -17,8 +17,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
   /** The `DateTime` scalar represents an ISO-8601 compliant date time type. */
   DateTime: { input: any; output: any; }
-  /** The `Decimal` scalar type represents a decimal floating-point number. */
-  Decimal: { input: any; output: any; }
   UUID: { input: any; output: any; }
 };
 
@@ -52,6 +50,7 @@ export type Building = {
   entries: Array<BuildingEntry>;
   id: Scalars['UUID']['output'];
   name: Scalars['String']['output'];
+  tenants: Array<Tenant>;
 };
 
 export type BuildingEntry = {
@@ -94,6 +93,7 @@ export type BuildingFilterInput = {
   id?: InputMaybe<UuidOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<BuildingFilterInput>>;
+  tenants?: InputMaybe<ListFilterInputTypeOfTenantFilterInput>;
 };
 
 export type BuildingSortInput = {
@@ -124,9 +124,18 @@ export type BuildingWithStats = {
   tenantCount: Scalars['Int']['output'];
 };
 
+export type BulkDecisionResult = {
+  __typename?: 'BulkDecisionResult';
+  createdCount: Scalars['Int']['output'];
+  errors: Array<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type BulkOperationPayload = {
   __typename?: 'BulkOperationPayload';
-  affectedCount: Scalars['Int']['output'];
+  createdCount: Scalars['Int']['output'];
+  errors: Array<Scalars['String']['output']>;
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
 };
@@ -191,17 +200,21 @@ export type CreateMonthlyDecisionInput = {
 };
 
 export type CreateSingleTenantInput = {
+  accessKeyNR?: InputMaybe<Scalars['String']['input']>;
   buildingEntryId: Scalars['UUID']['input'];
   buildingId: Scalars['UUID']['input'];
   contactEmail: Scalars['String']['input'];
   contactPhone: Scalars['String']['input'];
+  floor?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   unitNumber: Scalars['String']['input'];
 };
 
 export type CreateTenantInput = {
+  accessKeyNR?: InputMaybe<Scalars['String']['input']>;
   contactEmail: Scalars['String']['input'];
   contactPhone: Scalars['String']['input'];
+  floor?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   unitNumber: Scalars['String']['input'];
 };
@@ -229,21 +242,6 @@ export type DateTimeOperationFilterInput = {
   nlte?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-export type DecimalOperationFilterInput = {
-  eq?: InputMaybe<Scalars['Decimal']['input']>;
-  gt?: InputMaybe<Scalars['Decimal']['input']>;
-  gte?: InputMaybe<Scalars['Decimal']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['Decimal']['input']>>>;
-  lt?: InputMaybe<Scalars['Decimal']['input']>;
-  lte?: InputMaybe<Scalars['Decimal']['input']>;
-  neq?: InputMaybe<Scalars['Decimal']['input']>;
-  ngt?: InputMaybe<Scalars['Decimal']['input']>;
-  ngte?: InputMaybe<Scalars['Decimal']['input']>;
-  nin?: InputMaybe<Array<InputMaybe<Scalars['Decimal']['input']>>>;
-  nlt?: InputMaybe<Scalars['Decimal']['input']>;
-  nlte?: InputMaybe<Scalars['Decimal']['input']>;
-};
-
 export type DecisionStats = {
   __typename?: 'DecisionStats';
   allowedThisMonth: Scalars['Int']['output'];
@@ -264,6 +262,31 @@ export type DecisionStatusOperationFilterInput = {
   in?: InputMaybe<Array<DecisionStatus>>;
   neq?: InputMaybe<DecisionStatus>;
   nin?: InputMaybe<Array<DecisionStatus>>;
+};
+
+export type ExcelTemplateDownloadPayload = {
+  __typename?: 'ExcelTemplateDownloadPayload';
+  contentType: Scalars['String']['output'];
+  fileContent: Scalars['String']['output'];
+  fileName: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type ExcelUploadResult = {
+  __typename?: 'ExcelUploadResult';
+  createdBuildings: Scalars['Int']['output'];
+  createdEntries: Scalars['Int']['output'];
+  createdTenants: Scalars['Int']['output'];
+  errors: Array<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+  totalRecords: Scalars['Int']['output'];
+};
+
+export type FileInput = {
+  fileContent: Scalars['String']['input'];
+  fileName: Scalars['String']['input'];
 };
 
 export type IntOperationFilterInput = {
@@ -331,20 +354,23 @@ export type LoginPayload = {
 
 export type MonthlyDecision = {
   __typename?: 'MonthlyDecision';
-  decidedByUser: User;
-  decidedByUserId: Scalars['UUID']['output'];
-  decisionDate: Scalars['DateTime']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  decidedByUser?: Maybe<User>;
+  decidedByUserId?: Maybe<Scalars['UUID']['output']>;
+  decisionDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['UUID']['output'];
   month: Scalars['Int']['output'];
   notes: Scalars['String']['output'];
   status: DecisionStatus;
   tenant: Tenant;
   tenantId: Scalars['UUID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   year: Scalars['Int']['output'];
 };
 
 export type MonthlyDecisionFilterInput = {
   and?: InputMaybe<Array<MonthlyDecisionFilterInput>>;
+  createdAt?: InputMaybe<DateTimeOperationFilterInput>;
   decidedByUser?: InputMaybe<UserFilterInput>;
   decidedByUserId?: InputMaybe<UuidOperationFilterInput>;
   decisionDate?: InputMaybe<DateTimeOperationFilterInput>;
@@ -355,6 +381,7 @@ export type MonthlyDecisionFilterInput = {
   status?: InputMaybe<DecisionStatusOperationFilterInput>;
   tenant?: InputMaybe<TenantFilterInput>;
   tenantId?: InputMaybe<UuidOperationFilterInput>;
+  updatedAt?: InputMaybe<DateTimeOperationFilterInput>;
   year?: InputMaybe<IntOperationFilterInput>;
 };
 
@@ -365,6 +392,7 @@ export type MonthlyDecisionPayload = {
 };
 
 export type MonthlyDecisionSortInput = {
+  createdAt?: InputMaybe<SortEnumType>;
   decidedByUser?: InputMaybe<UserSortInput>;
   decidedByUserId?: InputMaybe<SortEnumType>;
   decisionDate?: InputMaybe<SortEnumType>;
@@ -374,6 +402,7 @@ export type MonthlyDecisionSortInput = {
   status?: InputMaybe<SortEnumType>;
   tenant?: InputMaybe<TenantSortInput>;
   tenantId?: InputMaybe<SortEnumType>;
+  updatedAt?: InputMaybe<SortEnumType>;
   year?: InputMaybe<SortEnumType>;
 };
 
@@ -385,7 +414,13 @@ export type Mutation = {
   changeMyPassword: SuccessPayload;
   createBuilding: BuildingWithEntriesPayload;
   createCity: City;
+  /** Create monthly decisions for all tenants in a building */
+  createDecisionsForBuilding: BulkDecisionResult;
+  /** Create monthly decisions for all tenants in a building entry */
+  createDecisionsForEntry: BulkDecisionResult;
   createMultipleTenants: BulkOperationPayload;
+  /** Create or update monthly decision for a tenant */
+  createOrUpdateDecision: MonthlyDecision;
   createOrUpdateMonthlyDecision: MonthlyDecisionPayload;
   createTenant: Tenant;
   createUser: UserPayload;
@@ -393,13 +428,19 @@ export type Mutation = {
   deleteCity: SuccessPayload;
   deleteTenant: SuccessPayload;
   deleteUser: SuccessPayload;
+  /** Download Excel template for bulk tenant upload */
+  downloadTenantExcelTemplate: ExcelTemplateDownloadPayload;
   initializeMonthlyDecisions: BulkOperationPayload;
   login: LoginPayload;
   updateBuilding: Building;
   updateCity: City;
+  /** Update decisions for multiple specific tenants */
+  updateDecisionsForTenants: BulkDecisionResult;
   updateMonthlyDecision: MonthlyDecisionPayload;
   updateTenant: Tenant;
   updateUser: UserPayload;
+  /** Upload Excel file with multiple tenants */
+  uploadTenantsFromExcel: ExcelUploadResult;
 };
 
 
@@ -436,9 +477,36 @@ export type MutationCreateCityArgs = {
 };
 
 
+export type MutationCreateDecisionsForBuildingArgs = {
+  buildingId: Scalars['UUID']['input'];
+  month: Scalars['Int']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  status: DecisionStatus;
+  year: Scalars['Int']['input'];
+};
+
+
+export type MutationCreateDecisionsForEntryArgs = {
+  buildingEntryId: Scalars['UUID']['input'];
+  month: Scalars['Int']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  status: DecisionStatus;
+  year: Scalars['Int']['input'];
+};
+
+
 export type MutationCreateMultipleTenantsArgs = {
   buildingEntryId: Scalars['UUID']['input'];
   tenantsInput: Array<CreateTenantInput>;
+};
+
+
+export type MutationCreateOrUpdateDecisionArgs = {
+  month: Scalars['Int']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  status: DecisionStatus;
+  tenantId: Scalars['UUID']['input'];
+  year: Scalars['Int']['input'];
 };
 
 
@@ -497,6 +565,15 @@ export type MutationUpdateCityArgs = {
 };
 
 
+export type MutationUpdateDecisionsForTenantsArgs = {
+  month: Scalars['Int']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  status: DecisionStatus;
+  tenantIds: Array<Scalars['UUID']['input']>;
+  year: Scalars['Int']['input'];
+};
+
+
 export type MutationUpdateMonthlyDecisionArgs = {
   input: UpdateMonthlyDecisionInput;
 };
@@ -509,6 +586,11 @@ export type MutationUpdateTenantArgs = {
 
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+
+export type MutationUploadTenantsFromExcelArgs = {
+  input: FileInput;
 };
 
 /** A connection to a list of items. */
@@ -846,21 +928,20 @@ export type SuccessPayload = {
 
 export type Tenant = {
   __typename?: 'Tenant';
+  accessKeyNR: Scalars['String']['output'];
+  building: Building;
   buildingEntry: BuildingEntry;
   buildingEntryId: Scalars['UUID']['output'];
   buildingId: Scalars['UUID']['output'];
   contactEmail: Scalars['String']['output'];
   contactPhone: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  floor: Scalars['String']['output'];
   id: Scalars['UUID']['output'];
-  lastPaymentDate?: Maybe<Scalars['DateTime']['output']>;
-  leaseEndDate?: Maybe<Scalars['DateTime']['output']>;
-  leaseStartDate?: Maybe<Scalars['DateTime']['output']>;
   monthlyDecisions: Array<MonthlyDecision>;
-  monthlyRent: Scalars['Decimal']['output'];
   name: Scalars['String']['output'];
-  rentDueDayOfMonth: Scalars['Int']['output'];
   unitNumber: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type TenantDecisionStatus = {
@@ -876,40 +957,38 @@ export type TenantDecisionStatus = {
 };
 
 export type TenantFilterInput = {
+  accessKeyNR?: InputMaybe<StringOperationFilterInput>;
   and?: InputMaybe<Array<TenantFilterInput>>;
+  building?: InputMaybe<BuildingFilterInput>;
   buildingEntry?: InputMaybe<BuildingEntryFilterInput>;
   buildingEntryId?: InputMaybe<UuidOperationFilterInput>;
   buildingId?: InputMaybe<UuidOperationFilterInput>;
   contactEmail?: InputMaybe<StringOperationFilterInput>;
   contactPhone?: InputMaybe<StringOperationFilterInput>;
   createdAt?: InputMaybe<DateTimeOperationFilterInput>;
+  floor?: InputMaybe<StringOperationFilterInput>;
   id?: InputMaybe<UuidOperationFilterInput>;
-  lastPaymentDate?: InputMaybe<DateTimeOperationFilterInput>;
-  leaseEndDate?: InputMaybe<DateTimeOperationFilterInput>;
-  leaseStartDate?: InputMaybe<DateTimeOperationFilterInput>;
   monthlyDecisions?: InputMaybe<ListFilterInputTypeOfMonthlyDecisionFilterInput>;
-  monthlyRent?: InputMaybe<DecimalOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<TenantFilterInput>>;
-  rentDueDayOfMonth?: InputMaybe<IntOperationFilterInput>;
   unitNumber?: InputMaybe<StringOperationFilterInput>;
+  updatedAt?: InputMaybe<DateTimeOperationFilterInput>;
 };
 
 export type TenantSortInput = {
+  accessKeyNR?: InputMaybe<SortEnumType>;
+  building?: InputMaybe<BuildingSortInput>;
   buildingEntry?: InputMaybe<BuildingEntrySortInput>;
   buildingEntryId?: InputMaybe<SortEnumType>;
   buildingId?: InputMaybe<SortEnumType>;
   contactEmail?: InputMaybe<SortEnumType>;
   contactPhone?: InputMaybe<SortEnumType>;
   createdAt?: InputMaybe<SortEnumType>;
+  floor?: InputMaybe<SortEnumType>;
   id?: InputMaybe<SortEnumType>;
-  lastPaymentDate?: InputMaybe<SortEnumType>;
-  leaseEndDate?: InputMaybe<SortEnumType>;
-  leaseStartDate?: InputMaybe<SortEnumType>;
-  monthlyRent?: InputMaybe<SortEnumType>;
   name?: InputMaybe<SortEnumType>;
-  rentDueDayOfMonth?: InputMaybe<SortEnumType>;
   unitNumber?: InputMaybe<SortEnumType>;
+  updatedAt?: InputMaybe<SortEnumType>;
 };
 
 export type TenantStatistics = {
@@ -1074,10 +1153,12 @@ export type UpdateMonthlyDecisionInput = {
 };
 
 export type UpdateTenantInput = {
+  accessKeyNR?: InputMaybe<Scalars['String']['input']>;
   buildingEntryId?: InputMaybe<Scalars['UUID']['input']>;
   buildingId?: InputMaybe<Scalars['UUID']['input']>;
   contactEmail?: InputMaybe<Scalars['String']['input']>;
   contactPhone?: InputMaybe<Scalars['String']['input']>;
+  floor?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
   unitNumber?: InputMaybe<Scalars['String']['input']>;
@@ -1238,7 +1319,7 @@ export type CreateOrUpdateMonthlyDecisionMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrUpdateMonthlyDecisionMutation = { __typename?: 'Mutation', createOrUpdateMonthlyDecision: { __typename?: 'MonthlyDecisionPayload', message: string, decision: { __typename?: 'MonthlyDecision', id: any, year: number, month: number, status: DecisionStatus, notes: string, decisionDate: any, tenantId: any, decidedByUserId: any } } };
+export type CreateOrUpdateMonthlyDecisionMutation = { __typename?: 'Mutation', createOrUpdateMonthlyDecision: { __typename?: 'MonthlyDecisionPayload', message: string, decision: { __typename?: 'MonthlyDecision', id: any, year: number, month: number, status: DecisionStatus, notes: string, decisionDate?: any | null, tenantId: any, decidedByUserId?: any | null } } };
 
 export type CreateTenantMutationVariables = Exact<{
   buildingEntryId: Scalars['UUID']['input'];
@@ -1251,6 +1332,18 @@ export type CreateTenantMutationVariables = Exact<{
 
 
 export type CreateTenantMutation = { __typename?: 'Mutation', createTenant: { __typename?: 'Tenant', id: any, name: string, contactEmail: string, contactPhone: string, unitNumber: string, buildingEntry: { __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string } } };
+
+export type DownloadTenantExcelTemplateMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DownloadTenantExcelTemplateMutation = { __typename?: 'Mutation', downloadTenantExcelTemplate: { __typename?: 'ExcelTemplateDownloadPayload', contentType: string, fileContent: string, fileName: string, message: string, success: boolean } };
+
+export type UploadTenantsFromExcelMutationVariables = Exact<{
+  input: FileInput;
+}>;
+
+
+export type UploadTenantsFromExcelMutation = { __typename?: 'Mutation', uploadTenantsFromExcel: { __typename?: 'ExcelUploadResult', createdBuildings: number, createdEntries: number, createdTenants: number, errors: Array<string>, message: string, success: boolean, totalRecords: number } };
 
 export type GetAllUsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1273,7 +1366,7 @@ export type GetBuildingByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetBuildingByIdQuery = { __typename?: 'Query', buildingById?: { __typename?: 'Building', address: string, createdAt: any, id: any, name: string, city: { __typename?: 'City', code: string, createdAt: any, id: any, name: string }, administrators: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null }>, entries: Array<{ __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string, tenants: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, name: string, unitNumber: string, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId: any, decisionDate: any, id: any, month: number, status: DecisionStatus, tenantId: any, year: number, decidedByUser: { __typename?: 'User', firstName?: string | null, id: any, lastName?: string | null, role: UserRole } }> }> }> } | null };
+export type GetBuildingByIdQuery = { __typename?: 'Query', buildingById?: { __typename?: 'Building', address: string, createdAt: any, id: any, name: string, city: { __typename?: 'City', code: string, createdAt: any, id: any, name: string }, administrators: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null }>, entries: Array<{ __typename?: 'BuildingEntry', buildingId: any, createdAt: any, id: any, name: string, tenants: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, name: string, unitNumber: string, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId?: any | null, decisionDate?: any | null, id: any, month: number, status: DecisionStatus, tenantId: any, year: number, decidedByUser?: { __typename?: 'User', firstName?: string | null, id: any, lastName?: string | null, role: UserRole } | null }> }> }> } | null };
 
 export type TenantsByBuildingEntryQueryVariables = Exact<{
   buildingEntryId: Scalars['UUID']['input'];
@@ -1284,7 +1377,7 @@ export type TenantsByBuildingEntryQueryVariables = Exact<{
 }>;
 
 
-export type TenantsByBuildingEntryQuery = { __typename?: 'Query', tenantsByBuildingEntry?: { __typename?: 'TenantsByBuildingEntryConnection', totalCount: number, nodes?: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, lastPaymentDate?: any | null, leaseEndDate?: any | null, leaseStartDate?: any | null, monthlyRent: any, name: string, rentDueDayOfMonth: number, unitNumber: string, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId: any, decisionDate: any, id: any, month: number, status: DecisionStatus, tenantId: any, year: number }> }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+export type TenantsByBuildingEntryQuery = { __typename?: 'Query', tenantsByBuildingEntry?: { __typename?: 'TenantsByBuildingEntryConnection', totalCount: number, nodes?: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, name: string, unitNumber: string, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId?: any | null, decisionDate?: any | null, id: any, month: number, status: DecisionStatus, tenantId: any, year: number }> }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type GetAllTenantsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1294,7 +1387,7 @@ export type GetAllTenantsQueryVariables = Exact<{
 }>;
 
 
-export type GetAllTenantsQuery = { __typename?: 'Query', tenants?: { __typename?: 'TenantsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, nodes?: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, lastPaymentDate?: any | null, leaseEndDate?: any | null, leaseStartDate?: any | null, monthlyRent: any, name: string, rentDueDayOfMonth: number, unitNumber: string, buildingEntry: { __typename?: 'BuildingEntry', id: any, name: string, createdAt: any, building: { __typename?: 'Building', address: string, cityId: any, createdAt: any, id: any, name: string, administrators: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null }>, city: { __typename?: 'City', id: any, name: string, code: string } } }, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId: any, decisionDate: any, id: any, month: number, notes: string, status: DecisionStatus, tenantId: any, year: number }> }> | null } | null };
+export type GetAllTenantsQuery = { __typename?: 'Query', tenants?: { __typename?: 'TenantsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, nodes?: Array<{ __typename?: 'Tenant', buildingEntryId: any, contactEmail: string, contactPhone: string, createdAt: any, id: any, name: string, unitNumber: string, buildingEntry: { __typename?: 'BuildingEntry', id: any, name: string, createdAt: any, building: { __typename?: 'Building', address: string, cityId: any, createdAt: any, id: any, name: string, administrators: Array<{ __typename?: 'User', createdAt: any, email?: string | null, firstName?: string | null, id: any, lastName?: string | null, role: UserRole, updatedAt?: any | null }>, city: { __typename?: 'City', id: any, name: string, code: string } } }, monthlyDecisions: Array<{ __typename?: 'MonthlyDecision', decidedByUserId?: any | null, decisionDate?: any | null, id: any, month: number, notes: string, status: DecisionStatus, tenantId: any, year: number }> }> | null } | null };
 
 export type GetBuildingsWithEntriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1474,6 +1567,52 @@ export const CreateTenantDocument = gql`
       super(apollo);
     }
   }
+export const DownloadTenantExcelTemplateDocument = gql`
+    mutation DownloadTenantExcelTemplate {
+  downloadTenantExcelTemplate {
+    contentType
+    fileContent
+    fileName
+    message
+    success
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DownloadTenantExcelTemplateGQL extends Apollo.Mutation<DownloadTenantExcelTemplateMutation, DownloadTenantExcelTemplateMutationVariables> {
+    override document = DownloadTenantExcelTemplateDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UploadTenantsFromExcelDocument = gql`
+    mutation UploadTenantsFromExcel($input: FileInput!) {
+  uploadTenantsFromExcel(input: $input) {
+    createdBuildings
+    createdEntries
+    createdTenants
+    errors
+    message
+    success
+    totalRecords
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UploadTenantsFromExcelGQL extends Apollo.Mutation<UploadTenantsFromExcelMutation, UploadTenantsFromExcelMutationVariables> {
+    override document = UploadTenantsFromExcelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetAllUsersDocument = gql`
     query GetAllUsers($first: Int = 20, $after: String, $firstName: String = "") {
   users(
@@ -1638,12 +1777,7 @@ export const TenantsByBuildingEntryDocument = gql`
       contactPhone
       createdAt
       id
-      lastPaymentDate
-      leaseEndDate
-      leaseStartDate
-      monthlyRent
       name
-      rentDueDayOfMonth
       unitNumber
       monthlyDecisions {
         decidedByUserId
@@ -1696,12 +1830,7 @@ export const GetAllTenantsDocument = gql`
       contactPhone
       createdAt
       id
-      lastPaymentDate
-      leaseEndDate
-      leaseStartDate
-      monthlyRent
       name
-      rentDueDayOfMonth
       unitNumber
       buildingEntry {
         id

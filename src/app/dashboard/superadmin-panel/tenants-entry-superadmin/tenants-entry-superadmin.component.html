@@ -24,61 +24,15 @@
           </span>
         </div>
       </div>
-      <!-- Add this button to your existing template -->
-      <button (click)="openAddTenantModal()" class="btn btn-primary">
-        + Add New Tenant
+
+      <!-- Add Tenant Button -->
+      <button (click)="openAddTenantModal()"
+        class="mt-4 md:mt-0 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add Tenant
       </button>
-
-      <!-- Add Tenant Modal -->
-      <div *ngIf="showAddTenantModal" class="modal-overlay">
-        <div class="modal">
-          <div class="modal-header">
-            <h3>Add New Tenant</h3>
-            <button (click)="closeAddTenantModal()" class="close-btn">&times;</button>
-          </div>
-
-          <div class="modal-body">
-            <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-
-            <form (ngSubmit)="createTenant()" #tenantForm="ngForm">
-              <div class="form-group">
-                <label>Tenant Name *</label>
-                <input type="text" [(ngModel)]="newTenant.name" name="name" class="form-control" required
-                  [disabled]="isCreatingTenant">
-              </div>
-
-              <div class="form-group">
-                <label>Unit Number *</label>
-                <input type="text" [(ngModel)]="newTenant.unitNumber" name="unitNumber" class="form-control" required
-                  [disabled]="isCreatingTenant">
-              </div>
-
-              <div class="form-group">
-                <label>Email</label>
-                <input type="email" [(ngModel)]="newTenant.contactEmail" name="contactEmail" class="form-control"
-                  [disabled]="isCreatingTenant">
-              </div>
-
-              <div class="form-group">
-                <label>Phone</label>
-                <input type="tel" [(ngModel)]="newTenant.contactPhone" name="contactPhone" class="form-control"
-                  [disabled]="isCreatingTenant">
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" (click)="closeAddTenantModal()" class="btn btn-secondary"
-                  [disabled]="isCreatingTenant">
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-primary" [disabled]="!tenantForm.form.valid || isCreatingTenant">
-                  <span *ngIf="isCreatingTenant">Creating...</span>
-                  <span *ngIf="!isCreatingTenant">Create Tenant</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -206,7 +160,6 @@
             <!-- Unit Number -->
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">Unit {{ tenant.unitNumber || 'N/A' }}</div>
-
             </td>
 
             <!-- Contact Info -->
@@ -226,6 +179,7 @@
               </div>
             </td>
 
+            <!-- Payment Status -->
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex flex-col space-y-1">
                 <!-- Single pill with emoji and status -->
@@ -234,12 +188,12 @@
                   <span class="mr-1.5">{{
                     tenant.currentDecision?.status === 'ALLOWED' ? '✅' :
                     tenant.currentDecision?.status === 'DENIED' ? '❌' :
-                    tenant.isPaymentPending ? '⚠️' : '⏳'
+                    tenant.isPaymentOverdue ? '⚠️' : '⏳'
                     }}</span>
                   <span>{{
                     tenant.currentDecision?.status === 'ALLOWED' ? 'Allowed' :
                     tenant.currentDecision?.status === 'DENIED' ? 'Denied' :
-                    tenant.isPaymentPending ? 'Pending' : 'Pending'
+                    tenant.isPaymentOverdue ? 'Overdue' : 'Pending'
                     }}</span>
                 </div>
 
@@ -255,23 +209,19 @@
                     Denied for {{ getMonthName(tenant.currentDecision.month) }} {{ tenant.currentDecision.year }}
                   </div>
 
-                  <!-- If pending and Pending -->
-                  <div
-                    *ngIf="(!tenant.currentDecision || tenant.currentDecision.status === 'PENDING') && tenant.isPaymentPending"
-                    class="font-medium text-red-600">
-                    {{ tenant.daysPending }} days Pending
+                  <!-- If pending and overdue -->
+                  <div *ngIf="tenant.isPaymentOverdue" class="font-medium text-red-600">
+                    {{ tenant.daysOverdue }} days overdue
                   </div>
 
                   <!-- If pending and due soon -->
-                  <div
-                    *ngIf="(!tenant.currentDecision || tenant.currentDecision.status === 'PENDING') && !tenant.isPaymentPending && tenant.daysUntilNextPayment <= 7"
+                  <div *ngIf="!tenant.currentDecision && !tenant.isPaymentOverdue && tenant.daysUntilDue <= 7"
                     class="font-medium text-amber-600">
-                    Due in {{ tenant.daysUntilNextPayment }} days
+                    Due in {{ tenant.daysUntilDue }} days
                   </div>
 
                   <!-- If pending and not due soon -->
-                  <div
-                    *ngIf="(!tenant.currentDecision || tenant.currentDecision.status === 'PENDING') && !tenant.isPaymentPending && tenant.daysUntilNextPayment > 7"
+                  <div *ngIf="!tenant.currentDecision && !tenant.isPaymentOverdue && tenant.daysUntilDue > 7"
                     class="text-gray-500">
                     Due on {{ tenant.formattedPaymentDue }}
                   </div>
@@ -283,6 +233,7 @@
                 </div>
               </div>
             </td>
+
             <!-- Actions -->
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
               <div class="flex flex-col space-y-2">
@@ -361,58 +312,149 @@
     </svg>
     <h3 class="mt-4 text-lg font-medium text-gray-900">No tenants found</h3>
     <p class="mt-2 text-gray-500">There are no tenants in this entry yet.</p>
-    <!-- Add this button to your existing template -->
-    <button (click)="openAddTenantModal()" class="btn btn-primary">
-      + Add New Tenant
+    <button (click)="openAddTenantModal()"
+      class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+      Add First Tenant
     </button>
+  </div>
 
-    <!-- Add Tenant Modal -->
-    <div *ngIf="showAddTenantModal" class="modal-overlay">
-      <div class="modal">
-        <div class="modal-header">
-          <h3>Add New Tenant</h3>
-          <button (click)="closeAddTenantModal()" class="close-btn">&times;</button>
+  <!-- Add Tenant Modal -->
+  <div *ngIf="showAddTenantModal" class="fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeAddTenantModal()"></div>
+
+      <!-- Modal panel -->
+      <div
+        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div
+              class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+              <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Add New Tenant
+              </h3>
+              <div class="mt-4 space-y-4">
+                <!-- Building Selection (only show if enabled) -->
+                <div *ngIf="showBuildingSelection">
+                  <!-- Loading state -->
+                  <div *ngIf="isLoadingBuildings" class="flex items-center space-x-2 text-sm text-gray-500">
+                    <svg class="animate-spin h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                      </path>
+                    </svg>
+                    <span>Loading buildings...</span>
+                  </div>
+
+                  <!-- Building dropdown -->
+                  <div *ngIf="!isLoadingBuildings">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Building</label>
+                    <select [(ngModel)]="newTenant.buildingId" (change)="onBuildingChange()"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                      <option value="">Select a building</option>
+                      <option *ngFor="let building of buildings" [value]="building.id">
+                        {{ building.name }}
+                        <span *ngIf="building.address" class="text-gray-500 text-xs"> - {{ building.address }}</span>
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- Building Entry Selection -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Building Entry</label>
+                    <select [(ngModel)]="newTenant.buildingEntryId"
+                      [disabled]="!newTenant.buildingId || filteredBuildingEntries.length === 0"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-50 disabled:cursor-not-allowed">
+                      <option value="">Select a building entry</option>
+                      <option *ngFor="let entry of filteredBuildingEntries" [value]="entry.id"
+                        [disabled]="entry.hasNoEntry">
+                        {{ entry.displayName }}
+                        <span *ngIf="entry.hasNoEntry" class="text-red-500 text-xs"> - No entry available</span>
+                      </option>
+                    </select>
+
+                    <div *ngIf="newTenant.buildingId && filteredBuildingEntries.length === 0"
+                      class="text-sm text-amber-600 mt-1">
+                      No building entries available for this building.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Show current building/entry info if not showing selection -->
+                <div *ngIf="!showBuildingSelection && buildingName && entryName"
+                  class="text-sm text-gray-600 p-3 bg-gray-50 rounded">
+                  <p><strong>Building:</strong> {{ buildingName }}</p>
+                  <p><strong>Entry:</strong> {{ entryName }}</p>
+                </div>
+
+                <!-- Tenant Name -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Tenant Name *</label>
+                  <input type="text" [(ngModel)]="newTenant.name"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Enter tenant name">
+                </div>
+
+                <!-- Unit Number -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Unit Number *</label>
+                  <input type="text" [(ngModel)]="newTenant.unitNumber"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="e.g., 101, A12">
+                </div>
+
+                <!-- Contact Email -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+                  <input type="email" [(ngModel)]="newTenant.contactEmail"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="tenant@example.com">
+                </div>
+
+                <!-- Contact Phone -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Contact Phone</label>
+                  <input type="tel" [(ngModel)]="newTenant.contactPhone"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="(123) 456-7890">
+                </div>
+
+                <!-- Error Message -->
+                <div *ngIf="error" class="text-sm text-red-600 mt-2 p-2 bg-red-50 rounded">
+                  {{ error }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="modal-body">
-          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-
-          <form (ngSubmit)="createTenant()" #tenantForm="ngForm">
-            <div class="form-group">
-              <label>Tenant Name *</label>
-              <input type="text" [(ngModel)]="newTenant.name" name="name" class="form-control" required
-                [disabled]="isCreatingTenant">
-            </div>
-
-            <div class="form-group">
-              <label>Unit Number *</label>
-              <input type="text" [(ngModel)]="newTenant.unitNumber" name="unitNumber" class="form-control" required
-                [disabled]="isCreatingTenant">
-            </div>
-
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" [(ngModel)]="newTenant.contactEmail" name="contactEmail" class="form-control"
-                [disabled]="isCreatingTenant">
-            </div>
-
-            <div class="form-group">
-              <label>Phone</label>
-              <input type="tel" [(ngModel)]="newTenant.contactPhone" name="contactPhone" class="form-control"
-                [disabled]="isCreatingTenant">
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" (click)="closeAddTenantModal()" class="btn btn-secondary"
-                [disabled]="isCreatingTenant">
-                Cancel
-              </button>
-              <button type="submit" class="btn btn-primary" [disabled]="!tenantForm.form.valid || isCreatingTenant">
-                <span *ngIf="isCreatingTenant">Creating...</span>
-                <span *ngIf="!isCreatingTenant">Create Tenant</span>
-              </button>
-            </div>
-          </form>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" (click)="createTenant()" [disabled]="isCreatingTenant" [ngClass]="{
+              'bg-indigo-600 hover:bg-indigo-700': !isCreatingTenant,
+              'bg-indigo-400 cursor-not-allowed': isCreatingTenant
+            }"
+            class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+            <span *ngIf="!isCreatingTenant">Create Tenant</span>
+            <span *ngIf="isCreatingTenant" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              Creating...
+            </span>
+          </button>
+          <button type="button" (click)="closeAddTenantModal()" [disabled]="isCreatingTenant"
+            class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -451,9 +493,9 @@
                     <button
                       *ngFor="let status of [DecisionStatus.Pending, DecisionStatus.Allowed, DecisionStatus.Denied]"
                       [ngClass]="{
-                              'bg-indigo-600 text-white': decisionStatus === status,
-                              'bg-gray-100 text-gray-700 hover:bg-gray-200': decisionStatus !== status
-                            }" (click)="decisionStatus = status"
+                        'bg-indigo-600 text-white': decisionStatus === status,
+                        'bg-gray-100 text-gray-700 hover:bg-gray-200': decisionStatus !== status
+                      }" (click)="decisionStatus = status"
                       class="flex-1 px-3 py-2 rounded-lg font-medium transition-colors">
                       {{ status === DecisionStatus.Allowed ? 'Allowed' :
                       status === DecisionStatus.Denied ? 'Denied' : 'Pending' }}
@@ -466,9 +508,9 @@
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button type="button" (click)="saveMonthlyDecision()" [disabled]="isSavingDecision" [ngClass]="{
-                    'bg-indigo-600 hover:bg-indigo-700': !isSavingDecision,
-                    'bg-indigo-400 cursor-not-allowed': isSavingDecision
-                  }"
+              'bg-indigo-600 hover:bg-indigo-700': !isSavingDecision,
+              'bg-indigo-400 cursor-not-allowed': isSavingDecision
+            }"
             class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm transition-colors">
             <span *ngIf="!isSavingDecision">Save Decision</span>
             <span *ngIf="isSavingDecision" class="flex items-center">

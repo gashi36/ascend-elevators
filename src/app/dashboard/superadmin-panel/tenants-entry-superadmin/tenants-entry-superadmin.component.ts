@@ -1,4 +1,4 @@
-// tenants-superadmin.component.ts
+// tenants-superadmin.component.ts - OPTIMIZED VERSION
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,8 @@ import {
   CreateOrUpdateMonthlyDecisionGQL,
   CreateMonthlyDecisionInput,
   DecisionStatus,
-  CreateTenantGQL
+  CreateTenantGQL,
+  GetBuildingsWithEntriesGQL
 } from '../../../../graphql/generated/graphql';
 import { AuthService } from '../../../Guards/auth.service';
 
@@ -22,33 +23,50 @@ import { AuthService } from '../../../Guards/auth.service';
   styleUrls: ['./tenants-entry-superadmin.component.scss']
 })
 export class TenantsEntrySuperadminComponent implements OnInit {
+  // Route parameters
   buildingId: string | null = null;
   entryId: string | null = null;
-  tenants: any[] = [];
-  filteredTenants: any[] = [];
-  isLoading = true;
-  isLoadingMore = false;
-  error: string | null = null;
   buildingName: string = '';
   entryName: string = '';
+
+  // Data
+  tenants: any[] = [];
+  filteredTenants: any[] = [];
+  totalCount = 0;
+
+  // Loading states
+  isLoading = true;
+  isLoadingMore = false;
+  isLoadingBuildings = false;
+  isCreatingTenant = false;
+  isSavingDecision = false;
+
+  // Errors
+  error: string | null = null;
+
+  // Modals
   showAddTenantModal = false;
+  showDecisionModal = false;
+  showBuildingSelection = false;
+
+  // Selected items
+  selectedTenant: any = null;
+
+  // Forms
   newTenant = {
+    buildingId: '',
+    buildingEntryId: '',
     name: '',
     unitNumber: '',
     contactEmail: '',
     contactPhone: ''
   };
-  isCreatingTenant = false;
 
-  // Monthly decision
-  selectedTenant: any = null;
-  showDecisionModal = false;
   decisionStatus: DecisionStatus = DecisionStatus.Pending;
   decisionMonth: number = new Date().getMonth() + 1;
   decisionYear: number = new Date().getFullYear();
-  isSavingDecision = false;
 
-  // Current user ID
+  // Current user
   currentUserId: string | null = null;
 
   // Status enum for template
@@ -56,10 +74,9 @@ export class TenantsEntrySuperadminComponent implements OnInit {
 
   // Pagination
   pageSize = 30;
-  totalCount = 0;
   hasNextPage = false;
   endCursor: string | null = null;
-  allLoaded = false; // Track if all data loaded
+  allLoaded = false;
 
   // Filtering and sorting
   searchTerm: string = '';
@@ -70,31 +87,38 @@ export class TenantsEntrySuperadminComponent implements OnInit {
   // Search debounce
   private searchSubject = new Subject<string>();
 
+  // Building data
+  buildings: any[] = [];
+  private buildingEntries: any[] = [];
+  filteredBuildingEntries: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private tenantsByBuildingEntryGQL: TenantsByBuildingEntryGQL,
     private createOrUpdateMonthlyDecisionGQL: CreateOrUpdateMonthlyDecisionGQL,
     private createTenantGQL: CreateTenantGQL,
+    private getBuildingsWithEntriesGQL: GetBuildingsWithEntriesGQL,
     private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.extractUserIdFromToken();
+    this.currentUserId = this.extractUserIdFromToken();
 
     // Setup search debounce
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged()
-    ).subscribe(() => {
-      this.resetAndLoadTenants();
-    });
+    ).subscribe(() => this.resetAndLoadTenants());
 
     this.route.queryParams.subscribe(params => {
       this.buildingId = params['buildingId'] || params['buildingID'] || null;
       this.entryId = params['entryId'] || params['entryID'] || null;
       this.buildingName = params['buildingName'] || '';
       this.entryName = params['entryName'] || '';
+
+      this.newTenant.buildingId = this.buildingId || '';
+      this.newTenant.buildingEntryId = this.entryId || '';
 
       if (!this.entryId) {
         this.error = 'Entry ID is required to load tenants';
@@ -112,77 +136,84 @@ export class TenantsEntrySuperadminComponent implements OnInit {
     });
   }
 
-  // ===== PAYMENT & DECISION TRACKING =====
+  // ===== PAYMENT CALCULATION METHODS =====
 
-  private processTenantPaymentInfo(tenant: any): any {
-    const currentDecision = tenant.monthlyDecisions?.find((d: any) =>
-      d.year === new Date().getFullYear() &&
-      d.month === new Date().getMonth() + 1
-    );
-
+  private calculateTenantPaymentStatus(tenant: any): any {
+    const currentDecision = this.getCurrentDecision(tenant);
     const today = new Date();
-    const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
 
-    // Calculate payment due date based on RentDueDayOfMonth (default 1st)
+    // Get due day from backend (default to 1st)
     const dueDay = tenant.rentDueDayOfMonth || 1;
-    const paymentDueDate = new Date(currentYear, currentMonth, dueDay);
 
-    // If due date has passed this month, check overdue status
-    const daysUntilDue = this.calculateDaysUntil(paymentDueDate, today);
+    // Calculate dates using UTC to avoid timezone issues
+    const currentYear = today.getUTCFullYear();
+    const currentMonth = today.getUTCMonth();
+
+    // Create dates in UTC
+    const paymentDueDate = new Date(Date.UTC(currentYear, currentMonth, dueDay));
+    const nextMonthDueDate = new Date(Date.UTC(currentYear, currentMonth + 1, dueDay));
+
+    // Calculate days difference
+    const daysUntilDue = this.calculateDaysDifference(paymentDueDate, today);
     const isOverdue = daysUntilDue < 0 && (!currentDecision || currentDecision.status === DecisionStatus.Pending);
     const daysOverdue = isOverdue ? Math.abs(daysUntilDue) : 0;
 
-    // Calculate next payment date (if overdue, it's this month's due date, otherwise next month)
-    const nextPaymentDate = isOverdue ? paymentDueDate : new Date(currentYear, currentMonth + 1, dueDay);
-    const daysUntilNextPayment = this.calculateDaysUntil(nextPaymentDate, today);
+    // Determine next payment date
+    const nextPaymentDate = isOverdue ? paymentDueDate : nextMonthDueDate;
+    const daysUntilNextPayment = this.calculateDaysDifference(nextPaymentDate, today);
 
     return {
-      ...tenant,
-      // Format dates
-      formattedLeaseEnd: this.formatDate(tenant.leaseEndDate),
-      formattedLastPayment: this.formatDate(tenant.lastPaymentDate),
-      formattedLeaseStart: this.formatDate(tenant.leaseStartDate),
-      formattedCreatedAt: this.formatDate(tenant.createdAt),
-      formattedMonthlyRent: tenant.monthlyRent ? `$${tenant.monthlyRent.toFixed(2)}` : 'N/A',
-
-      // Payment info
-      currentDecision: currentDecision,
-      paymentDueDate: paymentDueDate,
-      formattedPaymentDue: this.formatDate(paymentDueDate.toISOString()),
-      daysUntilDue: daysUntilDue,
+      currentDecision,
+      paymentDueDate,
+      formattedPaymentDue: this.formatDate(paymentDueDate),
+      daysUntilDue,
       isPaymentOverdue: isOverdue,
-      daysOverdue: daysOverdue,
-      nextPaymentDate: nextPaymentDate,
-      daysUntilNextPayment: daysUntilNextPayment,
+      daysOverdue,
+      nextPaymentDate,
+      daysUntilNextPayment,
 
-      // Status display
-      statusClass: this.getPaymentStatusClass(currentDecision?.status || DecisionStatus.Pending, isOverdue),
-      statusText: this.getPaymentStatusText(currentDecision?.status || DecisionStatus.Pending, isOverdue),
+      // Status display properties
+      statusClass: this.getPaymentStatusClass(currentDecision?.status, isOverdue),
+      statusText: this.getPaymentStatusText(currentDecision?.status, isOverdue),
       paymentStatusDetails: this.getPaymentStatusDetails(currentDecision, isOverdue, daysOverdue, daysUntilNextPayment)
     };
   }
 
-  private calculateDaysUntil(targetDate: Date, fromDate: Date): number {
-    const timeDiff = targetDate.getTime() - fromDate.getTime();
+  private getCurrentDecision(tenant: any): any {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+
+    return tenant.monthlyDecisions?.find((d: any) =>
+      d.year === currentYear && d.month === currentMonth
+    );
+  }
+
+  private calculateDaysDifference(targetDate: Date, fromDate: Date): number {
+    // Normalize both dates to start of day in UTC
+    const target = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth(), targetDate.getUTCDate()));
+    const from = new Date(Date.UTC(fromDate.getUTCFullYear(), fromDate.getUTCMonth(), fromDate.getUTCDate()));
+
+    const timeDiff = target.getTime() - from.getTime();
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 
-  getPaymentStatusClass(status: DecisionStatus, isOverdue: boolean): string {
+  // ===== STATUS HELPER METHODS =====
+
+  private getPaymentStatusClass(status: DecisionStatus | undefined, isOverdue: boolean): string {
     if (status === DecisionStatus.Allowed) return 'payment-status-allowed';
     if (status === DecisionStatus.Denied) return 'payment-status-denied';
     if (isOverdue) return 'payment-status-overdue';
     return 'payment-status-pending';
   }
 
-  getPaymentStatusText(status: DecisionStatus, isOverdue: boolean): string {
+  private getPaymentStatusText(status: DecisionStatus | undefined, isOverdue: boolean): string {
     if (status === DecisionStatus.Allowed) return '✅ Allowed';
     if (status === DecisionStatus.Denied) return '❌ Denied';
     if (isOverdue) return '⚠️ Overdue';
     return '⏳ Pending';
   }
 
-  getPaymentStatusDetails(decision: any, isOverdue: boolean, daysOverdue: number, daysUntilNext: number): string {
+  private getPaymentStatusDetails(decision: any, isOverdue: boolean, daysOverdue: number, daysUntilNext: number): string {
     if (decision?.status === DecisionStatus.Allowed) {
       return `Allowed on ${this.formatDate(decision.decisionDate)}`;
     }
@@ -200,26 +231,13 @@ export class TenantsEntrySuperadminComponent implements OnInit {
 
   // ===== DATA LOADING =====
 
-  private extractUserIdFromToken(): void {
+  private extractUserIdFromToken(): string | null {
     const token = localStorage.getItem('jwt_token');
-    if (!token) return;
+    if (!token) return null;
 
     try {
-      const payload = this.decodeToken(token);
-      this.currentUserId = payload?.nameid || payload?.sub || payload?.userId || payload?.id;
-    } catch (error) {
-      console.error('Error getting user ID:', error);
-    }
-  }
-
-  private decodeToken(token: string): any {
-    try {
-      const payload = token.split('.')[1];
-      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload?.nameid || payload?.sub || payload?.userId || payload?.id;
     } catch {
       return null;
     }
@@ -232,28 +250,13 @@ export class TenantsEntrySuperadminComponent implements OnInit {
     this.allLoaded = false;
     this.loadTenants();
   }
-  getStatusText(status: DecisionStatus): string {
-    switch (status) {
-      case DecisionStatus.Allowed:
-        return '✅ Allowed';
-      case DecisionStatus.Denied:
-        return '❌ Denied';
-      case DecisionStatus.Pending:
-      default:
-        return '⏳ Pending';
-    }
-  }
+
   loadTenants(cursor: string | null = null, loadMore: boolean = false) {
-    if (!loadMore) {
-      this.isLoading = true;
-    } else {
-      this.isLoadingMore = true;
-    }
+    if (!loadMore) this.isLoading = true;
+    else this.isLoadingMore = true;
 
     if (!this.entryId) {
-      this.isLoading = false;
-      this.isLoadingMore = false;
-      this.error = 'Entry ID is missing';
+      this.handleLoadingError('Entry ID is missing');
       return;
     }
 
@@ -269,109 +272,274 @@ export class TenantsEntrySuperadminComponent implements OnInit {
       },
       fetchPolicy: 'network-only'
     }).subscribe({
-      next: (result: any) => {
-        this.isLoading = false;
-        this.isLoadingMore = false;
-
-        if (result.errors?.length) {
-          this.error = `GraphQL Error: ${result.errors[0].message}`;
-          return;
-        }
-        const response = result.data?.tenantsByBuildingEntry;
-        const rawTenants = response?.nodes || [];
-
-        // Update pagination
-        this.totalCount = response?.totalCount || 0;
-        this.hasNextPage = response?.pageInfo?.hasNextPage || false;
-        this.endCursor = response?.pageInfo?.endCursor || null;
-
-        // Process tenants with payment info
-        const processedTenants = rawTenants.map((tenant: any) => this.processTenantPaymentInfo(tenant));
-
-        if (loadMore) {
-          this.tenants = [...this.tenants, ...processedTenants];
-        } else {
-          this.tenants = processedTenants;
-        }
-
-        // Apply client-side filter
-        this.applyClientSideFilter();
-
-        // Check if all loaded
-        if (processedTenants.length < this.pageSize) {
-          this.allLoaded = true;
-        }
-
-        if (this.tenants.length === 0) {
-          this.error = this.searchTerm ? 'No tenants found matching your search' : 'No tenants found';
-        } else {
-          this.error = null;
-        }
-      },
-      error: (err: any) => {
-        this.isLoading = false;
-        this.isLoadingMore = false;
-        this.error = `Failed to load tenants: ${err.message}`;
-      }
+      next: (result: any) => this.handleTenantsResponse(result, loadMore),
+      error: (err: any) => this.handleLoadingError(`Failed to load tenants: ${err.message}`)
     });
   }
 
-  loadMore() {
-    if (this.hasNextPage && this.endCursor && !this.allLoaded) {
-      this.loadTenants(this.endCursor, true);
+  private handleTenantsResponse(result: any, loadMore: boolean) {
+    this.isLoading = false;
+    this.isLoadingMore = false;
+
+    if (result.errors?.length) {
+      this.error = `GraphQL Error: ${result.errors[0].message}`;
+      return;
+    }
+
+    const response = result.data?.tenantsByBuildingEntry;
+    const rawTenants = response?.nodes || [];
+
+    // Update pagination
+    this.totalCount = response?.totalCount || 0;
+    this.hasNextPage = response?.pageInfo?.hasNextPage || false;
+    this.endCursor = response?.pageInfo?.endCursor || null;
+
+    // Process tenants
+    const processedTenants = rawTenants.map((tenant: any) => ({
+      ...tenant,
+      formattedLeaseEnd: this.formatDate(tenant.leaseEndDate),
+      formattedLastPayment: this.formatDate(tenant.lastPaymentDate),
+      formattedLeaseStart: this.formatDate(tenant.leaseStartDate),
+      formattedCreatedAt: this.formatDate(tenant.createdAt),
+      formattedMonthlyRent: tenant.monthlyRent ? `$${tenant.monthlyRent.toFixed(2)}` : 'N/A',
+      ...this.calculateTenantPaymentStatus(tenant)
+    }));
+
+    if (loadMore) {
+      this.tenants = [...this.tenants, ...processedTenants];
+    } else {
+      this.tenants = processedTenants;
+    }
+
+    this.applyClientSideFilter();
+
+    // Check if all loaded
+    if (processedTenants.length < this.pageSize) {
+      this.allLoaded = true;
+    }
+
+    if (this.tenants.length === 0) {
+      this.error = this.searchTerm ? 'No tenants found matching your search' : 'No tenants found';
+    } else {
+      this.error = null;
     }
   }
 
-  refreshTenants() {
-    this.resetAndLoadTenants();
+  private handleLoadingError(message: string) {
+    this.isLoading = false;
+    this.isLoadingMore = false;
+    this.error = message;
   }
 
-  // ===== FILTERING & SORTING =====
+  // ===== BUILDING METHODS =====
 
-  onSearch() {
-    this.searchSubject.next(this.searchTerm);
+  loadBuildings() {
+    this.isLoadingBuildings = true;
+    this.error = null;
+
+    this.getBuildingsWithEntriesGQL.fetch({
+      fetchPolicy: 'network-only'
+    }).subscribe({
+      next: (result: any) => this.handleBuildingsResponse(result),
+      error: (err: any) => this.handleBuildingsError(err)
+    });
   }
 
-  onSort(field: 'name' | 'createdAt' | 'unitNumber') {
-    if (this.sortField === field) {
-      this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
-    } else {
-      this.sortField = field;
-      this.sortDirection = 'ASC';
+  private handleBuildingsResponse(result: any) {
+    this.isLoadingBuildings = false;
+
+    if (result.errors?.length) {
+      this.error = `Error loading buildings: ${result.errors[0].message}`;
+      return;
     }
-    this.resetAndLoadTenants();
+
+    const buildings = result.data?.buildings;
+    if (!buildings) {
+      this.error = 'No building data returned';
+      return;
+    }
+
+    this.processBuildingsData(buildings);
   }
 
-  clearSearch() {
-    this.searchTerm = '';
-    this.filterStatus = 'all'; // Reset the filter status
-    this.sortField = 'name'; // Optional: reset sort if desired
-    this.sortDirection = 'ASC'; // Optional: reset sort direction
-
-    this.resetAndLoadTenants();
+  private handleBuildingsError(err: any) {
+    this.isLoadingBuildings = false;
+    this.error = `Failed to load buildings: ${err.message}`;
+    console.error('Error loading buildings:', err);
   }
-  applyClientSideFilter() {
-    if (this.filterStatus === 'all') {
-      this.filteredTenants = [...this.tenants];
-    } else {
-      let statusToMatch: DecisionStatus;
-      switch (this.filterStatus) {
-        case 'allowed': statusToMatch = DecisionStatus.Allowed; break;
-        case 'denied': statusToMatch = DecisionStatus.Denied; break;
-        default: statusToMatch = DecisionStatus.Pending;
+
+  private processBuildingsData(buildings: any[]) {
+    this.buildings = [];
+    this.buildingEntries = [];
+
+    buildings.forEach((building: any) => {
+      this.buildings.push({
+        id: building.id,
+        name: building.name || `Building ${building.id}`,
+        address: building.address || '',
+        city: building.city?.name || '',
+        cityCode: building.city?.code || ''
+      });
+
+      if (building.entries?.length > 0) {
+        building.entries.forEach((entry: any) => {
+          this.buildingEntries.push({
+            id: entry.id,
+            buildingId: building.id,
+            buildingName: building.name || `Building ${building.id}`,
+            name: entry.name || 'Entry',
+            displayName: `${building.name} - ${entry.name || 'Entry'}`
+          });
+        });
+      } else {
+        this.buildingEntries.push({
+          id: building.id,
+          buildingId: building.id,
+          buildingName: building.name || `Building ${building.id}`,
+          name: 'No entry available',
+          displayName: `${building.name} (No entry available)`,
+          hasNoEntry: true
+        });
+      }
+    });
+
+    this.buildings.sort((a, b) => a.name.localeCompare(b.name));
+    this.buildingEntries.sort((a, b) => a.displayName.localeCompare(b.displayName));
+  }
+
+  onBuildingChange() {
+    this.newTenant.buildingEntryId = '';
+    this.filteredBuildingEntries = this.newTenant.buildingId ?
+      this.buildingEntries.filter(entry => entry.buildingId === this.newTenant.buildingId) :
+      [];
+  }
+
+  // ===== TENANT CREATION =====
+
+  openAddTenantModal() {
+    this.showAddTenantModal = true;
+    this.newTenant = {
+      buildingId: this.buildingId || '',
+      buildingEntryId: this.entryId || '',
+      name: '',
+      unitNumber: '',
+      contactEmail: '',
+      contactPhone: ''
+    };
+
+    if (this.showBuildingSelection) {
+      this.loadBuildings();
+      this.filteredBuildingEntries = [];
+      if (this.buildingId) {
+        this.onBuildingChange();
+      }
+    }
+  }
+
+  closeAddTenantModal() {
+    this.showAddTenantModal = false;
+    this.isCreatingTenant = false;
+    this.error = null;
+  }
+
+  private validateTenantForm(): boolean {
+    if (this.showBuildingSelection) {
+      if (!this.newTenant.buildingId) {
+        this.error = 'Please select a building';
+        return false;
       }
 
-      this.filteredTenants = this.tenants.filter(tenant => {
-        const status = tenant.currentDecision?.status || DecisionStatus.Pending;
-        return status === statusToMatch;
-      });
+      if (!this.newTenant.buildingEntryId) {
+        this.error = 'Please select a building entry';
+        return false;
+      }
+
+      const selectedEntry = this.buildingEntries.find(e => e.id === this.newTenant.buildingEntryId);
+      if (selectedEntry?.hasNoEntry) {
+        this.error = 'Selected building has no entries. Please create an entry for this building first.';
+        return false;
+      }
+    }
+
+    if (!this.newTenant.name?.trim()) {
+      this.error = 'Tenant name is required';
+      return false;
+    }
+
+    if (!this.newTenant.unitNumber?.trim()) {
+      this.error = 'Unit number is required';
+      return false;
+    }
+
+    if (this.newTenant.contactEmail?.trim() && !this.isValidEmail(this.newTenant.contactEmail)) {
+      this.error = 'Please enter a valid email address';
+      return false;
+    }
+
+    return true;
+  }
+
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  createTenant() {
+    if (!this.validateTenantForm()) return;
+
+    this.isCreatingTenant = true;
+    this.error = null;
+
+    let buildingIdToUse = this.newTenant.buildingId;
+
+    if (this.showBuildingSelection) {
+      const selectedEntry = this.buildingEntries.find(e => e.id === this.newTenant.buildingEntryId);
+      buildingIdToUse = selectedEntry?.buildingId || buildingIdToUse;
+    }
+
+    if (!buildingIdToUse) {
+      this.error = 'Building ID is required';
+      this.isCreatingTenant = false;
+      return;
+    }
+
+    this.createTenantGQL.mutate({
+      variables: {
+        buildingEntryId: this.newTenant.buildingEntryId,
+        buildingId: buildingIdToUse,
+        name: this.newTenant.name,
+        unitNumber: this.newTenant.unitNumber,
+        contactEmail: this.newTenant.contactEmail || '',
+        contactPhone: this.newTenant.contactPhone || ''
+      }
+    }).pipe(take(1)).subscribe({
+      next: (result: any) => this.handleCreateTenantResponse(result),
+      error: (err: any) => this.handleCreateTenantError(err)
+    });
+  }
+
+  private handleCreateTenantResponse(result: any) {
+    this.isCreatingTenant = false;
+
+    if (result.errors?.length) {
+      this.error = `Error: ${result.errors[0].message}`;
+      return;
+    }
+
+    const newTenant = result.data?.createTenant;
+    if (newTenant) {
+      alert(`Tenant "${newTenant.name}" created successfully!`);
+      this.closeAddTenantModal();
+      this.refreshTenants();
     }
   }
 
-  onFilterChange() {
-    this.applyClientSideFilter();
+  private handleCreateTenantError(err: any) {
+    this.isCreatingTenant = false;
+    this.error = `Failed to create tenant: ${err.message}`;
   }
 
+  // ===== MONTHLY DECISION METHODS =====
 
   openDecisionModal(tenant: any) {
     this.selectedTenant = tenant;
@@ -384,7 +552,7 @@ export class TenantsEntrySuperadminComponent implements OnInit {
     }
 
     if (!this.currentUserId) {
-      this.extractUserIdFromToken();
+      this.currentUserId = this.extractUserIdFromToken();
     }
   }
 
@@ -402,7 +570,7 @@ export class TenantsEntrySuperadminComponent implements OnInit {
     }
 
     if (!this.currentUserId) {
-      this.extractUserIdFromToken();
+      this.currentUserId = this.extractUserIdFromToken();
       if (!this.currentUserId) {
         this.error = 'Unable to identify current user';
         return;
@@ -422,28 +590,86 @@ export class TenantsEntrySuperadminComponent implements OnInit {
     this.createOrUpdateMonthlyDecisionGQL.mutate({ variables: { input } })
       .pipe(take(1))
       .subscribe({
-        next: (result: any) => {
-          this.isSavingDecision = false;
-
-          if (result.errors?.length) {
-            this.error = `Error: ${result.errors[0].message}`;
-            return;
-          }
-
-          this.refreshTenants();
-          alert('Payment decision saved successfully!');
-          this.closeDecisionModal();
-        },
-        error: (err: any) => {
-          this.isSavingDecision = false;
-          this.error = `Failed to save decision: ${err.message}`;
-        }
+        next: (result: any) => this.handleSaveDecisionResponse(result),
+        error: (err: any) => this.handleSaveDecisionError(err)
       });
+  }
+
+  private handleSaveDecisionResponse(result: any) {
+    this.isSavingDecision = false;
+
+    if (result.errors?.length) {
+      this.error = `Error: ${result.errors[0].message}`;
+      return;
+    }
+
+    this.refreshTenants();
+    alert('Payment decision saved successfully!');
+    this.closeDecisionModal();
+  }
+
+  private handleSaveDecisionError(err: any) {
+    this.isSavingDecision = false;
+    this.error = `Failed to save decision: ${err.message}`;
+  }
+
+  // ===== FILTERING, SORTING & PAGINATION =====
+
+  applyClientSideFilter() {
+    if (this.filterStatus === 'all') {
+      this.filteredTenants = [...this.tenants];
+    } else {
+      let statusToMatch: DecisionStatus;
+      switch (this.filterStatus) {
+        case 'allowed': statusToMatch = DecisionStatus.Allowed; break;
+        case 'denied': statusToMatch = DecisionStatus.Denied; break;
+        default: statusToMatch = DecisionStatus.Pending;
+      }
+
+      this.filteredTenants = this.tenants.filter(tenant => {
+        const status = tenant.currentDecision?.status || DecisionStatus.Pending;
+        return status === statusToMatch;
+      });
+    }
+  }
+
+  loadMore() {
+    if (this.hasNextPage && this.endCursor && !this.allLoaded) {
+      this.loadTenants(this.endCursor, true);
+    }
+  }
+
+  refreshTenants() {
+    this.resetAndLoadTenants();
+  }
+
+  onSearch() {
+    this.searchSubject.next(this.searchTerm);
+  }
+
+  onSort(field: 'name' | 'createdAt' | 'unitNumber') {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'ASC';
+    }
+    this.resetAndLoadTenants();
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.filterStatus = 'all';
+    this.resetAndLoadTenants();
+  }
+
+  onFilterChange() {
+    this.applyClientSideFilter();
   }
 
   // ===== HELPER METHODS =====
 
-  isValidUUID(uuid: string | null): boolean {
+  private isValidUUID(uuid: string | null): boolean {
     if (!uuid) return false;
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     return uuidRegex.test(uuid);
@@ -471,8 +697,7 @@ export class TenantsEntrySuperadminComponent implements OnInit {
 
   getDisplayRange(): string {
     if (this.tenants.length === 0) return '0-0';
-    const displayed = this.filteredTenants.length;
-    return `${displayed} of ${this.totalCount}`;
+    return `${this.filteredTenants.length} of ${this.totalCount}`;
   }
 
   // ===== NAVIGATION =====
@@ -492,74 +717,6 @@ export class TenantsEntrySuperadminComponent implements OnInit {
         buildingName: this.buildingName,
         entryId: this.entryId,
         entryName: this.entryName
-      }
-    });
-  }
-
-  openAddTenantModal() {
-    this.showAddTenantModal = true;
-    // Reset form
-    this.newTenant = {
-      name: '',
-      unitNumber: '',
-      contactEmail: '',
-      contactPhone: ''
-    };
-  }
-  closeAddTenantModal() {
-    this.showAddTenantModal = false;
-    this.isCreatingTenant = false;
-    this.error = null;
-  }
-
-  createTenant() {
-    if (!this.entryId) {
-      this.error = 'Entry ID is missing';
-      return;
-    }
-
-    // Validate required fields
-    if (!this.newTenant.name.trim()) {
-      this.error = 'Tenant name is required';
-      return;
-    }
-
-    if (!this.newTenant.unitNumber.trim()) {
-      this.error = 'Unit number is required';
-      return;
-    }
-
-    this.isCreatingTenant = true;
-    this.error = null;
-
-    this.createTenantGQL.mutate({
-      variables: {
-        buildingEntryId: this.entryId,
-        name: this.newTenant.name,
-        unitNumber: this.newTenant.unitNumber,
-        contactEmail: this.newTenant.contactEmail || '',
-        contactPhone: this.newTenant.contactPhone || '',
-        buildingId: undefined
-      }
-    }).pipe(take(1)).subscribe({
-      next: (result: any) => {
-        this.isCreatingTenant = false;
-
-        if (result.errors?.length) {
-          this.error = `Error: ${result.errors[0].message}`;
-          return;
-        }
-
-        const newTenant = result.data?.createTenant;
-        if (newTenant) {
-          alert(`Tenant "${newTenant.name}" created successfully!`);
-          this.closeAddTenantModal();
-          this.refreshTenants(); // Reload the tenant list
-        }
-      },
-      error: (err: any) => {
-        this.isCreatingTenant = false;
-        this.error = `Failed to create tenant: ${err.message}`;
       }
     });
   }

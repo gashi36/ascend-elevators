@@ -5,11 +5,11 @@ import { BlogService } from '../blog.service';
 import { BlogPost } from '../blog-data';
 
 @Component({
-    selector: 'app-blog-list',
+  selector: 'app-blog-list',
   imports: [RouterModule],
-    standalone: true,
-    templateUrl: './blog-list.component.html',
-    styleUrls: ['./blog-list.component.scss']
+  standalone: true,
+  templateUrl: './blog-list.component.html',
+  styleUrls: ['./blog-list.component.scss']
 })
 export class BlogListComponent implements OnInit {
 

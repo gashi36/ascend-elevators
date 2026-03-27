@@ -1,4 +1,4 @@
-<div class="pt-[100px] pb-[80px] px-4 sm:px-8 lg:px-16 bg-gray-50 min-h-screen">
+<div class="mt-10 pb-[80px] px-4 sm:px-8 lg:px-16 bg-gray-50 min-h-screen">
 
   <div class="bg-[#132A3E] py-16 mb-12 rounded-b-xl">
     <div class="max-w-6xl mx-auto text-center">
@@ -15,23 +15,22 @@
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 blog-card-grid">
 
       @for (post of posts; track post) {
-        <div
-          class="bg-white shadow-md hover:shadow-lg transition duration-300 overflow-hidden sim-card-blog max-w-sm">
-          @if (post.image) {
-            <img [src]="post.image" alt="{{ post.title }}" class="w-full h-36 object-cover">
-          }
-          <div class="px-3 py-4">
-            <p class="text-[10px] text-gray-500 mb-2">
-              {{ post.date || 'DATË' }} | <span class="text-red-600 uppercase">{{ post.category || 'KATEGORIA' }}</span>
-            </p>
-            <h2 class="text-lg font-extrabold mb-2 text-gray-900 leading-tight">{{ post.title }}</h2>
-            <p class="text-gray-600 mb-4 text-xs line-clamp-3">{{ post.excerpt }}</p>
-            <a [routerLink]="['/blog', post.slug]"
-              class="text-red-600 font-semibold uppercase text-xs hover:text-red-700 transition">
-              Lexo më shumë &rarr;
-            </a>
-          </div>
+      <div class="bg-white shadow-md hover:shadow-lg transition duration-300 overflow-hidden sim-card-blog max-w-sm">
+        @if (post.image) {
+        <img [src]="post.image" alt="{{ post.title }}" class="w-full h-36 object-cover">
+        }
+        <div class="px-3 py-4">
+          <p class="text-[10px] text-gray-500 mb-2">
+            {{ post.date || 'DATË' }} | <span class="text-red-600 uppercase">{{ post.category || 'KATEGORIA' }}</span>
+          </p>
+          <h2 class="text-lg font-extrabold mb-2 text-gray-900 leading-tight">{{ post.title }}</h2>
+          <p class="text-gray-600 mb-4 text-xs line-clamp-3">{{ post.excerpt }}</p>
+          <a [routerLink]="['/blog', post.slug]"
+            class="text-red-600 font-semibold uppercase text-xs hover:text-red-700 transition">
+            Lexo më shumë &rarr;
+          </a>
         </div>
+      </div>
       }
     </div>
   </div>

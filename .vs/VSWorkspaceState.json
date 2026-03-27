@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\dashboard",
+    "\\src\\app\\dashboard\\admin-panel",
+    "\\src\\app\\dashboard\\admin-panel\\building-details",
+    "\\src\\app\\dashboard\\tenant-manager"
+  ],
+  "SelectedNode": "\\src\\app\\dashboard\\admin-panel\\building-details\\building-details.component.html",
+  "PreviewInSolutionExplorer": false
+}

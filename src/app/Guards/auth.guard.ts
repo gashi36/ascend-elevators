@@ -1,14 +1,15 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
-/**
- * Functional guard that protects routes, ensuring only authenticated users can access them.
- */
-export const AuthGuard: CanActivateFn = (route, state) => {
+export const AuthGuard: CanActivateFn = (_route, state) => {
   const authService = inject(AuthService);
+  const router = inject(Router);
 
-  // The service handles the complex logic of checking the token and returning
-  // either true (continue) or a UrlTree (redirect to login).
-  return authService.checkAuthAndRedirect();
+  if (authService.isAuthenticated()) return true;
+
+  // Preserve the attempted URL so we can redirect back after login
+  return router.createUrlTree(['/login'], {
+    queryParams: { returnUrl: state.url },
+  });
 };

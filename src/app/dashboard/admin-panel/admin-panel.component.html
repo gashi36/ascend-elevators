@@ -1,0 +1,109 @@
+<div class="min-h-screen bg-gray-50 pt-[84px]">
+
+  <!-- Floating Menu Button -->
+  <button (click)="toggleMenu()"
+    class="md:hidden fixed top-[90px] right-4 z-50 bg-white shadow-lg rounded-full p-3 border border-gray-200 hover:bg-gray-50">
+    <i class="fas fa-lg" [ngClass]="isMobileMenuOpen() ? 'fa-times text-red-600' : 'fa-bars text-gray-700'"></i>
+  </button>
+
+  <!-- LAYOUT: Sidebar + Main -->
+  <div class="flex">
+
+    <!-- Sidebar -->
+    <aside class="hidden md:flex flex-col w-20 bg-white border-r sticky top-[84px] h-[calc(100vh-84px)]">
+      <div class="p-4">
+        <div class="w-10 h-10 bg-red-600 rounded-lg mx-auto mb-6 flex items-center justify-center">
+          <i class="fas fa-home text-white text-lg"></i>
+        </div>
+      </div>
+
+      <nav class="flex-1 px-2 space-y-2">
+        <a routerLink="buildings" routerLinkActive="bg-red-50 text-red-600"
+          class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+          <i class="fas fa-city text-xl"></i>
+          <span class="text-xs font-medium">Ndërtesat</span>
+        </a>
+
+        <a routerLink="tenants" routerLinkActive="bg-red-50 text-red-600"
+          class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+          <i class="fas fa-users text-xl"></i>
+          <span class="text-xs font-medium">Banorët</span>
+        </a>
+
+        @if (authService.isSuperAdmin()) {
+        <a routerLink="users" routerLinkActive="bg-red-50 text-red-600"
+          class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+          <i class="fas fa-user-shield text-xl"></i>
+          <span class="text-xs font-medium">Adminët</span>
+        </a>
+        }
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-h-[calc(100vh-84px)] overflow-auto">
+      <!-- Narrower container for mobile, full width on desktop -->
+      <div class="w-full px-4 md:px-6 py-4">
+
+        <!-- Header -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
+              <p class="text-gray-600 mt-1">Menaxhoni ndërtesat dhe banorët</p>
+            </div>
+            <!-- Action buttons can go here -->
+          </div>
+        </div>
+
+        <!-- Router outlet with narrower width on mobile -->
+        <div class="w-full mx-auto">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Sidebar Overlay -->
+  @if (isMobileMenuOpen()) {
+  <div class="md:hidden fixed inset-0 z-40">
+    <div (click)="toggleMenu()" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+    <aside class="absolute top-20 left-0 w-64 h-full bg-white shadow-xl">
+      <div class="p-6 border-b bg-gradient-to-r from-red-50 to-white">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+            <i class="fas fa-home text-white text-xl"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-gray-900">Menaxhimi</h1>
+            <p class="text-sm text-gray-600">Admin Panel</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="px-4 py-6 space-y-1">
+        <a routerLink="buildings" routerLinkActive="bg-red-50 text-red-600 border-r-4 border-red-600"
+          (click)="closeMenu()" class="flex items-center gap-4 px-4 py-4 text-gray-700 hover:bg-gray-50 rounded-xl">
+          <i class="fas fa-city text-xl w-6 text-center"></i>
+          <span class="font-medium">Ndërtesat</span>
+        </a>
+
+        <a routerLink="tenants" routerLinkActive="bg-red-50 text-red-600 border-r-4 border-red-600"
+          (click)="closeMenu()" class="flex items-center gap-4 px-4 py-4 text-gray-700 hover:bg-gray-50 rounded-xl">
+          <i class="fas fa-users text-xl w-6 text-center"></i>
+          <span class="font-medium">Banorët</span>
+        </a>
+
+        @if (authService.isSuperAdmin()) {
+        <a routerLink="users" routerLinkActive="bg-red-50 text-red-600 border-r-4 border-red-600" (click)="closeMenu()"
+          class="flex items-center gap-4 px-4 py-4 text-gray-700 hover:bg-gray-50 rounded-xl">
+          <i class="fas fa-user-shield text-xl w-6 text-center"></i>
+          <span class="font-medium">Adminët</span>
+        </a>
+        }
+      </nav>
+    </aside>
+  </div>
+  }
+</div>

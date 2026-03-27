@@ -1,135 +1,356 @@
-mutation Login($input: LoginInput!) {
-  login(input: $input) {
+# ─── AUTH ─────────────────────────────────────────────────────────────────────
+
+mutation Login($username: String!, $password: String!) {
+  login(input: { username: $username, password: $password }) {
     token
-    success
-    message
+    isSuccess
     user {
       id
+      username
       email
       firstName
       lastName
       role
-    }
-  }
-}
-######################## SuperAdmin Mutations ########################
-mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    token
-    user {
-      id
-      email
-      role
-    }
-  }
-}
-# Update User
-mutation UpdateUser($input: UpdateUserInput!) {
-  updateUser(input: $input) {
-    token
-    user {
+      isBlocked
       createdAt
-      email
-      firstName
-      id
-      lastName
-      role
-      updatedAt
+      createdByAdminId
+    }
+    errors {
+      message
+      code
     }
   }
 }
 
-# Delete User
-mutation DeleteUser($id: UUID!) {
-  deleteUser(id: $id) {
-    message
-    success
-  }
-}
-# Change My Password
-mutation ChangeMyPassword($currentPassword: String!, $newPassword: String!) {
-  changeMyPassword(
-    currentPassword: $currentPassword
-    newPassword: $newPassword
+mutation SetupFirstSuperadmin(
+  $username: String!
+  $email: String!
+  $password: String!
+  $firstName: String!
+  $lastName: String!
+) {
+  setupFirstSuperadmin(
+    input: {
+      username: $username
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      role: ADMIN
+    }
   ) {
-    message
-    success
+    id
+    username
+    role
   }
 }
 
-mutation createOrUpdateMonthlyDecision($input: CreateMonthlyDecisionInput!) {
-  createOrUpdateMonthlyDecision(input: $input) {
-    message
-    decision {
+# ─── USERS ────────────────────────────────────────────────────────────────────
+
+mutation CreateUser(
+  $username: String!
+  $email: String!
+  $password: String!
+  $firstName: String!
+  $lastName: String!
+  $role: UserRole!
+) {
+  createUser(
+    input: {
+      username: $username
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      role: $role
+    }
+  ) {
+    id
+    username
+    email
+    firstName
+    lastName
+    role
+    createdAt
+    createdByAdminId
+  }
+}
+
+mutation UpdateUser(
+  $id: UUID!
+  $email: String
+  $firstName: String
+  $lastName: String
+  $role: UserRole
+) {
+  updateUser(
+    input: {
+      id: $id
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      role: $role
+    }
+  ) {
+    id
+    username
+    email
+    firstName
+    lastName
+    role
+    updatedAt
+  }
+}
+
+mutation DeleteUser($id: UUID!) {
+  deleteUser(id: $id)
+}
+
+mutation ChangePassword($currentPassword: String, $newPassword: String!) {
+  changePassword(
+    input: { currentPassword: $currentPassword, newPassword: $newPassword }
+  )
+}
+
+mutation AdminResetPassword($userId: UUID!, $newPassword: String!) {
+  adminResetPassword(input: { userId: $userId, newPassword: $newPassword }) {
+    id
+    username
+    updatedAt
+  }
+}
+
+mutation BlockClient($clientId: UUID!) {
+  blockClient(clientId: $clientId) {
+    id
+    username
+    isBlocked
+    updatedAt
+  }
+}
+
+mutation UnblockClient($clientId: UUID!) {
+  unblockClient(clientId: $clientId) {
+    id
+    username
+    isBlocked
+    updatedAt
+  }
+}
+
+# ─── BUILDINGS ────────────────────────────────────────────────────────────────
+
+mutation CreateBuilding(
+  $name: String!
+  $address: String!
+  $city: CityEnum!
+  $entryNames: [String!]!
+  $adminId: UUID
+) {
+  createBuilding(
+    input: {
+      name: $name
+      address: $address
+      city: $city
+      entryNames: $entryNames
+      adminId: $adminId
+    }
+  ) {
+    id
+    name
+    address
+    city
+    adminId
+    createdAt
+    admin {
       id
-      year
-      month
-      status
-      notes
-      decisionDate
-      tenantId
-      decidedByUserId
+      username
+      firstName
+      lastName
+    }
+    entries {
+      id
+      name
+      order
     }
   }
 }
+
+mutation UpdateBuilding(
+  $id: UUID!
+  $name: String
+  $address: String
+  $city: CityEnum
+) {
+  updateBuilding(
+    input: { id: $id, name: $name, address: $address, city: $city }
+  ) {
+    id
+    name
+    address
+    city
+    updatedAt
+  }
+}
+
+mutation DeleteBuilding($id: UUID!) {
+  deleteBuilding(id: $id)
+}
+
+mutation AssignBuildingAdmin($buildingId: UUID!, $userId: UUID!) {
+  assignBuildingAdmin(input: { buildingId: $buildingId, userId: $userId })
+}
+
+mutation RemoveBuildingAdmin($buildingId: UUID!, $userId: UUID!) {
+  removeBuildingAdmin(input: { buildingId: $buildingId, userId: $userId })
+}
+
+# ─── BUILDING ENTRIES ─────────────────────────────────────────────────────────
+
+mutation CreateBuildingEntry($name: String!, $buildingId: UUID!) {
+  createBuildingEntry(input: { name: $name, buildingId: $buildingId }) {
+    id
+    name
+    order
+    buildingId
+    adminId
+    createdAt
+  }
+}
+
+mutation UpdateBuildingEntry($id: UUID!, $name: String!) {
+  updateBuildingEntry(input: { id: $id, name: $name }) {
+    id
+    name
+    updatedAt: createdAt
+  }
+}
+
+mutation DeleteBuildingEntry($id: UUID!) {
+  deleteBuildingEntry(id: $id)
+}
+
+# ─── TENANTS ──────────────────────────────────────────────────────────────────
+
 mutation CreateTenant(
+  $name: String!
+  $contactPhone: String!
+  $unitNumber: String!
   $buildingEntryId: UUID!
   $buildingId: UUID!
-  $contactEmail: String!
-  $contactPhone: String!
-  $name: String!
-  $unitNumber: String!
+  $accessKeyNR: String!
+  $floor: String
+  $contactEmail: String
 ) {
   createTenant(
     input: {
+      name: $name
+      contactPhone: $contactPhone
+      unitNumber: $unitNumber
       buildingEntryId: $buildingEntryId
       buildingId: $buildingId
+      accessKeyNR: $accessKeyNR
+      floor: $floor
       contactEmail: $contactEmail
-      contactPhone: $contactPhone
-      name: $name
-      unitNumber: $unitNumber
     }
   ) {
-    buildingEntry {
-      buildingId
-      createdAt
+    id
+    name
+    unitNumber
+    floor
+    contactEmail
+    contactPhone
+    accessKeyNR
+    buildingId
+    buildingEntryId
+    adminId
+    createdAt
+    building {
       id
       name
     }
+    buildingEntry {
+      id
+      name
+    }
+  }
+}
+
+mutation UpdateTenant(
+  $id: UUID!
+  $name: String
+  $contactEmail: String
+  $contactPhone: String
+  $unitNumber: String
+  $buildingEntryId: UUID
+  $buildingId: UUID
+  $floor: String
+  $accessKeyNR: String
+) {
+  updateTenant(
+    input: {
+      id: $id
+      name: $name
+      contactEmail: $contactEmail
+      contactPhone: $contactPhone
+      unitNumber: $unitNumber
+      buildingEntryId: $buildingEntryId
+      buildingId: $buildingId
+      floor: $floor
+      accessKeyNR: $accessKeyNR
+    }
+  ) {
     id
     name
+    unitNumber
+    floor
     contactEmail
     contactPhone
-    unitNumber
+    accessKeyNR
+    updatedAt
   }
 }
 
-# Add to your mutations.graphql file
-mutation DownloadTenantExcelTemplate {
-  downloadTenantExcelTemplate {
-    contentType
-    fileContent
-    fileName
-    message
-    success
+mutation DeleteTenant($id: UUID!) {
+  deleteTenant(id: $id)
+}
+
+# ─── MONTHLY DECISIONS ────────────────────────────────────────────────────────
+
+mutation SetMonthlyStatus(
+  $tenantId: UUID!
+  $year: Int!
+  $month: Int!
+  $status: DecisionStatus!
+  $notes: String
+  $deviceId: String
+  $clientTimestamp: DateTime
+) {
+  setMonthlyStatus(
+    input: {
+      tenantId: $tenantId
+      year: $year
+      month: $month
+      status: $status
+      notes: $notes
+      deviceId: $deviceId
+      clientTimestamp: $clientTimestamp
+    }
+  ) {
+    id
+    tenantId
+    year
+    month
+    status
+    notes
+    decidedByUserId
+    decisionDate
+    updatedAt
   }
 }
 
-# 1. First define the input type
-input UploadFileInput {
-  fileContent: String!
-  fileName: String!
-}
+# ─── EXPORT ───────────────────────────────────────────────────────────────────
 
-# 2. Then use it in the mutation
-mutation UploadTenantsFromExcel($input: FileInput!) {
-  uploadTenantsFromExcel(input: $input) {
-    createdBuildings
-    createdEntries
-    createdTenants
-    errors
-    message
-    success
-    totalRecords
-  }
+mutation ExportTenantsToExcel($buildingId: UUID!, $year: Int!) {
+  exportTenantsToExcel(buildingId: $buildingId, year: $year)
 }

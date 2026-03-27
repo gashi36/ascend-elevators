@@ -1,237 +1,464 @@
-query GetAllUsers($first: Int = 20, $after: String, $firstName: String = "") {
-  users(
-    order: { createdAt: DESC }
-    where: { firstName: { startsWith: $firstName } }
-    first: $first
-    after: $after
-  ) {
-    nodes {
+# ─── HEALTH ───────────────────────────────────────────────────────────────────
+
+query Health {
+  health
+}
+
+# ─── AUTH / ME ────────────────────────────────────────────────────────────────
+
+query GetMe {
+  me {
+    id
+    username
+    email
+    firstName
+    lastName
+    role
+    isBlocked
+    createdAt
+    createdByAdminId
+    createdManagers {
       id
-      email
+      username
       firstName
       lastName
       role
-      createdAt
-      updatedAt
+      isBlocked
+    }
+    managedBuildings {
+      id
+      name
+      city
+    }
+  }
+}
+
+# ─── USERS ────────────────────────────────────────────────────────────────────
+
+query GetUsers(
+  $first: Int
+  $after: String
+  $where: UserFilterInput
+  $order: [UserSortInput!]
+) {
+  users(first: $first, after: $after, where: $where, order: $order) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
     edges {
       cursor
+      node {
+        id
+        username
+        email
+        firstName
+        lastName
+        role
+        isBlocked
+        createdAt
+        updatedAt
+        createdByAdminId
+        createdManagers {
+          id
+          username
+          firstName
+          lastName
+          role
+          isBlocked
+        }
+      }
     }
+  }
+}
+
+# ─── BUILDINGS ────────────────────────────────────────────────────────────────
+
+query GetBuildings(
+  $first: Int
+  $after: String
+  $where: BuildingFilterInput
+  $order: [BuildingSortInput!]
+) {
+  buildings(first: $first, after: $after, where: $where, order: $order) {
+    totalCount
     pageInfo {
-      startCursor
-      endCursor
       hasNextPage
       hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        address
+        city
+        adminId
+        createdAt
+        updatedAt
+        admin {
+          id
+          username
+          firstName
+          lastName
+        }
+        entries {
+          id
+          name
+          order
+          adminId
+        }
+        administrators {
+          id
+          username
+          firstName
+          lastName
+        }
+      }
     }
   }
 }
-query GetUserById($id: UUID!) {
-  userById(id: $id) {
-    createdAt
-    email
-    firstName
-    id
-    role
-    updatedAt
-    managedBuildings {
-      address
-      cityId
-      createdAt
-      id
-      name
-      city {
-        code
-        createdAt
-        id
-        name
-      }
-      entries {
-        buildingId
-        createdAt
-        id
-        name
-      }
-    }
-  }
-}
+
 query GetBuildingById($id: UUID!) {
   buildingById(id: $id) {
-    address
-    createdAt
     id
     name
-    city {
-      code
-      createdAt
+    address
+    city
+    adminId
+    createdAt
+    updatedAt
+    admin {
       id
-      name
-    }
-    administrators {
-      createdAt
-      email
+      username
       firstName
-      id
       lastName
-      role
-      updatedAt
+      email
     }
     entries {
-      buildingId
-      createdAt
       id
       name
+      order
+      adminId
+      createdAt
       tenants {
-        buildingEntryId
-        contactEmail
-        contactPhone
-        createdAt
         id
         name
         unitNumber
-        monthlyDecisions {
-          decidedByUserId
-          decisionDate
-          id
-          month
-          status
-          tenantId
-          year
-          decidedByUser {
-            firstName
-            id
-            lastName
-            role
-          }
-        }
+        floor
+        contactEmail
+        contactPhone
+        accessKeyNR
       }
     }
-  }
-}
-# In your GraphQL query file
-query TenantsByBuildingEntry(
-  $buildingEntryId: UUID!
-  $search: String
-  $first: Int
-  $order: [TenantSortInput!]
-  $after: String
-) {
-  tenantsByBuildingEntry(
-    buildingEntryId: $buildingEntryId
-    where: { name: { startsWith: $search } }
-    first: $first
-    order: $order
-    after: $after
-  ) {
-    totalCount
-    nodes {
-      buildingEntryId
-      contactEmail
-      contactPhone
-      createdAt
+    administrators {
+      id
+      username
+      firstName
+      lastName
+    }
+    tenants {
       id
       name
       unitNumber
-      monthlyDecisions {
-        decidedByUserId
-        decisionDate
-        id
-        month
-        status
-        tenantId
-        year
-      }
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
+      floor
+      accessKeyNR
     }
   }
 }
-# tenants.query.graphql - UPDATED
-query GetAllTenants(
-  $first: Int
-  $after: String
-  $search: String
-  $order: [TenantSortInput!]
-) {
-  tenants(
-    first: $first
-    after: $after
-    where: { name: { startsWith: $search } }
-    order: $order
-  ) {
-    totalCount
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    nodes {
-      buildingEntryId
-      contactEmail
-      contactPhone
-      createdAt
-      id
-      name
-      unitNumber
 
-      buildingEntry {
+query GetAvailableYearsForBuilding($buildingId: UUID!) {
+  availableYearsForBuilding(buildingId: $buildingId)
+}
+
+# ─── BUILDING ENTRIES ─────────────────────────────────────────────────────────
+
+query GetBuildingEntries(
+  $first: Int
+  $after: String
+  $where: BuildingEntryFilterInput
+  $order: [BuildingEntrySortInput!]
+) {
+  buildingEntries(first: $first, after: $after, where: $where, order: $order) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
         id
         name
+        order
+        buildingId
+        adminId
         createdAt
         building {
-          address
-          cityId
-          createdAt
           id
           name
-          administrators {
-            createdAt
-            email
-            firstName
-            id
-            lastName
-            role
-            updatedAt
-          }
-          city {
-            id
-            name
-            code
-          }
+          city
         }
-      }
-
-      monthlyDecisions {
-        decidedByUserId
-        decisionDate
-        id
-        month
-        notes
-        status
-        tenantId
-        year
       }
     }
   }
 }
 
-query GetBuildingsWithEntries {
-  buildings {
+query GetBuildingEntriesByBuilding(
+  $buildingId: UUID!
+  $first: Int
+  $after: String
+) {
+  buildingEntriesByBuilding(
+    buildingId: $buildingId
+    first: $first
+    after: $after
+  ) {
+    totalCount
+    edges {
+      node {
+        id
+        name
+        order
+        buildingId
+        adminId
+        createdAt
+        tenants {
+          id
+          name
+          unitNumber
+          floor
+          contactPhone
+          accessKeyNR
+        }
+      }
+    }
+  }
+}
+
+query GetBuildingEntryById($id: UUID!) {
+  buildingEntryById(id: $id) {
     id
     name
-    address
-    city {
-      name
-      code
-    }
-    entries {
+    order
+    buildingId
+    adminId
+    createdAt
+    building {
       id
       name
-      buildingId
+      city
+      admin {
+        id
+        firstName
+        lastName
+      }
     }
+    tenants {
+      id
+      name
+      unitNumber
+      floor
+      contactEmail
+      contactPhone
+      accessKeyNR
+      monthlyDecisions {
+        id
+        year
+        month
+        status
+        notes
+        updatedAt
+      }
+    }
+  }
+}
+
+# ─── TENANTS ──────────────────────────────────────────────────────────────────
+
+query GetTenants(
+  $first: Int
+  $after: String
+  $where: TenantFilterInput
+  $order: [TenantSortInput!]
+) {
+  tenants(first: $first, after: $after, where: $where, order: $order) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        unitNumber
+        floor
+        contactEmail
+        contactPhone
+        accessKeyNR
+        buildingId
+        buildingEntryId
+        adminId
+        createdAt
+        updatedAt
+        building {
+          id
+          name
+          city
+        }
+        buildingEntry {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+query GetTenantById($id: UUID!) {
+  tenantById(id: $id) {
+    id
+    name
+    unitNumber
+    floor
+    contactEmail
+    contactPhone
+    accessKeyNR
+    buildingId
+    buildingEntryId
+    adminId
+    createdAt
+    updatedAt
+    building {
+      id
+      name
+      city
+      address
+    }
+    buildingEntry {
+      id
+      name
+      order
+    }
+    monthlyDecisions {
+      id
+      year
+      month
+      status
+      notes
+      decisionDate
+      updatedAt
+      decidedByUserId
+    }
+  }
+}
+
+query GetTenantHistory(
+  $tenantId: UUID!
+  $where: MonthlyDecisionFilterInput
+  $order: [MonthlyDecisionSortInput!]
+) {
+  tenantHistory(tenantId: $tenantId, where: $where, order: $order) {
+    id
+    year
+    month
+    status
+    notes
+    decisionDate
+    decidedByUserId
+    updatedAt
+  }
+}
+
+# ─── MONTHLY DECISIONS ────────────────────────────────────────────────────────
+
+# Full tenant list with their decisions — used for the main dashboard grid
+query GetTenantsWithDecisions(
+  $first: Int
+  $after: String
+  $where: TenantFilterInput
+  $order: [TenantSortInput!]
+) {
+  tenantsWithDecisions(
+    first: $first
+    after: $after
+    where: $where
+    order: $order
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        unitNumber
+        floor
+        accessKeyNR
+        contactPhone
+        buildingId
+        buildingEntryId
+        building {
+          id
+          name
+          city
+        }
+        buildingEntry {
+          id
+          name
+        }
+        monthlyDecisions {
+          id
+          year
+          month
+          status
+          notes
+          updatedAt
+        }
+      }
+    }
+  }
+}
+
+# Decisions for one tenant for a specific year — used in tenant detail view
+query GetTenantDecisions($tenantId: UUID!, $year: Int) {
+  tenantDecisions(tenantId: $tenantId, year: $year) {
+    id
+    tenantId
+    year
+    month
+    status
+    notes
+    decisionDate
+    decidedByUserId
+    updatedAt
+  }
+}
+
+# Dashboard summary numbers
+query GetDecisionStats {
+  decisionStats {
+    totalTenants
+    currentMonth
+    currentYear
+    pendingCount
+    allowedCount
+    deniedCount
   }
 }

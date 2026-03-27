@@ -1,89 +1,103 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule, NgClass } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { LoginGQL, LoginInput } from '../../../graphql/generated/graphql';
-import { Router } from '@angular/router';
-import { UserRole } from '../../../graphql/generated/graphql';
+import { LoginGQL } from '../../../graphql/generated/graphql';
+import { AuthService } from '../../Guards/auth.service';
+
+type MessageType = 'error' | 'success' | null;
+
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, NgClass, ReactiveFormsModule],
   standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  readonly loginForm: FormGroup;
+
   isLoading = false;
-  statusMessage: string | null = null;
-  statusClass: string = '';
+  showPassword = false;
+  errorMessage: string | null = null;
+  messageType: MessageType = null;
 
-  private router = inject(Router);
+  private returnUrl = '/admin-panel';
 
-  constructor(private loginGQL: LoginGQL, private fb: FormBuilder) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly loginGQL: LoginGQL,
+    private readonly authService: AuthService,
+  ) {
     this.loginForm = this.fb.group({
-      email: ['ascend.rks@gmail.com', [Validators.required, Validators.email]],
-      password: ['ilirsllamniku', [Validators.required, Validators.minLength(8)]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('jwt_token')) {
-      this.statusMessage = 'A token already exists in localStorage.';
-      this.statusClass = 'p-3 bg-yellow-100 text-yellow-800 rounded-lg text-sm';
-    }
-  }
-
-  handleLogin(): void {
-    if (this.loginForm.invalid) {
-      this.statusMessage = 'Validation failed: Please enter a valid email and a password of at least 8 characters.';
-      this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm';
+    // Redirect away if already authenticated
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/admin-panel']);
       return;
     }
 
+    // Pick up returnUrl from guard redirect (e.g. ?returnUrl=/admin-panel/buildings)
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] ?? '/admin-panel';
+  }
+
+  // ─── Getters for template convenience ────────────────────────────────────
+
+  get usernameControl() { return this.loginForm.get('username')!; }
+  get passwordControl() { return this.loginForm.get('password')!; }
+
+  // ─── Actions ─────────────────────────────────────────────────────────────
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  handleLogin(): void {
+    this.loginForm.markAllAsTouched();
+
+    if (this.loginForm.invalid || this.isLoading) return;
+
     this.isLoading = true;
-    this.statusMessage = 'Attempting login...';
-    this.statusClass = 'p-3 bg-blue-100 text-blue-800 rounded-lg text-sm';
+    this.errorMessage = null;
+    this.messageType = null;
 
-    const credentials: LoginInput = this.loginForm.value;
+    const { username, password } = this.loginForm.value as { username: string; password: string };
 
-    this.loginGQL.mutate({ variables: { input: credentials } })
+    this.loginGQL
+      .mutate({ variables: { username, password } })
       .pipe(take(1))
       .subscribe({
         next: (result) => {
           this.isLoading = false;
-          const payload = result.data?.login;
+          const token = result.data?.login?.token;
 
-          if (payload?.token && payload.success) {
-            localStorage.setItem('jwt_token', payload.token);
-
-            this.statusMessage = `SUCCESS! Logged in as ${payload.user?.email} (${payload.user?.role}).`;
-            this.statusClass = 'p-3 bg-green-100 text-green-800 rounded-lg text-sm font-semibold';
-            const role = payload.user?.role;
-            // Redirect based on role
-            if (role === UserRole.SuperAdmin) {
-              this.router.navigate(['/superadmin-panel']);
-            } else if (role === UserRole.Admin) {
-              this.router.navigate(['/admin-panel']);
-            } else {
-              this.router.navigate(['/']); // fallback
-            }
-
-          } else if (payload?.message) {
-            this.statusMessage = `Login Failed: ${payload.message}`;
-            this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm';
+          if (token) {
+            this.authService.setToken(token);
+            this.router.navigateByUrl(this.returnUrl);
           } else {
-            this.statusMessage = 'Login Failed: Unexpected response or network error.';
-            this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm';
+            this.setError('Emri i përdoruesit ose fjalëkalimi është i gabuar.');
           }
         },
-        error: (e) => {
+        error: () => {
           this.isLoading = false;
-          this.statusMessage = 'Authentication Error: Network problem or server connection failed.';
-          this.statusClass = 'p-3 bg-red-100 text-red-800 rounded-lg text-sm font-semibold';
-          console.error('GraphQL Mutation Error:', e);
-        }
+          this.setError('Ndodhi një gabim. Provoni sërish.');
+        },
       });
+  }
+
+  // ─── Private ─────────────────────────────────────────────────────────────
+
+  private setError(message: string): void {
+    this.errorMessage = message;
+    this.messageType = 'error';
   }
 }

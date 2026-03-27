@@ -7,11 +7,11 @@ import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs'; // Needed for switchMap fallback
 
 @Component({
-    selector: 'app-blog-detail',
-    templateUrl: './blog-detail.component.html',
-    standalone: true,
+  selector: 'app-blog-detail',
+  templateUrl: './blog-detail.component.html',
+  standalone: true,
   imports: [RouterModule, CommonModule],
-    styleUrls: ['./blog-detail.component.scss']
+  styleUrls: ['./blog-detail.component.scss']
 })
 export class BlogDetailComponent implements OnInit {
 

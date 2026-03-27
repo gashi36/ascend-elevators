@@ -1,25 +1,19 @@
-// src/app/Guards/superadmin.guard.ts
 import { inject } from '@angular/core';
-import { CanActivateFn, UrlTree, Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
-/**
- * Functional guard that allows only SuperAdmins to access certain routes.
- */
-export const SuperadminGuard: CanActivateFn = (route, state) => {
+export const SuperadminGuard: CanActivateFn = (_route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   if (!authService.isAuthenticated()) {
-    // Not logged in → redirect to login
-    return router.createUrlTree(['/login']);
+    return router.createUrlTree(['/login'], {
+      queryParams: { returnUrl: state.url },
+    });
   }
 
-  if (!authService.isSuperAdmin()) {
-    // Logged in but not SuperAdmin → redirect to home or 403 page
-    return router.createUrlTree(['/']);
-  }
+  if (authService.isSuperAdmin()) return true;
 
-  // Logged in and SuperAdmin → allow access
-  return true;
+  // Authenticated but not a superadmin — send to dashboard
+  return router.createUrlTree(['/admin-panel']);
 };

@@ -1,234 +1,195 @@
-// header.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { take } from 'rxjs/operators';
-import { ChangeMyPasswordGQL } from '../../../graphql/generated/graphql';
-import { AuthService } from '../../Guards/auth.service';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { AuthService, AuthUser } from '../../Guards/auth.service';
+import { ChangePasswordGQL } from '../../../graphql/generated/graphql';
+
+// ─── Pure validator ───────────────────────────────────────────────────────────
+
+function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+  const group = control as FormGroup;
+  const newPass = group.get('newPassword')?.value;
+  const confirm = group.get('confirmPassword')?.value;
+  if (!newPass || !confirm) return null;
+  return newPass === confirm ? null : { mismatch: true };
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  isOpen = false;
+export class HeaderComponent implements OnInit, OnDestroy {
+
+  // Drawer
+  drawerOpen = false;
   mobileServicesOpen = false;
+
+  // Modals
   showProfileModal = false;
   showPasswordModal = false;
 
-  // User info
-  currentUser: any = null;
+  // Password visibility toggles
+  showCurrent = false;
+  showNew = false;
+  showConfirm = false;
 
-  // Password change form
-  passwordForm: FormGroup;
+  // Auth state
+  currentUser: AuthUser | null = null;
 
-  // Loading states
+  // Change-password form
+  readonly passwordForm: FormGroup;
   isLoading = false;
-
-  // Messages
   profileMessage: string | null = null;
   messageType: 'success' | 'error' = 'success';
 
+  // Cleanup
+  private readonly destroy$ = new Subject<void>();
+  private messageTimer: ReturnType<typeof setTimeout> | null = null;
+
   constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private changeMyPasswordGQL: ChangeMyPasswordGQL,
-    private authService: AuthService
+    private readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly changeMyPasswordGQL: ChangePasswordGQL,
+    public readonly authService: AuthService,
   ) {
-    this.passwordForm = this.fb.group({
-      currentPassword: ['', [Validators.required, Validators.minLength(8)]],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validator: this.passwordMatchValidator });
-
-    // Listen for login/logout events
-    this.setupAuthListeners();
+    this.passwordForm = this.fb.group(
+      {
+        currentPassword: ['', [Validators.required, Validators.minLength(8)]],
+        newPassword: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validators: passwordMatchValidator },
+    );
   }
 
-  ngOnInit() {
-    this.loadUserFromToken();
+  // ─── Lifecycle ────────────────────────────────────────────────────────────
+
+  ngOnInit(): void {
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => (this.currentUser = user));
   }
 
-  toggle() {
-    this.isOpen = !this.isOpen;
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.clearMessageTimer();
   }
 
-  toggleMobileServices() {
+  // ─── Drawer ───────────────────────────────────────────────────────────────
+
+  toggleDrawer(): void {
+    this.drawerOpen = !this.drawerOpen;
+    if (!this.drawerOpen) this.mobileServicesOpen = false;
+  }
+
+  closeDrawer(): void {
+    this.drawerOpen = false;
+    this.mobileServicesOpen = false;
+  }
+
+  toggleMobileServices(): void {
     this.mobileServicesOpen = !this.mobileServicesOpen;
   }
 
-  // Listen for auth state changes
-  setupAuthListeners() {
-    // Listen for route changes to update user info
-    this.router.events.subscribe(() => {
-      if (this.authService.isAuthenticated() && !this.currentUser) {
-        this.loadUserFromToken();
-      }
-    });
-  }
+  // ─── Profile modal ────────────────────────────────────────────────────────
 
-  // Load user info from JWT token - IMPROVED VERSION
-  loadUserFromToken() {
-    const token = localStorage.getItem('jwt_token');
-
-    if (token && this.authService.isAuthenticated()) {
-      try {
-        // Decode the token to get user info
-        const payload = this.decodeToken(token);
-
-        if (payload) {
-          this.currentUser = {
-            id: payload.sub || payload.userId || payload.id,
-            email: payload.email,
-            firstName: payload.firstName || payload.given_name,
-            lastName: payload.lastName || payload.family_name,
-            role: payload.role || payload.Role || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
-            username: payload.username || payload.preferred_username || payload.email?.split('@')[0]
-          };
-          console.log('User loaded from token:', this.currentUser);
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        this.currentUser = null;
-      }
-    } else {
-      this.currentUser = null;
-    }
-  }
-
-  // Copy decodeToken method from AuthService
-  private decodeToken(token: string): any {
-    try {
-      const payload = token.split('.')[1];
-      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    } catch (e) {
-      console.error('Error decoding JWT token:', e);
-      return null;
-    }
-  }
-
-  // Password match validator
-  passwordMatchValidator(form: FormGroup) {
-    const newPassword = form.get('newPassword')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
-
-    if (newPassword !== confirmPassword) {
-      form.get('confirmPassword')?.setErrors({ mismatch: true });
-      return { mismatch: true };
-    }
-    return null;
-  }
-
-  // Show profile info in modal
-  openProfileModal() {
+  openProfileModal(): void {
+    this.closeDrawer();
     this.showProfileModal = true;
-    this.profileMessage = null;
-    this.isOpen = false; // Close mobile menu if open
   }
 
-  closeProfileModal() {
+  closeProfileModal(): void {
     this.showProfileModal = false;
     this.showPasswordModal = false;
+    this.profileMessage = null;
+    this.isLoading = false;
+    this.showCurrent = false;
+    this.showNew = false;
+    this.showConfirm = false;
     this.passwordForm.reset();
+    this.clearMessageTimer();
   }
 
-  // Open password change modal
-  openPasswordModal() {
-    this.showProfileModal = true;
-    this.showPasswordModal = true;
+  openPasswordModal(): void {
     this.passwordForm.reset();
     this.profileMessage = null;
+    this.showPasswordModal = true;
+    this.closeDrawer();
   }
 
-  // Change password
-  changePassword() {
-    if (this.passwordForm.invalid) {
-      this.profileMessage = 'Please fill all fields correctly.';
-      this.messageType = 'error';
-      return;
-    }
+  // ─── Auth actions ─────────────────────────────────────────────────────────
+
+  logout(): void {
+    this.closeDrawer();
+    this.showProfileModal = false;
+    this.showPasswordModal = false;
+    this.clearMessageTimer();
+    this.authService.logout();
+  }
+
+  changePassword(): void {
+    if (this.passwordForm.invalid || this.isLoading) return;
 
     this.isLoading = true;
+    this.profileMessage = null;
 
-    this.changeMyPasswordGQL.mutate({
-      variables: {
-        currentPassword: this.passwordForm.value.currentPassword,
-        newPassword: this.passwordForm.value.newPassword
-      }
-    })
+    this.changeMyPasswordGQL
+      .mutate({
+        variables: {
+          currentPassword: this.passwordForm.value.currentPassword as string,
+          newPassword: this.passwordForm.value.newPassword as string,
+        },
+      })
       .pipe(take(1))
       .subscribe({
-        next: (result: any) => {
+        next: () => {
           this.isLoading = false;
-          const response = result.data?.changeMyPassword;
-
-          if (response?.success) {
-            this.profileMessage = response.message || 'Password changed successfully!';
-            this.messageType = 'success';
-            this.passwordForm.reset();
-
-            // Auto-close after success
-            setTimeout(() => {
-              this.closeProfileModal();
-            }, 2000);
-          } else {
-            this.profileMessage = response?.message || 'Failed to change password.';
-            this.messageType = 'error';
-          }
+          this.messageType = 'success';
+          this.profileMessage = 'Fjalëkalimi u ndryshua me sukses!';
+          this.passwordForm.reset();
+          this.messageTimer = setTimeout(() => this.closeProfileModal(), 2000);
         },
-        error: (error: any) => {
+        error: (err: Error) => {
           this.isLoading = false;
-          this.profileMessage = 'An error occurred. Please try again.';
           this.messageType = 'error';
-          console.error('Error changing password:', error);
-        }
+          this.profileMessage = err.message ?? 'Ndodhi një gabim. Provoni sërish.';
+        },
       });
   }
 
-  // Navigate to admin panel based on user role
-  navigateToAdminPanel() {
-    if (this.authService.isSuperAdmin()) {
-      this.router.navigate(['/superadmin-panel']);
-    } else if (this.authService.isNormalAdmin()) {
-      this.router.navigate(['/admin-panel']);
-    }
-    this.isOpen = false; // Close mobile menu if open
+  // ─── Navigation ───────────────────────────────────────────────────────────
+
+  navigateToAdminPanel(): void {
+    this.closeDrawer();
+    this.router.navigate(['/admin-panel']);
   }
 
-  // Logout function - using auth service
-  logout() {
-    this.authService.logout();
-    this.currentUser = null;
-    this.isOpen = false;
-    this.closeProfileModal();
-  }
+  // ─── Helpers ──────────────────────────────────────────────────────────────
 
-  // Helper to get user role
-  getUserRole(): string {
-    return this.authService.getUserRole() || '';
-  }
-
-  // Check if user is admin
-  isAdmin(): boolean {
-    return this.authService.isNormalAdmin();
-  }
-
-  // Check if user is superadmin
-  isSuperAdmin(): boolean {
-    return this.authService.isSuperAdmin();
-  }
-
-  // Check if user has any admin role
   hasAdminAccess(): boolean {
-    return this.authService.isAuthenticated() &&
-      (this.authService.isNormalAdmin() || this.authService.isSuperAdmin());
+    return this.authService.hasAdminAccess();
+  }
+
+  private clearMessageTimer(): void {
+    if (this.messageTimer !== null) {
+      clearTimeout(this.messageTimer);
+      this.messageTimer = null;
+    }
   }
 }

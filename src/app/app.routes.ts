@@ -1,5 +1,7 @@
 // src/app/app.routes.ts
+
 import { Routes } from '@angular/router';
+
 import { HeroComponent } from './features/hero/hero.component';
 import { ServicesComponent } from './features/services/services.component';
 import { TestimonialsComponent } from './features/testimonials/testimonials.component';
@@ -11,18 +13,22 @@ import { ModernizationComponent } from './features/modernization/modernization.c
 import { MaintenanceComponent } from './features/maintenance/maintenance.component';
 import { RepairComponent } from './features/repair/repair.component';
 import { LoginComponent } from './core/login/login.component';
-// import { SuperadminPanelComponent } from './dashboard/superadmin-panel/superadmin-panel.component';
+
 import { AuthGuard } from './Guards/auth.guard';
+
 import { AdminPanelComponent } from './dashboard/admin-panel/admin-panel.component';
-import { SuperadminGuard } from './Guards/superadmin.guard';
-import { UsersSuperadminComponent } from './dashboard/superadmin-panel/users-superadmin/users-superadmin.component';
-import { UsersDetailsSuperadminComponent } from './dashboard/superadmin-panel/users-details-superadmin/users-details-superadmin.component';
-import { BuildingsDetailsSuperadminComponent } from './dashboard/superadmin-panel/buildings-details-superadmin/buildings-details-superadmin.component';
-import { TenantsEntrySuperadminComponent } from './dashboard/superadmin-panel/tenants-entry-superadmin/tenants-entry-superadmin.component';
-import { TenantsComponent } from './dashboard/superadmin-panel/tenants/tenants.component';
+import { UsersComponent } from './dashboard/admin-panel/users/users.component';
+import { BuildingsAdminComponent } from './dashboard/admin-panel/buildings-admin/buildings-admin.component';
+import { BuildingDetailsComponent } from './dashboard/admin-panel/building-details/building-details.component';
+// import { BuildingsAdminComponent } from './dashboard/admin-panel/buildings-admin/buildings-admin.component';
+// import { UsersComponent } from './dashboard/admin-panel/users/users.component';
+// import { BuildingDetailsComponent } from './dashboard/admin-panel/building-details/building-details.component';
+// import { TenantManagerComponent } from './dashboard/admin-panel/tenant-manager/tenant-manager.component';
+// import { EntryDetailsComponent } from './dashboard/admin-panel/entry-details/entry-details.component';
 
 export const routes: Routes = [
-  // Public routes
+
+  // Public Routes
   { path: '', component: HeroComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'testimonials', component: TestimonialsComponent },
@@ -35,47 +41,25 @@ export const routes: Routes = [
   { path: 'blog', component: BlogListComponent },
   { path: 'blog/:slug', component: BlogDetailComponent },
 
-  // Admin Panel (Auth Required)
+  // Admin Routes
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
-    canActivate: [AuthGuard]
-  },
-
-  // SuperAdmin Panel (Auth + SuperAdmin Role Required)
-  {
-    path: 'superadmin-panel',
-    // component: SuperadminPanelComponent,
-    canActivate: [AuthGuard, SuperadminGuard],
+    canActivate: [AuthGuard],
     children: [
-      {
-        path: 'users',
-        component: UsersSuperadminComponent
-      },
-      {
-        path: 'users/:id',
-        component: UsersDetailsSuperadminComponent
-      },
-      {
-        path: 'buildings/:id',
-        component: BuildingsDetailsSuperadminComponent
-      },
-      {
-        path: '',
-        redirectTo: 'users',
-        pathMatch: 'full'
-      },
-      {
-        path: 'tenants-entry',
-        component: TenantsEntrySuperadminComponent
-      },
-      {
-        path: 'tenants',
-        component: TenantsComponent
-      }
+      { path: '', redirectTo: 'buildings', pathMatch: 'full' },
+
+      { path: 'buildings', component: BuildingsAdminComponent },
+      { path: 'buildings/:id', component: BuildingDetailsComponent },
+
+      // { path: 'entry-details/:id', component: EntryDetailsComponent },
+
+      // { path: 'tenants', component: TenantManagerComponent },
+      { path: 'users', component: UsersComponent }
     ]
   },
 
-  // Wildcard route - MUST BE LAST
+  // Wildcard
   { path: '**', redirectTo: '' }
+
 ];

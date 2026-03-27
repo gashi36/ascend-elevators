@@ -1,0 +1,758 @@
+<!-- ════════════════════════════════════════════════════════════════════════════
+     SUPERADMIN VIEW — full admin list
+     ════════════════════════════════════════════════════════════════════════ -->
+
+@if (authService.isSuperAdmin()) {
+<div class="space-y-6">
+
+  <!-- Header + inline search -->
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <h1 class="text-xl font-bold text-gray-900">Adminët</h1>
+      <p class="text-xs text-gray-400 mt-0.5">{{ adminTotal }} gjithsej</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z" />
+          </svg>
+        </span>
+        <input type="text" placeholder="Kërko..." [value]="adminSearch"
+          (input)="onAdminSearch($any($event.target).value)"
+          class="w-36 sm:w-56 pl-9 pr-3 py-2 text-sm bg-gray-100 border border-transparent rounded-xl outline-none focus:bg-white focus:border-gray-200 transition placeholder:text-gray-400" />
+      </div>
+      <button (click)="openCreateAdmin()"
+        class="inline-flex items-center gap-2 px-3 py-2 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 transition-colors shrink-0">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        <span class="hidden sm:inline">Shto Admin</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Skeleton -->
+  @if (isLoading) {
+  <div class="space-y-3">
+    @for (i of [1,2,3,4,5]; track i) {
+    <div class="h-[72px] bg-gray-100 rounded-2xl animate-pulse"></div>
+    }
+  </div>
+  }
+
+  <!-- Empty -->
+  @if (!isLoading && admins.length === 0) {
+  <div class="flex flex-col items-center justify-center py-20 text-center">
+    <div class="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+      <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+      </svg>
+    </div>
+    <p class="text-sm font-medium text-gray-900">Nuk u gjet asnjë admin</p>
+    <p class="text-xs text-gray-400 mt-1">Provoni të ndryshoni kërkimin.</p>
+  </div>
+  }
+
+  <!-- Desktop table -->
+  @if (!isLoading && admins.length > 0) {
+  <div class="hidden md:block overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50 border-b border-gray-100">
+        <tr>
+          <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Admini</th>
+          <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
+          <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Krijuar</th>
+          <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Statusi</th>
+          <th class="px-5 py-3.5 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Veprimet</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-50">
+        @for (user of admins; track user.id) {
+        <tr class="hover:bg-gray-50/60 transition-colors group" [class.opacity-60]="user.isBlocked">
+          <td class="px-5 py-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0">
+                {{ initials(user) }}
+              </div>
+              <div class="min-w-0">
+                <p class="font-semibold text-gray-900 truncate">{{ fullName(user) }}</p>
+                <p class="text-xs text-gray-400 truncate">{{ user.username }}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-5 py-4 text-gray-500 text-xs">{{ user.email }}</td>
+          <td class="px-5 py-4">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-xs text-gray-500 flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                {{ formatDate(user.createdAt) }}
+              </span>
+              @if (user.updatedAt !== user.createdAt) {
+              <span class="text-xs text-gray-400 flex items-center gap-1.5">
+                <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                </svg>
+                {{ formatDate(user.updatedAt) }}
+              </span>
+              }
+            </div>
+          </td>
+          <td class="px-5 py-4">
+            @if (user.isBlocked) {
+            <span
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-red-50 text-red-600 ring-1 ring-inset ring-red-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Bllokuar
+            </span>
+            } @else {
+            <span
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-green-50 text-green-700 ring-1 ring-inset ring-green-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Aktiv
+            </span>
+            }
+          </td>
+          <td class="px-5 py-4">
+            <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="openEdit(user, 'admin')" title="Ndrysho"
+                class="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                </svg>
+              </button>
+              <button (click)="openResetPassword(user, 'admin')" title="Reseto Fjalëkalimin"
+                class="p-2 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 0 1 21.75 8.25Z" />
+                </svg>
+              </button>
+              <button (click)="toggleBlock(user)" [title]="user.isBlocked ? 'Zhblloko' : 'Blloko'"
+                class="p-2 rounded-lg transition-colors"
+                [class]="user.isBlocked ? 'text-green-500 hover:text-green-700 hover:bg-green-50' : 'text-gray-400 hover:text-orange-500 hover:bg-orange-50'">
+                @if (user.isBlocked) {
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+                } @else {
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+                }
+              </button>
+              @if (user.id !== currentUser?.id) {
+              <button (click)="openDelete(user, 'admin')" title="Fshi"
+                class="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                </svg>
+              </button>
+              }
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <!-- Pagination -->
+    <div class="px-5 py-3.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+      <p class="text-xs text-gray-500">Faqja {{ adminPage }} &bull; {{ adminTotal }} gjithsej</p>
+      <div class="flex gap-2">
+        <button (click)="adminPrevPage()" [disabled]="adminPage <= 1"
+          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+          [class]="adminPage <= 1 ? 'text-gray-300 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-gray-100'">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          Prapa
+        </button>
+        <button (click)="adminNextPage()" [disabled]="!adminPageInfo?.hasNextPage"
+          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+          [class]="!adminPageInfo?.hasNextPage ? 'text-gray-300 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-gray-100'">
+          Para
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile cards -->
+  <div class="md:hidden space-y-3">
+    @for (user of admins; track user.id) {
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4" [class.opacity-60]="user.isBlocked">
+      <div class="flex items-center justify-between gap-3 mb-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div
+            class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold shrink-0">
+            {{ initials(user) }}</div>
+          <div class="min-w-0">
+            <p class="font-semibold text-gray-900 truncate">{{ fullName(user) }}</p>
+            <p class="text-xs text-gray-400 truncate">{{ user.email }}</p>
+          </div>
+        </div>
+        @if (user.isBlocked) {
+        <span
+          class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-lg bg-red-50 text-red-600 ring-1 ring-inset ring-red-200">Bllokuar</span>
+        } @else {
+        <span
+          class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-lg bg-green-50 text-green-700 ring-1 ring-inset ring-green-200">Aktiv</span>
+        }
+      </div>
+      <!-- Dates -->
+      <div class="flex gap-4 mb-3 text-xs text-gray-400">
+        <span class="flex items-center gap-1">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          {{ formatDate(user.createdAt) }}
+        </span>
+        @if (user.updatedAt !== user.createdAt) {
+        <span class="flex items-center gap-1">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+          </svg>
+          {{ formatDate(user.updatedAt) }}
+        </span>
+        }
+      </div>
+      <div class="flex gap-1 pt-3 border-t border-gray-50">
+        <button (click)="openEdit(user, 'admin')"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">Ndrysho</button>
+        <button (click)="openResetPassword(user, 'admin')"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">Fjalëkalimi</button>
+        <button (click)="toggleBlock(user)"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium rounded-lg transition-colors"
+          [class]="user.isBlocked ? 'text-green-700 bg-green-50 hover:bg-green-100' : 'text-orange-600 bg-orange-50 hover:bg-orange-100'">
+          {{ user.isBlocked ? 'Zhblloko' : 'Blloko' }}
+        </button>
+        @if (user.id !== currentUser?.id) {
+        <button (click)="openDelete(user, 'admin')"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">Fshi</button>
+        }
+      </div>
+    </div>
+    }
+    <!-- Mobile pagination -->
+    <div class="flex items-center justify-between pt-1">
+      <p class="text-xs text-gray-500">Faqja {{ adminPage }} &bull; {{ adminTotal }} gjithsej</p>
+      <div class="flex gap-2">
+        <button (click)="adminPrevPage()" [disabled]="adminPage <= 1"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors"
+          [class]="adminPage <= 1 ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-gray-600 border-gray-200 hover:bg-gray-50'">Prapa</button>
+        <button (click)="adminNextPage()" [disabled]="!adminPageInfo?.hasNextPage"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors"
+          [class]="!adminPageInfo?.hasNextPage ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-gray-600 border-gray-200 hover:bg-gray-50'">Para</button>
+      </div>
+    </div>
+  </div>
+  }
+
+</div>
+}
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ADMIN VIEW — own profile card + managers list
+     ════════════════════════════════════════════════════════════════════════ -->
+
+@if (authService.isAdmin()) {
+<div class="space-y-8">
+
+  <!-- ── Own profile card ────────────────────────────────────────────────── -->
+  @if (selfRow) {
+  <div>
+    <h2 class="text-lg font-bold text-gray-900 mb-4">Profili Im</h2>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold shrink-0">
+            {{ initials(selfRow) }}
+          </div>
+          <div>
+            <p class="font-bold text-gray-900">{{ fullName(selfRow) }}</p>
+            <p class="text-sm text-gray-500">{{ selfRow.email }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">{{ selfRow.username }}</p>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 shrink-0">
+          <button (click)="openEdit(selfRow, 'admin')"
+            class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+            </svg>
+            Ndrysho
+          </button>
+          <button (click)="openResetPassword(selfRow, 'admin')"
+            class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-blue-700 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 0 1 21.75 8.25Z" />
+            </svg>
+            Fjalëkalimi
+          </button>
+        </div>
+      </div>
+      <!-- Dates row -->
+      <div class="flex gap-6 mt-4 pt-4 border-t border-gray-50 text-xs text-gray-400">
+        <span class="flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+          </svg>
+          Krijuar: {{ formatDate(selfRow.createdAt) }}
+        </span>
+        @if (selfRow.updatedAt !== selfRow.createdAt) {
+        <span class="flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+          </svg>
+          Ndryshuar: {{ formatDate(selfRow.updatedAt) }}
+        </span>
+        }
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- ── Managers section ────────────────────────────────────────────────── -->
+  <div>
+    <!-- Header + inline search -->
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <div>
+        <h2 class="text-lg font-bold text-gray-900">Menaxherët e Mi</h2>
+        <p class="text-xs text-gray-400 mt-0.5">{{ managerTotal }} gjithsej</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z" />
+            </svg>
+          </span>
+          <input type="text" placeholder="Kërko..." [value]="managerSearch"
+            (input)="onManagerSearch($any($event.target).value)"
+            class="w-36 sm:w-56 pl-9 pr-3 py-2 text-sm bg-gray-100 border border-transparent rounded-xl outline-none focus:bg-white focus:border-gray-200 transition placeholder:text-gray-400" />
+        </div>
+        <button (click)="openCreateManager()"
+          class="inline-flex items-center gap-2 px-3 py-2 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-colors shrink-0">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <span class="hidden sm:inline">Shto Menaxher</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Skeleton -->
+    @if (isLoading) {
+    <div class="space-y-3">
+      @for (i of [1,2,3]; track i) {
+      <div class="h-[72px] bg-gray-100 rounded-2xl animate-pulse"></div>
+      }
+    </div>
+    }
+
+    <!-- Empty -->
+    @if (!isLoading && managers.length === 0) {
+    <div
+      class="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-gray-100">
+      <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-3">
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+        </svg>
+      </div>
+      <p class="text-sm font-medium text-gray-900">Nuk keni menaxherë ende</p>
+      <p class="text-xs text-gray-400 mt-1">Shtoni menaxherin e parë me butonin lart.</p>
+    </div>
+    }
+
+    <!-- Desktop table -->
+    @if (!isLoading && managers.length > 0) {
+    <div class="hidden md:block overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-100">
+          <tr>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Menaxheri
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Krijuar</th>
+            <th class="px-5 py-3.5 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Veprimet
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-50">
+          @for (user of managers; track user.id) {
+          <tr class="hover:bg-gray-50/60 transition-colors group">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-9 h-9 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold shrink-0">
+                  {{ initials(user) }}</div>
+                <div class="min-w-0">
+                  <p class="font-semibold text-gray-900 truncate">{{ fullName(user) }}</p>
+                  <p class="text-xs text-gray-400 truncate">{{ user.username }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-4 text-gray-500 text-xs">{{ user.email }}</td>
+            <td class="px-5 py-4">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-xs text-gray-500 flex items-center gap-1.5">
+                  <svg class="w-3 h-3 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  {{ formatDate(user.createdAt) }}
+                </span>
+                @if (user.updatedAt !== user.createdAt) {
+                <span class="text-xs text-gray-400 flex items-center gap-1.5">
+                  <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                  </svg>
+                  {{ formatDate(user.updatedAt) }}
+                </span>
+                }
+              </div>
+            </td>
+            <td class="px-5 py-4">
+              <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button (click)="openEdit(user, 'manager')" title="Ndrysho"
+                  class="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                  </svg>
+                </button>
+                <button (click)="openResetPassword(user, 'manager')" title="Reseto Fjalëkalimin"
+                  class="p-2 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 0 1 21.75 8.25Z" />
+                  </svg>
+                </button>
+                <button (click)="openDelete(user, 'manager')" title="Fshi"
+                  class="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      <!-- Pagination -->
+      <div class="px-5 py-3.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+        <p class="text-xs text-gray-500">Faqja {{ managerPage }} &bull; {{ managerTotal }} gjithsej</p>
+        <div class="flex gap-2">
+          <button (click)="managerPrevPage()" [disabled]="managerPage <= 1"
+            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+            [class]="managerPage <= 1 ? 'text-gray-300 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-gray-100'">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg> Prapa
+          </button>
+          <button (click)="managerNextPage()" [disabled]="!managerPageInfo?.hasNextPage"
+            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+            [class]="!managerPageInfo?.hasNextPage ? 'text-gray-300 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-gray-100'">
+            Para <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile cards -->
+    <div class="md:hidden space-y-3">
+      @for (user of managers; track user.id) {
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div
+              class="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center text-sm font-bold shrink-0">
+              {{ initials(user) }}</div>
+            <div class="min-w-0">
+              <p class="font-semibold text-gray-900 truncate">{{ fullName(user) }}</p>
+              <p class="text-xs text-gray-400 truncate">{{ user.email }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-4 mb-3 text-xs text-gray-400">
+          <span class="flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            {{ formatDate(user.createdAt) }}
+          </span>
+        </div>
+        <div class="flex gap-1 pt-3 border-t border-gray-50">
+          <button (click)="openEdit(user, 'manager')"
+            class="flex-1 flex items-center justify-center py-2 text-xs font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">Ndrysho</button>
+          <button (click)="openResetPassword(user, 'manager')"
+            class="flex-1 flex items-center justify-center py-2 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">Fjalëkalimi</button>
+          <button (click)="openDelete(user, 'manager')"
+            class="flex-1 flex items-center justify-center py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">Fshi</button>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+</div>
+}
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     MODALS — shared for both views
+     ════════════════════════════════════════════════════════════════════════ -->
+
+@if (activeModal) {
+<div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+  (click)="closeModal()">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden" (click)="$event.stopPropagation()">
+
+    <!-- ── Create ───────────────────────────────────────────────────────── -->
+    @if (activeModal === 'create') {
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold text-gray-900">
+          {{ modalTarget === 'admin' ? 'Shto Admin' : 'Shto Menaxher' }}
+        </h2>
+        <button (click)="closeModal()"
+          class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      @if (modalError) {
+      <div
+        class="flex items-start gap-2.5 px-4 py-3 mb-5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        {{ modalError }}
+      </div>
+      }
+      <form [formGroup]="createForm" (ngSubmit)="submitCreate()" class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Emri</label>
+            <input type="text" formControlName="firstName" placeholder="Agim"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
+              [class]="createForm.controls['firstName'].invalid && createForm.controls['firstName'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Mbiemri</label>
+            <input type="text" formControlName="lastName" placeholder="Berisha"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
+              [class]="createForm.controls['lastName'].invalid && createForm.controls['lastName'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Username</label>
+          <input type="text" formControlName="username" placeholder="agim.berisha"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
+            [class]="createForm.controls['username'].invalid && createForm.controls['username'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+        </div>
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</label>
+          <input type="email" formControlName="email" placeholder="agim@ascend.rks"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
+            [class]="createForm.controls['email'].invalid && createForm.controls['email'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+        </div>
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Fjalëkalimi</label>
+          <input type="password" formControlName="password" placeholder="Min. 8 karaktere"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
+            [class]="createForm.controls['password'].invalid && createForm.controls['password'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" (click)="closeModal()"
+            class="flex-1 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+          <button type="submit" [disabled]="modalLoading"
+            class="flex-1 py-3 text-sm font-semibold text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            [class]="modalTarget === 'admin' ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-900 hover:bg-gray-800'">
+            @if (modalLoading) { Duke u ruajtur… } @else { Shto }
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+
+    <!-- ── Edit ─────────────────────────────────────────────────────────── -->
+    @if (activeModal === 'edit' && selectedUser) {
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold text-gray-900">
+          {{ modalTarget === 'admin' ? 'Ndrysho Adminin' : 'Ndrysho Menaxherin' }}
+        </h2>
+        <button (click)="closeModal()"
+          class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      @if (modalError) {
+      <div
+        class="flex items-start gap-2.5 px-4 py-3 mb-5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        {{ modalError }}
+      </div>
+      }
+      <form [formGroup]="editForm" (ngSubmit)="submitEdit()" class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Emri</label>
+            <input type="text" formControlName="firstName"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition"
+              [class]="editForm.controls['firstName'].invalid && editForm.controls['firstName'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Mbiemri</label>
+            <input type="text" formControlName="lastName"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition"
+              [class]="editForm.controls['lastName'].invalid && editForm.controls['lastName'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</label>
+          <input type="email" formControlName="email"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition"
+            [class]="editForm.controls['email'].invalid && editForm.controls['email'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" (click)="closeModal()"
+            class="flex-1 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+          <button type="submit" [disabled]="modalLoading"
+            class="flex-1 py-3 text-sm font-semibold text-white bg-gray-900 rounded-xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+            @if (modalLoading) { Duke u ruajtur… } @else { Ruaj Ndryshimet }
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+
+    <!-- ── Reset Password ───────────────────────────────────────────────── -->
+    @if (activeModal === 'resetPassword' && selectedUser) {
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-lg font-bold text-gray-900">Reseto Fjalëkalimin</h2>
+        <button (click)="closeModal()"
+          class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <p class="text-sm text-gray-500 mb-6">Po vendosni fjalëkalim të ri për <strong class="text-gray-800">{{
+          fullName(selectedUser) }}</strong>.</p>
+      @if (modalError) {
+      <div
+        class="flex items-start gap-2.5 px-4 py-3 mb-5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        {{ modalError }}
+      </div>
+      }
+      <form [formGroup]="resetPasswordForm" (ngSubmit)="submitResetPassword()" class="space-y-4">
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Fjalëkalimi i Ri</label>
+          <input type="password" formControlName="newPassword" placeholder="Min. 8 karaktere"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
+            [class]="resetPasswordForm.controls['newPassword'].invalid && resetPasswordForm.controls['newPassword'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
+          @if (resetPasswordForm.controls['newPassword'].invalid && resetPasswordForm.controls['newPassword'].touched) {
+          <p class="text-xs text-red-500">Fjalëkalimi duhet të ketë minimum 8 karaktere.</p>
+          }
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" (click)="closeModal()"
+            class="flex-1 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+          <button type="submit" [disabled]="modalLoading"
+            class="flex-1 py-3 text-sm font-semibold text-white bg-gray-900 rounded-xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+            @if (modalLoading) { Duke u ruajtur… } @else { Reseto }
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+
+    <!-- ── Delete ───────────────────────────────────────────────────────── -->
+    @if (activeModal === 'delete' && selectedUser) {
+    <div class="p-6">
+      <div class="flex items-start gap-4">
+        <div class="w-11 h-11 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-gray-900">
+            {{ modalTarget === 'admin' ? 'Fshi Adminin' : 'Fshi Menaxherin' }}
+          </h2>
+          <p class="mt-1.5 text-sm text-gray-500">
+            A jeni i sigurt që doni të fshini <strong class="text-gray-800">{{ fullName(selectedUser) }}</strong>? Ky
+            veprim është i pakthyeshëm.
+          </p>
+        </div>
+      </div>
+      @if (modalError) {
+      <div
+        class="flex items-start gap-2.5 px-4 py-3 mt-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        {{ modalError }}
+      </div>
+      }
+      <div class="flex gap-3 mt-6">
+        <button (click)="closeModal()"
+          class="flex-1 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+        <button (click)="submitDelete()" [disabled]="modalLoading"
+          class="flex-1 py-3 text-sm font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          @if (modalLoading) { Duke u fshirë… } @else { Po, Fshi }
+        </button>
+      </div>
+    </div>
+    }
+
+  </div>
+</div>
+}

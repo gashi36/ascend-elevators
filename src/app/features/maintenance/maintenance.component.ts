@@ -2,13 +2,14 @@ import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
 
 import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-maintenance',
   templateUrl: './maintenance.component.html',
   styleUrls: ['./maintenance.component.scss'],
   standalone: true,
-  imports: [TestimonialsComponent, RouterModule]
+  imports: [TestimonialsComponent, RouterModule, TranslatePipe]
 })
 export class MaintenanceComponent implements OnInit, AfterViewInit {
   // stats

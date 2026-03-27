@@ -13,6 +13,8 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { AuthService, AuthUser } from '../../Guards/auth.service';
 import { ChangePasswordGQL } from '../../../graphql/generated/graphql';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 
 // ─── Pure validator ───────────────────────────────────────────────────────────
 
@@ -29,7 +31,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslatePipe, LanguageSwitcherComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

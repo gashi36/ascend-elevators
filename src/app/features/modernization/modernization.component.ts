@@ -2,13 +2,14 @@ import { Component, ElementRef, AfterViewInit } from '@angular/core';
 import { TestimonialsComponent } from "../testimonials/testimonials.component";
 
 import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-modernization',
   templateUrl: './modernization.component.html',
   styleUrls: ['./modernization.component.scss'],
   standalone: true,
-  imports: [TestimonialsComponent, RouterModule]
+  imports: [TestimonialsComponent, RouterModule, TranslatePipe]
 })
 export class ModernizationComponent implements AfterViewInit {
   // stats

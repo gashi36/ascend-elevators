@@ -2,10 +2,11 @@
 
   <div class="bg-[#132A3E] py-16 mb-12 rounded-b-xl">
     <div class="max-w-6xl mx-auto text-center">
-      <p class="text-xs uppercase tracking-widest text-red-600 font-semibold mb-2">Rreth Ashensorit</p>
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Lajmet dhe Artikujt e Fundit</h1>
+      <p class="text-xs uppercase tracking-widest text-red-600 font-semibold mb-2">{{ 'blogList.badge' | translate }}
+      </p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">{{ 'blogList.title' | translate }}</h1>
       <p class="text-gray-400 text-sm max-w-2xl mx-auto">
-        Lexoni historitë, këshillat dhe lajmet më të fundit nga ekipi ynë për mirëmbajtjen dhe inovacionet në ashensorë.
+        {{ 'blogList.description' | translate }}
       </p>
     </div>
   </div>
@@ -21,13 +22,14 @@
         }
         <div class="px-3 py-4">
           <p class="text-[10px] text-gray-500 mb-2">
-            {{ post.date || 'DATË' }} | <span class="text-red-600 uppercase">{{ post.category || 'KATEGORIA' }}</span>
+            {{ post.date || ('blogList.defaultDate' | translate) }} |
+            <span class="text-red-600 uppercase">{{ post.category || ('blogList.defaultCategory' | translate) }}</span>
           </p>
           <h2 class="text-lg font-extrabold mb-2 text-gray-900 leading-tight">{{ post.title }}</h2>
           <p class="text-gray-600 mb-4 text-xs line-clamp-3">{{ post.excerpt }}</p>
           <a [routerLink]="['/blog', post.slug]"
             class="text-red-600 font-semibold uppercase text-xs hover:text-red-700 transition">
-            Lexo më shumë &rarr;
+            {{ 'blogList.readMore' | translate }}
           </a>
         </div>
       </div>

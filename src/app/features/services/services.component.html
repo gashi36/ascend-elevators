@@ -2,55 +2,53 @@
 <div class="hero-section relative w-full overflow-hidden bg-white ">
   <br class="block sm:hidden" />
 
-
   <!-- FLEX WRAPPER -->
   <div class="flex flex-col lg:flex-row relative z-10">
 
     <!-- LEFT SIDE -->
     <div class="text-side p-8 sm:p-16 lg:w-1/2 flex flex-col justify-center text-black">
       <p class="text-sm tracking-widest uppercase font-semibold mb-4 opacity-80">
-        MENAXHIMI I JETËGJATËSISË SË ASHENSORËVE
+        {{ 'services.hero.badge' | translate }}
       </p>
       <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight mb-6">
-        Instalim &<br />
-        Mirëmbajte<br />
-        <span class="text-red-600">Të Ashensorëve</span>
+        {{ 'services.hero.title' | translate }}<br />
+        {{ 'services.hero.titleLine2' | translate }}<br />
+        <span class="text-red-600">{{ 'services.hero.titleHighlight' | translate }}</span>
       </h1>
       <p class="text-lg font-light mb-10 max-w-lg">
-        Ashensorët janë linjat jetike të ndërtesës suaj. Dhe kur punoni me
-        <strong>Ascend</strong>, ne jemi linja juaj e jetës. Gjithmonë vetëm një
-        telefonatë larg.
+        {{ 'services.hero.description' | translate }}
       </p>
       <a routerLink="/about"
         class="inline-block bg-red-600 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-700 w-fit">
-        MËSONI SI MUND TË NDIHMOJMË
+        {{ 'services.hero.button' | translate }}
       </a>
     </div>
 
     <!-- RIGHT IMAGE SIDE -->
     <div class="image-side lg:w-1/2 relative overflow-hidden">
-      <img src="https://imgur.com/Yl32HFW.jpg" alt="Grua dhe fëmijë duke shtypur një buton për një ashensor modern"
+      <img src="https://imgur.com/Yl32HFW.jpg" [alt]="'services.hero.imageAlt' | translate"
         class="object-cover w-full h-full" />
       <div class="diagonal-cut"></div>
     </div>
 
   </div>
 
-  <!-- 🔴 MOVED HERE: Full-width static red pillars -->
+  <!-- Full-width static red pillars -->
   <div class="stitch-pillars"></div>
 
 </div>
+
 <section class="ripple-section">
   <div class="text-content">
-    <h2>SHËRBIMET TONA 360°</h2>
+    <h2>{{ 'services.services360.title' | translate }}</h2>
     <p>
-      <strong>Menaxhimi i Jetëgjatësisë së Ashensorëve</strong><br />
-      Ascend Elevators ofron zgjidhje të zgjuara dhe kosto efektive për pronarët.
+      <strong>{{ 'services.services360.description' | translate }}</strong><br />
+      {{ 'services.services360.subdescription' | translate }}
     </p>
   </div>
 
   <div class="ripple-center">
-    <img src="../../../assets/images/Hero/herologo.png" alt="Ascend Elevators Diagram" />
+    <img src="../../../assets/images/Hero/herologo.png" [alt]="'services.services360.imageAlt' | translate" />
     <div class="ripple-ring ring-1"></div>
     <div class="ripple-ring ring-2"></div>
     <div class="ripple-ring ring-3"></div>
@@ -58,161 +56,124 @@
   </div>
 </section>
 
-
 <!-- ZGJIDHJET TONA cards below the image -->
 <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 -mt-30 py-10">
   <h2 class="text-center text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16">
-    ZGJIDHJET TONA
+    {{ 'services.solutions.title' | translate }}
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
 
-    <!-- CARD 1 -->
+    <!-- CARD 1 - Modernization -->
     <div
       class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/EEYMTnx.jpg');">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-        <h3 class="text-white text-3xl font-bold mb-3">Modernizim</h3>
+        <h3 class="text-white text-3xl font-bold mb-3">{{ 'services.solutions.cards.modernization.title' | translate }}
+        </h3>
         <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-          Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe
-          pamje estetike.
+          {{ 'services.solutions.cards.modernization.description' | translate }}
         </p>
         <a routerLink="/modernization"
           class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-          MËSO MË SHUMË
+          {{ 'services.solutions.cards.modernization.button' | translate }}
         </a>
       </div>
     </div>
 
-    <!-- CARD 2 -->
+    <!-- CARD 2 - Maintenance -->
     <div
       class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/iWLCz6i.jpg');">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-        <h3 class="text-white text-3xl font-bold mb-3">Mirëmbajtje & Shërbim</h3>
+        <h3 class="text-white text-3xl font-bold mb-3">{{ 'services.solutions.cards.maintenance.title' | translate }}
+        </h3>
         <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-          Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë
-          dhe për të siguruar funksionim të vazhdueshëm.
+          {{ 'services.solutions.cards.maintenance.description' | translate }}
         </p>
         <a routerLink="/maintenance"
           class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-          MËSO MË SHUMË
+          {{ 'services.solutions.cards.maintenance.button' | translate }}
         </a>
       </div>
     </div>
 
-    <!-- CARD 3 -->
+    <!-- CARD 3 - Repair -->
     <div
       class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/H8zRFrF.jpg');">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent">
-        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-          <h3 class="text-white text-3xl font-bold mb-3">Riparim</h3>
+          <h3 class="text-white text-3xl font-bold mb-3">{{ 'services.solutions.cards.repair.title' | translate }}</h3>
           <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-            Shërbimi ynë i reagimit të shpejtë është në gatishmëri 24 orë në ditë, 7 ditë në javë, duke siguruar
-            zgjidhje të menjëhershme për çdo problem.
+            {{ 'services.solutions.cards.repair.description' | translate }}
           </p>
           <a routerLink="/repair"
             class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-            MËSO MË SHUMË
+            {{ 'services.solutions.cards.repair.button' | translate }}
           </a>
         </div>
       </div>
-
     </div>
+
   </div>
-
 </div>
-<!-- APPRxOACH SECTION -->
 
+<!-- APPROACH SECTION -->
 <div class="py-20 bg-gray-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
 
     <p class="text-sm tracking-widest uppercase font-semibold text-gray-600 mb-2">
-      QASJA JONË
+      {{ 'services.approach.badge' | translate }}
     </p>
     <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">
-      NJË QASJE E SIGURT DHE PROFESIONALE
+      {{ 'services.approach.title' | translate }}
     </h2>
     <p class="text-gray-700 max-w-3xl mx-auto mb-10">
-      Ne nuk jemi thjesht një kompani pjesësh si ofruesit e mëdhenj të shërbimeve për ashensorë. Ne jemi një kompani që
-      fokusohet tek njerëzit dhe zgjidhja e problemeve. Gjithçka fillon duke njohur me kujdes klientët tanë dhe nevojat
-      e tyre, duke kuptuar ashensorët dhe shkallët lëvizëse që ata përdorin. Vetëm një ekip me përvojën dhe ekspertizën
-      tonë mund të shohë dhe të veprojë sipas këtij standardi.
+      {{ 'services.approach.description' | translate }}
     </p>
 
     <a routerLink="/about"
       class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">
-      MËSONI MË SHUMË PËR NE
+      {{ 'services.approach.button' | translate }}
     </a>
 
     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
-        <img src="https://imgur.com/uAwgZdS.jpg" alt="Woman checking phone in elevator"
+        <img src="https://imgur.com/uAwgZdS.jpg" [alt]="'services.approach.image1Alt' | translate"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
-        <img src="https://imgur.com/v9L0Yhl.jpg" alt="Technician working on elevator"
+        <img src="https://imgur.com/v9L0Yhl.jpg" [alt]="'services.approach.image2Alt' | translate"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
-        <img src="https://imgur.com/dR8elZI.jpg" alt="Technician using a tablet"
+        <img src="https://imgur.com/dR8elZI.jpg" [alt]="'services.approach.image3Alt' | translate"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
-        <img src="../../../assets/images/Hero/bottomcards1.jpg" alt="Close-up of a man's face"
+        <img src="../../../assets/images/Hero/bottomcards1.jpg" [alt]="'services.approach.image4Alt' | translate"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
     </div>
   </div>
 </div>
-<!--
-<div class="py-20 bg-gray-20">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-
-    <p class="text-sm tracking-widest uppercase font-semibold text-gray-600 mb-2">
-      MËNYRA JONË E PUNËS
-    </p>
-    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">
-      QASJA ASCEND
-    </h2>
-    <p class="text-gray-700 max-w-3xl mx-auto mb-10">
-      Ne nuk jemi thjesht një kompani pjesësh si ofruesit e mëdhenj të shërbimeve të ashensorëve. Ne jemi një
-      kompani që fokusohet tek njerëzit dhe zgjidhja e problemeve. Kjo fillon duke i njohur vërtet klientët tanë dhe
-      rrethanat e tyre unike, si dhe ashensorët dhe shkallët e tyre lëvizëse. Në këtë mënyrë, ne ofrojmë një vizion
-      të qartë të asaj që nevojitet.
-    </p>
-
-    <a routerLink="/about"
-      class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">MËSONI
-      MË SHUMË PËR NE
-    </a>
-
-    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-    </div>
-  </div>
-</div> -->
 
 <app-testimonials></app-testimonials>
+
 <div class="font-sans">
-  <!-- Seksioni i Heroit (Minimalist) -->
+  <!-- Hero Section (Minimalist) -->
   <section class="bg-gray-900 text-white py-20 text-center">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">
-        SHËRBIMET KRYESORE TONA
+        {{ 'services.servicesHero.title' | translate }}
       </h1>
       <p class="text-red-500 text-lg font-medium">
-        Lëvizje e qetë, zgjidhje të shpejta. Zbuloni shërbimet tona të ekspertëve.
+        {{ 'services.servicesHero.subtitle' | translate }}
       </p>
     </div>
   </section>
@@ -220,7 +181,7 @@
   <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center">
       <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-12">
-        ZGJIDHJE PËR ÇDO SEKTOR NGA ASCEND ELEVATORS
+        {{ 'services.sectors.title' | translate }}
       </h3>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 rounded-xl overflow-hidden shadow-2xl">
@@ -228,160 +189,157 @@
         <!-- Apartments & Condos -->
         <div
           class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="../../../assets/images/servicesimg/apartments-condos.jpg" alt="Apartamente & Kondo"
+          <img src="../../../assets/images/servicesimg/apartments-condos.jpg"
+            [alt]="'services.sectors.apartments.alt' | translate"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div
             class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">APARTAMENTE & KONDO</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">{{ 'services.sectors.apartments.title' |
+                translate }}</h4>
               <p class="text-base leading-relaxed">
-                Zgjidhje të qeta, të sigurta dhe efikase për ndërtesa rezidenciale moderne.
-                Ascend Elevators ofron komoditet dhe estetikë për çdo kompleks banimi.
+                {{ 'services.sectors.apartments.description' | translate }}
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            APARTAMENTE & KONDO
+            {{ 'services.sectors.apartments.label' | translate }}
           </p>
         </div>
 
         <!-- Healthcare -->
         <div
           class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="../../../assets/images/servicesimg/healthcare.jpg" alt="Healthcare"
+          <img src="../../../assets/images/servicesimg/healthcare.jpg"
+            [alt]="'services.sectors.healthcare.alt' | translate"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div
             class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">SHËNDETËSI</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">{{ 'services.sectors.healthcare.title' |
+                translate }}</h4>
               <p class="text-base leading-relaxed">
-                Sisteme ashensorësh të dizajnuara për spitale, klinika dhe qendra kujdesi.
-                Siguri, shpejtësi dhe besueshmëri për transportin e pacientëve dhe personelit.
+                {{ 'services.sectors.healthcare.description' | translate }}
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            SHËNDETËSI
+            {{ 'services.sectors.healthcare.label' | translate }}
           </p>
         </div>
 
         <!-- Hotel -->
         <div
           class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="../../../assets/images/servicesimg/hotel.jpg" alt="Hotel"
+          <img src="../../../assets/images/servicesimg/hotel.jpg" [alt]="'services.sectors.hotel.alt' | translate"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div
             class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">HOTELERI</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">{{ 'services.sectors.hotel.title' |
+                translate }}</h4>
               <p class="text-base leading-relaxed">
-                Ashensorë elegantë dhe të qetë për përvoja luksoze hoteliere.
-                Dizajnuar për rehati, stil dhe efikasitet maksimal për mysafirët tuaj.
+                {{ 'services.sectors.hotel.description' | translate }}
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            HOTELERI
+            {{ 'services.sectors.hotel.label' | translate }}
           </p>
         </div>
 
         <!-- Industrial -->
         <div
           class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="../../../assets/images/servicesimg/industrial.jpg" alt="Industrial"
+          <img src="../../../assets/images/servicesimg/industrial.jpg"
+            [alt]="'services.sectors.industrial.alt' | translate"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div
             class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">INDUSTRIALE</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">{{ 'services.sectors.industrial.title' |
+                translate }}</h4>
               <p class="text-base leading-relaxed">
-                Ashensorë të qëndrueshëm për ambiente industriale dhe fabrika.
-                Të ndërtuar për ngarkesa të rënda dhe funksionim të pandërprerë.
+                {{ 'services.sectors.industrial.description' | translate }}
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            INDUSTRIALE
+            {{ 'services.sectors.industrial.label' | translate }}
           </p>
         </div>
 
         <!-- Office -->
         <div
           class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="../../../assets/images/servicesimg/office.jpg" alt="Office"
+          <img src="../../../assets/images/servicesimg/office.jpg" [alt]="'services.sectors.office.alt' | translate"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div
             class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">ZYRA & QENDRA BIZNESI</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">{{ 'services.sectors.office.title' |
+                translate }}</h4>
               <p class="text-base leading-relaxed">
-                Zgjidhje të shpejta dhe elegante për ndërtesa komerciale dhe zyra moderne.
-                Rritni produktivitetin me ashensorë inteligjentë dhe efikas.
+                {{ 'services.sectors.office.description' | translate }}
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            ZYRA & QENDRA BIZNESI
+            {{ 'services.sectors.office.label' | translate }}
           </p>
         </div>
 
         <!-- Retail -->
         <div
           class="group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1">
-          <img src="../../../assets/images/servicesimg/retail.jpg" alt="Retail"
+          <img src="../../../assets/images/servicesimg/retail.jpg" [alt]="'services.sectors.retail.alt' | translate"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div
             class="absolute inset-0 flex items-center p-8 text-white text-left transition-transform duration-500 transform translate-y-full group-hover:translate-y-0 z-10"
             style="background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.4) 100%);">
             <div class="w-full opacity-0 transition-opacity delay-200 duration-300 group-hover:opacity-100">
-              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">RETAIL & QENDRA TREGTARE</h4>
+              <h4 class="text-3xl font-extrabold mb-4 uppercase text-red-400">{{ 'services.sectors.retail.title' |
+                translate }}</h4>
               <p class="text-base leading-relaxed">
-                Ashensorë dhe shkallë lëvizëse për qendra tregtare dhe dyqane.
-                Sigurojnë qarkullim të lehtë dhe përvojë të rehatshme për klientët.
+                {{ 'services.sectors.retail.description' | translate }}
               </p>
             </div>
           </div>
           <p
             class="absolute bottom-4 left-4 text-white text-lg font-bold uppercase tracking-wider transition-opacity duration-300 group-hover:opacity-0 z-20">
-            RETAIL & QENDRA TREGTARE
+            {{ 'services.sectors.retail.label' | translate }}
           </p>
         </div>
 
       </div>
     </div>
   </section>
-
 </div>
 
 <div class="bg-gray-20 py-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex">
-
     <div class="w-full lg:w-2/5 text-left">
       <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 uppercase">
-        ALEATI YT I ASHENSORËVE
+        {{ 'services.cta.title' | translate }}
       </h2>
-
       <p class="text-gray-900 mb-6 text-base">
-        Zbuloni Ndryshimin me Ascend Elevator.<br>
-        Si mund t'ju ndihmojmë sot?
+        {{ 'services.cta.description' | translate }}
       </p>
-
-      <button (click)="navigateToContact()" class="inline-block bg-red-500 font-bold py-3 px-8 text-white text-center uppercase tracking-wider
-               transition duration-300 hover:bg-red-600 w-fit text-sm">
-        CAKTO NJË TELEFONATË
+      <button (click)="navigateToContact()"
+        class="inline-block bg-red-500 font-bold py-3 px-8 text-white text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit text-sm">
+        {{ 'services.cta.button' | translate }}
       </button>
     </div>
-
     <div class="hidden lg:block lg:w-3/5"></div>
   </div>
 </div>

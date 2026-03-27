@@ -2,11 +2,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './contact.component.html'
 })
 export class ContactComponent {

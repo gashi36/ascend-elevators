@@ -1,0 +1,41 @@
+<div class="relative group">
+  <button
+    class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+
+    <img [src]="currentLang === 'sq' ? 'assets/flags/al.svg' : 'assets/flags/gb.svg'" class="w-4 h-4 rounded-sm"
+      alt="flag" />
+
+    {{ currentLang === 'sq' ? 'Shqip' : 'English' }}
+
+    <svg class="w-3 h-3 transition-transform duration-200 group-hover:rotate-180" fill="currentColor"
+      viewBox="0 0 20 20">
+      <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
+        clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <div
+    class="absolute right-0 top-full pt-2 w-36 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+
+    <div class="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
+
+      <button (click)="switchLanguage('sq')"
+        class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm hover:bg-red-50 hover:text-red-600 transition-colors"
+        [class.bg-red-50]="currentLang === 'sq'" [class.text-red-600]="currentLang === 'sq'">
+
+        <img src="assets/flags/al.svg" class="w-4 h-4 rounded-sm" />
+        Shqip
+      </button>
+
+      <button (click)="switchLanguage('en')"
+        class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm hover:bg-red-50 hover:text-red-600 transition-colors"
+        [class.bg-red-50]="currentLang === 'en'" [class.text-red-600]="currentLang === 'en'">
+
+        <img src="assets/flags/gb.svg" class="w-4 h-4 rounded-sm" />
+        English
+      </button>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,592 @@
+{
+  "navbar": {
+    "title": "Ascend Elevators",
+    "login": "Log In",
+    "logout": "Log Out",
+    "dashboard": "Dashboard",
+    "home": "Home",
+    "services": "Services",
+    "contact": "Contact Us",
+    "selectLanguage": "Select Language",
+    "about": "About Us",
+    "elevator": "Elevator",
+    "repair": "Repair",
+    "maintenance": "Maintenance",
+    "modernization": "Modernization",
+    "profile": "My Profile",
+    "adminPanel": "Admin Panel"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Manage buildings and tenants",
+    "buildings": "Buildings",
+    "tenants": "Tenants",
+    "admins": "Admins",
+    "users": "Users",
+    "management": "Management",
+    "adminPanel": "Admin Panel"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close"
+  },
+  "auth": {
+    "loginTitle": "Log in to your account",
+    "email": "Email address",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "register": "Sign up",
+    "loginButton": "Log in",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password"
+  },
+  "buildings": {
+    "title": "Building Management",
+    "addBuilding": "Add Building",
+    "buildingName": "Building Name",
+    "address": "Address",
+    "floors": "Floors",
+    "elevators": "Elevators",
+    "status": "Status",
+    "actions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "tenants": {
+    "title": "Tenant Management",
+    "addTenant": "Add Tenant",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "apartment": "Apartment",
+    "building": "Building",
+    "moveInDate": "Move-in Date",
+    "status": "Status"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "We are a company of people & solutions.",
+    "heroImageAlt": "Elevators are the lifelines of your building",
+    "heroTitle": "Elevators are the lifelines of your building.",
+    "heroText": "Elevators are the lifelines of your building. And when you work with Ascend Elevators, we are your service line. From our technicians to our owners, we know you, your building, and your elevator equipment. Keeping everything well-maintained. Making quick repairs when problems occur. Leading modernization and equipment replacement when necessary. Always with clear communication, quality craftsmanship, honesty, and transparency.",
+    "stats": {
+      "stat1Label": "service calls resolved on first visit",
+      "stat2Label": "customer retention for 13 years of service",
+      "stat3Label": "reduction in elevator downtime"
+    },
+    "approach": {
+      "title": "Our Approach",
+      "subtitle": "The Ascend Way",
+      "text": "We are not a parts company like the large elevator service providers. We are a company of people and solutions. It starts by truly knowing our clients and their circumstances. Knowing elevators and escalators in a way that only a team with our experience and expert eye can see.",
+      "imageAlt": "Master technicians of Ascend Elevators"
+    },
+    "peopleFocus": {
+      "title": "Because elevator service is about people",
+      "text": "Elevators are for people. They're how office workers get home to their children. How hospital patients travel to the surgical floor. How people bring home their groceries. We work for these people. Just like you do. They depend on you, and you can depend on us.",
+      "imageAlt": "Elevator service is about people"
+    },
+    "experience": {
+      "title": "Our Experience",
+      "text": "In a world of apples, we're the orange. Our work isn't about a service checklist. It's about everyone, from our technicians to our executives, being just a phone call or message away. Recommending the right solution for your building, every time.",
+      "tagline": "Here to lift you up"
+    },
+    "technicians": {
+      "title": "Master technicians at your service.",
+      "text": "With over 28 years of average experience, plus rigorous training and certifications, our certified technicians can diagnose and resolve even the most complex elevator systems.",
+      "stat1Label": "years average field experience",
+      "stat2Label": "years National Elevator Industry Education Program",
+      "stat3Label": "NEIEP Certified, TWIC",
+      "image1Alt": "Technicians working",
+      "image2Alt": "Technician training",
+      "image3Alt": "Industrial certification"
+    },
+    "cta": {
+      "title": "Your Elevator Ally",
+      "text": "Discover the Difference with Ascend Elevators.\nHow can we help you today?",
+      "button": "Schedule a Free Consultation"
+    },
+    "navigation": {
+      "approach": "Our Approach",
+      "team": "Our Team",
+      "experience": "Our Experience"
+    }
+  },
+  "footer": {
+    "description": "Leader in providing modern solutions for elevators and escalators, guaranteeing safety, efficiency and excellent service for every client.",
+    "contact": "CONTACT",
+    "headquarters": "HEADQUARTERS",
+    "getDirections": "Get Directions",
+    "viewOnMap": "View on Google Maps",
+    "copyright": "All rights reserved.",
+    "address": "Rr. Tahir Sinani, Lipjan 14000, Kosovo",
+    "phone1": "+383 44 606 560",
+    "phone2": "+383 48 606 560",
+    "email1": "info@ascend-elevators.com",
+    "email2": "sales@ascend-elevators.com"
+  },
+  "login": {
+    "title": "Ascend Elevators",
+    "subtitle": "Admin Panel",
+    "welcome": "Welcome back",
+    "description": "Log in to your account to continue.",
+    "username": "Username",
+    "usernamePlaceholder": "username",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "loginButton": "Log in",
+    "loggingIn": "Logging in…",
+    "errorMessage": "Invalid username or password",
+    "footer": "Restricted access for authorized personnel only.\nContact administrator for assistance."
+  },
+  "blog": {
+    "relatedPosts": "RELATED POSTS",
+    "categories": "CATEGORIES",
+    "tags": "TAGS",
+    "readMore": "READ MORE",
+    "defaultCategory": "CATEGORY",
+    "ctaTitle": "LET'S CREATE A SMARTER AND SAFER FUTURE TOGETHER",
+    "ctaButton": "CONTACT US TODAY FOR AN ASSESSMENT"
+  },
+  "blogList": {
+    "badge": "About Elevator",
+    "title": "Latest News and Articles",
+    "description": "Read the latest stories, tips and news from our team about elevator maintenance and innovations.",
+    "defaultDate": "DATE",
+    "defaultCategory": "CATEGORY",
+    "readMore": "Read more →"
+  },
+  "contact": {
+    "badge": "Your Vertical Help Line",
+    "description": "How can we help you today?\nEvery building situation is different. Let us know what you're facing so we can better understand how to assist you.",
+    "form": {
+      "firstName": "First Name",
+      "firstNamePlaceholder": "First Name",
+      "firstNameRequired": "First name field is required.",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Last Name",
+      "lastNameRequired": "Last name field is required.",
+      "title": "Title / Position",
+      "titlePlaceholder": "Title or Position",
+      "company": "Company / Building",
+      "companyPlaceholder": "Company or Building",
+      "address": "Address",
+      "addressPlaceholder": "Address",
+      "address2": "Address Line 2",
+      "address2Placeholder": "Address Line 2 (optional)",
+      "city": "City",
+      "cityPlaceholder": "City",
+      "state": "State / Region",
+      "statePlaceholder": "State or Region",
+      "zip": "Zip Code",
+      "zipPlaceholder": "Zip Code",
+      "phone": "Phone",
+      "phonePlaceholder": "Phone Number",
+      "email": "Email",
+      "emailPlaceholder": "Email Address",
+      "emailRequired": "Email field is required.",
+      "helpTitle": "Tell us how we can help you:",
+      "helpOptions": {
+        "cabinInterior": "Cabin Interior",
+        "assessment": "Elevator Assessment",
+        "maintenance": "Elevator Maintenance",
+        "repair": "Elevator Repair",
+        "modernization": "Elevator Modernization",
+        "testing": "State Testing",
+        "other": "Other"
+      },
+      "preferredContact": "Preferred Contact Method",
+      "preferredContactOptions": {
+        "phone": "Phone",
+        "email": "Email"
+      },
+      "message": "Additional Message",
+      "messagePlaceholder": "Write your message...",
+      "messageRequired": "Message field is required.",
+      "submitButton": "Send Message",
+      "sending": "Sending..."
+    },
+    "messages": {
+      "success": "Message sent successfully!",
+      "error": "An error occurred. Please try again."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "ELEVATOR LIFE CYCLE MANAGEMENT",
+      "title": "Elevator",
+      "titleLine2": "Installation &",
+      "titleHighlight": "Maintenance",
+      "description": "Elevators are the lifelines of your building. And when you work with Ascend, we are your lifeline. Always just a phone call away.",
+      "button": "LEARN HOW WE CAN HELP"
+    },
+    "services360": {
+      "title": "OUR 360° SERVICES",
+      "description": "Elevator Life Cycle Management",
+      "subdescription": "Ascend Elevators provides smart and cost-effective solutions for building owners."
+    },
+    "solutions": {
+      "title": "OUR SOLUTIONS",
+      "cards": {
+        "modernization": {
+          "title": "Modernization",
+          "description": "Upgrade your aging systems with the latest technology for energy efficiency, safety, and aesthetic appeal.",
+          "button": "LEARN MORE"
+        },
+        "maintenance": {
+          "title": "Maintenance & Service",
+          "description": "Prevent disruptions with our maintenance programs, designed to extend longevity and ensure continuous operation.",
+          "button": "LEARN MORE"
+        },
+        "repair": {
+          "title": "Repair",
+          "description": "Our rapid response service is on standby 24/7, providing immediate solutions for any issue.",
+          "button": "LEARN MORE"
+        }
+      }
+    },
+    "approach": {
+      "badge": "OUR APPROACH",
+      "title": "A SAFE AND PROFESSIONAL APPROACH",
+      "description": "We're not just a parts company like the large elevator service providers. We are a company focused on people and solving problems. It starts by truly knowing our clients and their unique circumstances, understanding the elevators and escalators they use. Only a team with our experience and expertise can see and act according to this standard.",
+      "button": "LEARN MORE ABOUT US"
+    },
+    "cta": {
+      "title": "YOUR ELEVATOR ALLY",
+      "description": "Discover the Difference with Ascend Elevator.\nHow can we help you today?",
+      "button": "SCHEDULE A CALL"
+    }
+  },
+  "maintenance": {
+    "hero": {
+      "badge": "ELEVATOR MAINTENANCE",
+      "title": "FROM NECESSARY EXPENSE",
+      "titleHighlight": "TO SMART INVESTMENT"
+    },
+    "carePlans": {
+      "title": "CUSTOMIZED CARE PLANS FOR YOUR BUILDING'S LIFELINES",
+      "subtitle": "Like people, elevators need targeted, high-quality preventive care that keeps them in good shape and operating safely for as long as possible.",
+      "description": "Innovation and expertise are often the most expensive equipment in any building. If you have an in-house team, we provide training and technical support. Otherwise, your elevators need long-term expert care that extends the life of your equipment and helps keep it code compliant. Allied Elevator offers flexible, customized maintenance programs designed for your specific needs. We consider your building type, elevator usage, tenant profile, and your comfort level when building them."
+    },
+    "difference": {
+      "title": "THE DIFFERENCE BETWEEN HAPPY AND UNHAPPY TENANTS."
+    },
+    "services": {
+      "maintenance": {
+        "title": "MAINTENANCE",
+        "item1": "Comprehensive, Preventive Maintenance",
+        "item2": "Customized Care Programs Tailored to Your Needs",
+        "item3": "Advanced Troubleshooting Keeps Repair Success at 90%",
+        "item4": "State-Mandated Testing Keeps Equipment Code Compliant",
+        "item5": "Non-Proprietary Systems Give You More Control Over Your Assets",
+        "item6": "Assessments for Moisture-Exposed Equipment",
+        "item7": "Capital Planning for Longevity and Life Cycle Management"
+      },
+      "service": {
+        "title": "SERVICE & INSPECTIONS",
+        "item1": "Co-commissioning",
+        "item2": "Comprehensive Equipment Service and Monitoring",
+        "item3": "Remote Service Readers",
+        "item4": "Hydraulic System Testing",
+        "item5": "Motor Inspections",
+        "item6": "Power Unit Upgrades",
+        "item7": "Control Upgrades",
+        "item8": "State-Mandated Full Load Testing",
+        "item9": "Annual Reviews of Testing Requirements and Re-commissioning"
+      }
+    },
+    "expertise": {
+      "title": "Expertise in Action",
+      "description": "Our qualified technicians are dedicated to providing exceptional service and safe maintenance for every elevator. With extensive experience and continuous training, they ensure your equipment operates optimally and always meets the highest industry standards.",
+      "feature1": "Fast and reliable service",
+      "feature2": "Technical expertise for all elevator types",
+      "feature3": "Client support and consultation"
+    },
+    "experience": {
+      "title": "EXPERIENCE MATTERS",
+      "subtitle": "EXPERT CARE, ADVANCED DIAGNOSTICS. ELEVATOR SERVICE BY MASTER TECHNICIANS",
+      "description": "Trust your elevators to our master technicians, who, with 20 years of experience, combined with our latest diagnostic tools and expertise, empower them to easily diagnose and resolve the most complex system complexities.",
+      "stats": {
+        "clientRetention": "Client Retention Year After Year",
+        "newClients": "New Clients Referred by Other Clients and Experts",
+        "dailyService": "Daily Average of Elevators We Maintain Are In Service"
+      }
+    },
+    "clients": {
+      "title": "SOME OF OUR SATISFIED CLIENTS"
+    },
+    "cta": {
+      "title": "HOW CAN WE HELP YOU?",
+      "description": "Every building situation is different. Let us understand what you're facing so we can better understand how to help you.",
+      "button": "BOOK A MEETING"
+    },
+    "stats": {
+      "title": "OUR MAINTENANCE STATISTICS",
+      "description": "See how our commitment to quality and client dedication is reflected in our results.",
+      "stat1Label": "on-time preventive maintenance",
+      "stat2Label": "emergency violation reduction",
+      "stat3Label": "overall system efficiency",
+      "ctaText": "Be part of our success! Contact us today for customized maintenance solutions.",
+      "ctaButton": "CONTACT NOW"
+    }
+  },
+  "modernization": {
+    "hero": {
+      "badge": "ELEVATOR MODERNIZATION",
+      "title": "WE'RE ON IT,",
+      "titleLine": "SO YOU'RE",
+      "titleHighlight": "AHEAD",
+      "imageAlt": "Modern elevator lobby"
+    },
+    "guarantee": {
+      "title": "SECURE THE FUTURE OF YOUR RIDE.",
+      "highlight": "MODERNIZATION",
+      "subtitle": "SIMPLIFIED ELEVATOR MODERNIZATION",
+      "description": "We are experts in modernizing your elevators for the future. Combining the latest technology with our expertise, we ensure your elevators are efficient, safe, and modern. From simple upgrades to complete modernizations, we provide customized solutions for your needs.",
+      "item1": "Interior Design & Cabin Modernization",
+      "item2": "Elevator Control System Upgrades",
+      "item3": "Energy Efficiency Improvements"
+    },
+    "keep": {
+      "title": "Keeping your elevators updated, looking good and safe makes your riders happy and you a hero.",
+      "description": "Our modernization solutions are delivered through careful management and transparent communication, minimizing disruptions and maximizing safety. We handle every detail, from planning to implementation."
+    },
+    "why": {
+      "title": "Why Modernize with Ascend Elevators?",
+      "description": "Modernizing your elevators is a smart investment that improves user experience, increases property value, and reduces operational costs.",
+      "imageAlt": "Woman using phone in modern elevator"
+    },
+    "addLife": {
+      "title": "ADD NEW LIFE TO YOUR BUILDING",
+      "item1": {
+        "title": "Custom Interior",
+        "text": "Modern look, perfect installation."
+      },
+      "item2": {
+        "title": "Code Compliant",
+        "text": "Modifications for ADA and safety."
+      },
+      "item3": {
+        "title": "Latest Technology",
+        "text": "Lower costs, more efficiency."
+      }
+    },
+    "green": {
+      "title": "GREEN ENERGY PRODUCTS & SERVICES",
+      "description": "We have many modernization projects that meet today's energy-efficient products and services that also contribute to a healthier planet.",
+      "imageAlt": "Elevator cabin interior with bright lighting",
+      "item1": {
+        "title": "Solid State",
+        "text": "More reliability, less energy."
+      },
+      "item2": {
+        "title": "Regenerative",
+        "text": "Energy savings, lower costs."
+      },
+      "item3": {
+        "title": "Green Lighting",
+        "text": "Long-lasting LED, low consumption."
+      }
+    },
+    "experience": {
+      "title": "EXPERIENCE MATTERS",
+      "subtitle": "EXPERT CARE, ADVANCED DIAGNOSTICS. ELEVATOR SERVICE BY MASTER TECHNICIANS",
+      "description": "Trust your elevators to our master technicians, who, with 20 years of experience, combined with our latest diagnostic tools and expertise, empower them to easily diagnose and resolve the most complex system complexities.",
+      "stats": {
+        "clientRetention": "Client Retention Year After Year",
+        "newClients": "New Clients Referred by Other Clients and Experts",
+        "dailyService": "Daily Average of Elevators We Maintain Are In Service"
+      }
+    },
+    "clients": {
+      "title": "SOME OF OUR SATISFIED CLIENTS"
+    },
+    "cta": {
+      "title": "HOW CAN WE HELP YOU?",
+      "description": "Every building situation is different. Let us understand what you're facing so we can better understand how to help you.",
+      "button": "BOOK A MEETING"
+    },
+    "stats": {
+      "stat1Label": "modernization projects completed",
+      "stat2Label": "on-budget delivery",
+      "stat3Label": "efficiency improvement after modernization"
+    }
+  },
+  "repair": {
+    "hero": {
+      "badge": "ELEVATOR REPAIR",
+      "title": "YOUR DOWNTIME",
+      "titleLine": "IS OUR",
+      "titleHighlight": "ACTION TIME",
+      "subtitle": "FINDING SOLUTIONS FAST",
+      "imageAlt": "Elevator repair technician working"
+    },
+    "client": {
+      "titleHighlight": "WHERE EVERY CLIENT MATTERS.",
+      "title": "EVERY REPAIR MATTERS",
+      "description": "Elevators are the lifeline of your building. At Ascend Elevators, we provide fast and effective solutions for every problem. With a proactive approach and specialized technicians, we minimize downtime and reduce repair costs. Our 24/7 service ensures you have immediate support when you need it.",
+      "item1": "Emergency Diagnostics & Communication",
+      "item2": "Expert Diagnostics & Problem Solving",
+      "item3": "Strategies for Old or Obsolete Equipment"
+    },
+    "failures": {
+      "title": "Failures happen. But a quick repair can make the difference between happy and unhappy tenants.",
+      "description1": "Allied is your local elevator service partner. We're here, invested in the communities we serve. Our local team offers a full range of services and the purchasing and management process like large companies. Acting quickly to minimize disruptions, we shorten weeks from your repair time.",
+      "description2": "When you call Allied, we'll dispatch a technician, and act quickly, making an assessment. There may be only one way to get you back in operation. We'll work alongside you, not for a contract, and tell you about the price while answering any questions you may have. Our field technicians will perform the repair; it's not just Customer Service, Accounting + Field Teams working together to ensure you get the best service and repair. Our priority is always focusing on your needs, safety, and your riders' experience.",
+      "imageAlt": "Technician repairing elevator"
+    },
+    "stats": {
+      "stat1Label": "elevators and escalators maintained + serviced",
+      "stat2Label": "Union certified technicians trained on the latest equipment",
+      "stat3Label": "We provide all testing to meet state and local codes",
+      "stat4Label": "Expertise working with all elevator + escalator brands"
+    },
+    "commonProblems": {
+      "title": "COMMON PROBLEMS SOLVED WITH OUR COMPREHENSIVE CARE.",
+      "item1": "My elevator is stuck and controls aren't responding.",
+      "item2": "I have a code violation, emergency systems or alarms.",
+      "item3": "My elevator has electrical issues or has lost power.",
+      "item4": "My doors are malfunctioning.",
+      "item5": "My elevator has erratic movement or stops between floors.",
+      "item6": "Elevators moving slower than usual."
+    },
+    "repairStats": {
+      "stat1Label": "repairs on first visit",
+      "stat2Label": "satisfied clients",
+      "stat3Label": "reduction in downtime"
+    }
+  },
+  "services": {
+    "hero": {
+      "badge": "ELEVATOR LIFE CYCLE MANAGEMENT",
+      "title": "Elevator",
+      "titleLine2": "Installation &",
+      "titleHighlight": "Maintenance",
+      "description": "Elevators are the lifelines of your building. And when you work with Ascend, we are your lifeline. Always just a phone call away.",
+      "button": "LEARN HOW WE CAN HELP",
+      "imageAlt": "Woman and child pressing button on modern elevator"
+    },
+    "services360": {
+      "title": "OUR 360° SERVICES",
+      "description": "Elevator Life Cycle Management",
+      "subdescription": "Ascend Elevators provides smart and cost-effective solutions for building owners.",
+      "imageAlt": "Ascend Elevators Diagram"
+    },
+    "solutions": {
+      "title": "OUR SOLUTIONS",
+      "cards": {
+        "modernization": {
+          "title": "Modernization",
+          "description": "Upgrade your aging systems with the latest technology for energy efficiency, safety, and aesthetic appeal.",
+          "button": "LEARN MORE"
+        },
+        "maintenance": {
+          "title": "Maintenance & Service",
+          "description": "Prevent disruptions with our maintenance programs, designed to extend longevity and ensure continuous operation.",
+          "button": "LEARN MORE"
+        },
+        "repair": {
+          "title": "Repair",
+          "description": "Our rapid response service is on standby 24/7, providing immediate solutions for any issue.",
+          "button": "LEARN MORE"
+        }
+      }
+    },
+    "approach": {
+      "badge": "OUR APPROACH",
+      "title": "A SAFE AND PROFESSIONAL APPROACH",
+      "description": "We're not just a parts company like the large elevator service providers. We are a company focused on people and solving problems. It starts by truly knowing our clients and their unique circumstances, understanding the elevators and escalators they use. Only a team with our experience and expertise can see and act according to this standard.",
+      "button": "LEARN MORE ABOUT US",
+      "image1Alt": "Woman checking phone in elevator",
+      "image2Alt": "Technician working on elevator",
+      "image3Alt": "Technician using a tablet",
+      "image4Alt": "Close-up of a man's face"
+    },
+    "servicesHero": {
+      "title": "OUR CORE SERVICES",
+      "subtitle": "Smooth movement, fast solutions. Discover our expert services."
+    },
+    "sectors": {
+      "title": "SOLUTIONS FOR EVERY SECTOR FROM ASCEND ELEVATORS",
+      "apartments": {
+        "title": "APARTMENTS & CONDOS",
+        "description": "Quiet, safe and efficient solutions for modern residential buildings. Ascend Elevators provides comfort and aesthetics for every residential complex.",
+        "label": "APARTMENTS & CONDOS",
+        "alt": "Apartments & Condos"
+      },
+      "healthcare": {
+        "title": "HEALTHCARE",
+        "description": "Elevator systems designed for hospitals, clinics and care centers. Safety, speed and reliability for transporting patients and staff.",
+        "label": "HEALTHCARE",
+        "alt": "Healthcare"
+      },
+      "hotel": {
+        "title": "HOSPITALITY",
+        "description": "Elegant and quiet elevators for luxury hospitality experiences. Designed for comfort, style and maximum efficiency for your guests.",
+        "label": "HOSPITALITY",
+        "alt": "Hotel"
+      },
+      "industrial": {
+        "title": "INDUSTRIAL",
+        "description": "Durable elevators for industrial environments and factories. Built for heavy loads and uninterrupted operation.",
+        "label": "INDUSTRIAL",
+        "alt": "Industrial"
+      },
+      "office": {
+        "title": "OFFICES & BUSINESS CENTERS",
+        "description": "Fast and elegant solutions for commercial buildings and modern offices. Boost productivity with intelligent and efficient elevators.",
+        "label": "OFFICES & BUSINESS CENTERS",
+        "alt": "Office"
+      },
+      "retail": {
+        "title": "RETAIL & SHOPPING CENTERS",
+        "description": "Elevators and escalators for shopping centers and stores. Ensuring smooth flow and comfortable experience for customers.",
+        "label": "RETAIL & SHOPPING CENTERS",
+        "alt": "Retail"
+      }
+    },
+    "cta": {
+      "title": "YOUR ELEVATOR ALLY",
+      "description": "Discover the Difference with Ascend Elevator.\nHow can we help you today?",
+      "button": "SCHEDULE A CALL"
+    }
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "0": {
+      "name": "Besnik Gashi",
+      "title": "Facility Manager, Prishtina",
+      "text": "Ascend has revolutionized our building's vertical transportation. Their maintenance is proactive, and our tenants constantly compliment the smooth ride. Knowing we have a reliable, local team here in Kosovo makes all the difference."
+    },
+    "1": {
+      "name": "Adelina Haxhiu",
+      "title": "Property Owner, Lipjan",
+      "text": "As a property owner in Lipjan, I appreciate Ascend's professionalism and speed. They were the only team that could manage the modernization of our old system perfectly. Excellent work!"
+    },
+    "2": {
+      "name": "Edon Gashi",
+      "title": "Building Administrator, Ferizaj",
+      "text": "Exceptional service! Ascend's engineers are highly skilled and always arrive quickly. They provide clear and cost-effective solutions—not just quick fixes. Our elevators are operating safer and more efficiently than ever!"
+    },
+    "3": {
+      "name": "Luljeta Berisha",
+      "title": "Hotel Manager, Durrës (Albania)",
+      "text": "Even operating outside of Kosovo, Ascend provides unparalleled support. Their diagnostics are accurate, and their commitment to safety is top-tier. A truly reliable elevator partner."
+    }
+  }
+}

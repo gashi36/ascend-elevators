@@ -12,30 +12,41 @@
 
       <!-- Services dropdown -->
       <div class="relative group">
-        <button class="flex items-center gap-1 hover:text-red-600 transition-colors duration-200 py-1">
-          Shërbimet
+        <a routerLink="/services"
+          class="flex items-center gap-1 hover:text-red-600 transition-colors duration-200 py-1">
+          {{ 'navbar.services' | translate }}
           <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="currentColor"
             viewBox="0 0 20 20">
             <path fill-rule="evenodd"
               d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.354a.75.75 0 111.14.976l-4 4.69a.75.75 0 01-1.14 0l-4-4.69a.75.75 0 01.02-1.06z"
               clip-rule="evenodd" />
           </svg>
-        </button>
+        </a>
         <div
           class="absolute left-0 top-full pt-2 w-44 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
           <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden py-1">
             <a routerLink="/repair"
-              class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">Riparimi</a>
+              class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+              {{ 'navbar.repair' | translate }}
+            </a>
             <a routerLink="/maintenance"
-              class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">Mirëmbajtja</a>
+              class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+              {{ 'navbar.maintenance' | translate }}
+            </a>
             <a routerLink="/modernization"
-              class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">Modernizimi</a>
+              class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+              {{ 'navbar.modernization' | translate }}
+            </a>
           </div>
         </div>
       </div>
 
-      <a routerLink="/about" class="hover:text-red-600 transition-colors duration-200">Rreth Nesh</a>
-      <a routerLink="/blog" class="hover:text-red-600 transition-colors duration-200">Ashensori</a>
+      <a routerLink="/about" class="hover:text-red-600 transition-colors duration-200">
+        {{ 'navbar.about' | translate }}
+      </a>
+      <a routerLink="/blog" class="hover:text-red-600 transition-colors duration-200">
+        {{ 'navbar.elevator' | translate }}
+      </a>
 
       <a routerLink="/contact" class="inline-flex items-center gap-2 px-4 py-2 border border-red-600 text-red-600 rounded-full text-sm font-semibold
                transition-all duration-200 hover:bg-red-600 hover:text-white">
@@ -43,17 +54,17 @@
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M2 5a1 1 0 011-1h3.28a1 1 0 01.96.74l1.22 4.39a1 1 0 01-.27.98l-1.67 1.67a16 16 0 006.36 6.36l1.67-1.67a1 1 0 01.98-.27l4.39 1.22a1 1 0 01.74.96V21a1 1 0 01-1 1h-2C9.163 22 2 14.837 2 6V5z" />
         </svg>
-        Na Kontaktoni
+        {{ 'navbar.contact' | translate }}
       </a>
 
-      <!-- Auth - COMMENTED OUT -->
+      <!-- Auth -->
       <!-- @if (!authService.isAuthenticated()) {
       <a routerLink="/login" class="flex items-center gap-1.5 text-gray-700 hover:text-red-600 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
         </svg>
-        Kyçu
+        {{ 'navbar.login' | translate }}
       </a>
       }
 
@@ -84,7 +95,7 @@
                   d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              Paneli i Adminit
+              {{ 'navbar.adminPanel' | translate }}
             </a>
             <div class="my-1 border-t border-gray-100"></div>
             }
@@ -94,7 +105,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
               </svg>
-              Profili Im
+              {{ 'navbar.profile' | translate }}
             </a>
             <a (click)="logout()"
               class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer">
@@ -102,12 +113,15 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
               </svg>
-              Çkyçu
+              {{ 'navbar.logout' | translate }}
             </a>
           </div>
         </div>
       </div>
       } -->
+
+      <!-- Language Switcher -->
+      <app-language-switcher></app-language-switcher>
     </nav>
 
     <!-- Mobile hamburger -->
@@ -141,7 +155,7 @@
 
     <!-- Drawer header -->
     <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-      <span class="text-base font-bold text-gray-900">Menu</span>
+      <span class="text-base font-bold text-gray-900">{{ 'navbar.title' | translate }}</span>
       <button (click)="closeDrawer()"
         class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors">
         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -155,9 +169,9 @@
 
       <!-- Services accordion -->
       <div>
-        <button (click)="toggleMobileServices()"
+        <button (click)="toggleMobileServices()" routerLink="/services"
           class="flex items-center justify-between w-full px-3 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-          <span>Shërbimet</span>
+          <span>{{ 'navbar.services' | translate }}</span>
           <svg class="w-4 h-4 transition-transform duration-200 text-gray-400" [class.rotate-180]="mobileServicesOpen"
             fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd"
@@ -168,20 +182,29 @@
         @if (mobileServicesOpen) {
         <div class="pl-3 mt-1 space-y-0.5">
           <a routerLink="/repair" (click)="closeDrawer()"
-            class="block px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">Riparimi</a>
+            class="block px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+            {{ 'navbar.repair' | translate }}
+          </a>
           <a routerLink="/maintenance" (click)="closeDrawer()"
-            class="block px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">Mirëmbajtja</a>
+            class="block px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+            {{ 'navbar.maintenance' | translate }}
+          </a>
           <a routerLink="/modernization" (click)="closeDrawer()"
-            class="block px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">Modernizimi</a>
+            class="block px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+            {{ 'navbar.modernization' | translate }}
+          </a>
         </div>
         }
       </div>
 
       <a routerLink="/about" (click)="closeDrawer()"
-        class="flex items-center px-3 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">Rreth
-        Nesh</a>
+        class="flex items-center px-3 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+        {{ 'navbar.about' | translate }}
+      </a>
       <a routerLink="/blog" (click)="closeDrawer()"
-        class="flex items-center px-3 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">Ashensori</a>
+        class="flex items-center px-3 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+        {{ 'navbar.elevator' | translate }}
+      </a>
 
       <a routerLink="/contact" (click)="closeDrawer()"
         class="flex items-center justify-center gap-2 w-full py-3 mt-2 border border-red-600 text-red-600 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition-all duration-200">
@@ -189,10 +212,10 @@
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M2 5a1 1 0 011-1h3.28a1 1 0 01.96.74l1.22 4.39a1 1 0 01-.27.98l-1.67 1.67a16 16 0 006.36 6.36l1.67-1.67a1 1 0 01.98-.27l4.39 1.22a1 1 0 01.74.96V21a1 1 0 01-1 1h-2C9.163 22 2 14.837 2 6V5z" />
         </svg>
-        Na Kontaktoni
+        {{ 'navbar.contact' | translate }}
       </a>
 
-      <!-- Auth section - COMMENTED OUT -->
+      <!-- Auth section -->
       <!-- <div class="pt-4 mt-2 border-t border-gray-100 space-y-1">
         @if (!authService.isAuthenticated()) {
         <a routerLink="/login" (click)="closeDrawer()"
@@ -201,7 +224,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
           </svg>
-          Kyçu
+          {{ 'navbar.login' | translate }}
         </a>
         }
 
@@ -222,7 +245,7 @@
               d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          Paneli i Adminit
+          {{ 'navbar.adminPanel' | translate }}
         </a>
         }
 
@@ -232,7 +255,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
           </svg>
-          Profili Im
+          {{ 'navbar.profile' | translate }}
         </a>
 
         <a (click)="logout()"
@@ -241,16 +264,21 @@
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
           </svg>
-          Çkyçu
+          {{ 'navbar.logout' | translate }}
         </a>
         }
       </div> -->
+
+      <!-- Language Switcher in Mobile -->
+      <div class="pt-4 mt-2 border-t border-gray-100">
+        <app-language-switcher></app-language-switcher>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Profile Modal - COMMENTED OUT -->
-<!-- @if (showProfileModal) {
+<!-- Profile Modal -->
+@if (showProfileModal) {
 <div class="fixed inset-0 bg-black/50 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-4"
   (click)="closeProfileModal()">
   <div class="w-full sm:max-w-md bg-white sm:rounded-2xl rounded-t-2xl shadow-2xl max-h-[90vh] overflow-y-auto"
@@ -258,7 +286,7 @@
 
     <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
       <h2 class="text-lg font-bold text-gray-900">
-        {{ showPasswordModal ? 'Ndrysho Fjalëkalimin' : 'Profili Im' }}
+        {{ showPasswordModal ? ('auth.changePassword' | translate) : ('navbar.profile' | translate) }}
       </h2>
       <button (click)="closeProfileModal()"
         class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-400">
@@ -311,7 +339,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
           </svg>
-          Ndrysho Fjalëkalimin
+          {{ 'auth.changePassword' | translate }}
         </button>
         <button (click)="logout()"
           class="w-full flex items-center justify-center gap-2 py-3 border border-red-200 text-red-600 text-sm font-semibold rounded-xl hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-200">
@@ -319,7 +347,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
           </svg>
-          Çkyçu
+          {{ 'navbar.logout' | translate }}
         </button>
       </div>
       }
@@ -327,10 +355,13 @@
       @if (showPasswordModal) {
       <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="space-y-4">
         <div class="space-y-1.5">
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Fjalëkalimi Aktual</label>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            {{ 'auth.currentPassword' | translate }}
+          </label>
           <div class="relative">
             <input [type]="showCurrent ? 'text' : 'password'" formControlName="currentPassword" class="w-full pr-11 pl-4 py-3 text-sm border border-gray-200 rounded-xl bg-gray-50 outline-none
-                         focus:bg-white focus:border-red-500 focus:ring-2 focus:ring-red-500/10 transition-all" />
+                     focus:bg-white focus:border-red-500 focus:ring-2 focus:ring-red-500/10 transition-all"
+              placeholder="••••••••" />
             <button type="button" (click)="showCurrent = !showCurrent"
               class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-300 hover:text-gray-500 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -348,10 +379,13 @@
         </div>
 
         <div class="space-y-1.5">
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Fjalëkalimi i Ri</label>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            {{ 'auth.newPassword' | translate }}
+          </label>
           <div class="relative">
             <input [type]="showNew ? 'text' : 'password'" formControlName="newPassword" class="w-full pr-11 pl-4 py-3 text-sm border border-gray-200 rounded-xl bg-gray-50 outline-none
-                         focus:bg-white focus:border-red-500 focus:ring-2 focus:ring-red-500/10 transition-all" />
+                     focus:bg-white focus:border-red-500 focus:ring-2 focus:ring-red-500/10 transition-all"
+              placeholder="••••••••" />
             <button type="button" (click)="showNew = !showNew"
               class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-300 hover:text-gray-500 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -369,12 +403,14 @@
         </div>
 
         <div class="space-y-1.5">
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Konfirmo
-            Fjalëkalimin</label>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            {{ 'auth.confirmPassword' | translate }}
+          </label>
           <div class="relative">
             <input [type]="showConfirm ? 'text' : 'password'" formControlName="confirmPassword" class="w-full pr-11 pl-4 py-3 text-sm border border-gray-200 rounded-xl bg-gray-50 outline-none
-                         focus:bg-white focus:border-red-500 focus:ring-2 focus:ring-red-500/10 transition-all"
-              [class.border-red-400]="passwordForm.errors?.['mismatch'] && passwordForm.get('confirmPassword')?.touched" />
+                     focus:bg-white focus:border-red-500 focus:ring-2 focus:ring-red-500/10 transition-all"
+              [class.border-red-400]="passwordForm.errors?.['mismatch'] && passwordForm.get('confirmPassword')?.touched"
+              placeholder="••••••••" />
             <button type="button" (click)="showConfirm = !showConfirm"
               class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-300 hover:text-gray-500 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -390,25 +426,23 @@
             </button>
           </div>
           @if (passwordForm.errors?.['mismatch'] && passwordForm.get('confirmPassword')?.touched) {
-          <p class="text-xs text-red-500 pl-0.5">Fjalëkalimet nuk përputhen.</p>
+          <p class="text-xs text-red-500 pl-0.5">{{ 'common.passwordMismatch' | translate }}</p>
           }
         </div>
 
         <div class="flex gap-3 pt-2">
           <button type="button" (click)="showPasswordModal = false"
             class="flex-1 py-3 text-sm border border-gray-200 text-gray-600 font-medium rounded-xl hover:bg-gray-50 transition-colors">
-            Kthehu
+            {{ 'common.cancel' | translate }}
           </button>
           <button type="submit" [disabled]="isLoading || passwordForm.invalid"
             class="flex-1 py-3 text-sm bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-            {{ isLoading ? 'Duke ruajtur...' : 'Ruaj' }}
+            {{ isLoading ? ('common.loading' | translate) : ('common.save' | translate) }}
           </button>
         </div>
-
       </form>
       }
-
     </div>
   </div>
 </div>
-} -->
+}

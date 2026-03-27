@@ -30,7 +30,7 @@
           <span class="text-xs font-medium">Banorët</span>
         </a>
 
-        @if (authService.isSuperAdmin()) {
+        @if (authService.isSuperAdmin()|| authService.isAdmin()) {
         <a routerLink="users" routerLinkActive="bg-red-50 text-red-600"
           class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
           <i class="fas fa-user-shield text-xl"></i>

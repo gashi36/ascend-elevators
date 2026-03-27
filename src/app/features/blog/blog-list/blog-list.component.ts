@@ -3,10 +3,11 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 
 import { BlogService } from '../blog.service';
 import { BlogPost } from '../blog-data';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-blog-list',
-  imports: [RouterModule],
+  imports: [RouterModule, TranslatePipe],
   standalone: true,
   templateUrl: './blog-list.component.html',
   styleUrls: ['./blog-list.component.scss']

@@ -2,34 +2,31 @@
 <div class="hero-section relative w-full overflow-hidden bg-white ">
   <br class="block sm:hidden" />
 
-
   <!-- FLEX WRAPPER -->
   <div class="flex flex-col lg:flex-row relative z-10">
 
     <!-- LEFT SIDE -->
     <div class="text-side p-8 sm:p-16 lg:w-1/2 flex flex-col justify-center text-black">
       <p class="text-sm tracking-widest uppercase font-semibold mb-4 opacity-80">
-        MENAXHIMI I JETËGJATËSISË SË ASHENSORËVE
+        {{ 'home.hero.badge' | translate }}
       </p>
       <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight mb-6">
-        Instalim &<br />
-        Mirëmbajte<br />
-        <span class="text-red-600">Të Ashensorëve</span>
+        {{ 'home.hero.title' | translate }}<br />
+        {{ 'home.hero.titleLine2' | translate }}<br />
+        <span class="text-red-600">{{ 'home.hero.titleHighlight' | translate }}</span>
       </h1>
       <p class="text-lg font-light mb-10 max-w-lg">
-        Ashensorët janë linjat jetike të ndërtesës suaj. Dhe kur punoni me
-        <strong>Ascend</strong>, ne jemi linja juaj e jetës. Gjithmonë vetëm një
-        telefonatë larg.
+        {{ 'home.hero.description' | translate }}
       </p>
       <a routerLink="/about"
         class="inline-block bg-red-600 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-700 w-fit">
-        MËSONI SI MUND TË NDIHMOJMË
+        {{ 'home.hero.button' | translate }}
       </a>
     </div>
 
     <!-- RIGHT IMAGE SIDE -->
     <div class="image-side lg:w-1/2 relative overflow-hidden">
-      <img src="https://imgur.com/Yl32HFW.jpg" alt="Grua dhe fëmijë duke shtypur një buton për një ashensor modern"
+      <img src="https://imgur.com/Yl32HFW.jpg" alt="Woman and child pressing elevator button"
         class="object-cover w-full h-full" />
       <div class="diagonal-cut"></div>
     </div>
@@ -40,12 +37,13 @@
   <div class="stitch-pillars"></div>
 
 </div>
+
 <section class="ripple-section">
   <div class="text-content">
-    <h2>SHËRBIMET TONA 360°</h2>
+    <h2>{{ 'home.services360.title' | translate }}</h2>
     <p>
-      <strong>Menaxhimi i Jetëgjatësisë së Ashensorëve</strong><br />
-      Ascend Elevators ofron zgjidhje të zgjuara dhe kosto efektive për pronarët.
+      <strong>{{ 'home.services360.description' | translate }}</strong><br />
+      {{ 'home.services360.subdescription' | translate }}
     </p>
   </div>
 
@@ -58,173 +56,132 @@
   </div>
 </section>
 
-
 <!-- ZGJIDHJET TONA cards below the image -->
 <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 -mt-30 py-10">
   <h2 class="text-center text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16">
-    ZGJIDHJET TONA
+    {{ 'home.solutions.title' | translate }}
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
 
-    <!-- CARD 1 -->
+    <!-- CARD 1 - Modernization -->
     <div
       class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/EEYMTnx.jpg');">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-        <h3 class="text-white text-3xl font-bold mb-3">Modernizim</h3>
+        <h3 class="text-white text-3xl font-bold mb-3">{{ 'home.solutions.cards.modernization.title' | translate }}</h3>
         <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-          Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe
-          pamje estetike.
+          {{ 'home.solutions.cards.modernization.description' | translate }}
         </p>
         <a routerLink="/modernization"
           class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-          MËSO MË SHUMË
+          {{ 'home.solutions.cards.modernization.button' | translate }}
         </a>
       </div>
     </div>
 
-    <!-- CARD 2 -->
+    <!-- CARD 2 - Maintenance & Service -->
     <div
       class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/iWLCz6i.jpg');">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-        <h3 class="text-white text-3xl font-bold mb-3">Mirëmbajtje & Shërbim</h3>
+        <h3 class="text-white text-3xl font-bold mb-3">{{ 'home.solutions.cards.maintenance.title' | translate }}</h3>
         <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-          Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë
-          dhe për të siguruar funksionim të vazhdueshëm.
+          {{ 'home.solutions.cards.maintenance.description' | translate }}
         </p>
         <a routerLink="/maintenance"
           class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-          MËSO MË SHUMË
+          {{ 'home.solutions.cards.maintenance.button' | translate }}
         </a>
       </div>
     </div>
 
-    <!-- CARD 3 -->
+    <!-- CARD 3 - Repair -->
     <div
       class="relative bg-white shadow-xl rounded-lg transform hover:scale-[1.03] transition-all duration-300 overflow-hidden group cursor-pointer h-[450px] sim-slice">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://imgur.com/H8zRFrF.jpg');">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent">
-        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-8 z-30">
-          <h3 class="text-white text-3xl font-bold mb-3">Riparim</h3>
+          <h3 class="text-white text-3xl font-bold mb-3">{{ 'home.solutions.cards.repair.title' | translate }}</h3>
           <p class="text-gray-200 text-lg mb-6 line-clamp-3">
-            Shërbimi ynë i reagimit të shpejtë është në gatishmëri 24 orë në ditë, 7 ditë në javë, duke siguruar
-            zgjidhje të menjëhershme për çdo problem.
+            {{ 'home.solutions.cards.repair.description' | translate }}
           </p>
           <a routerLink="/repair"
             class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit">
-            MËSO MË SHUMË
+            {{ 'home.solutions.cards.repair.button' | translate }}
           </a>
         </div>
       </div>
-
     </div>
+
   </div>
-
 </div>
-<!-- APPRxOACH SECTION -->
 
+<!-- APPROACH SECTION -->
 <div class="py-20 bg-gray-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
 
     <p class="text-sm tracking-widest uppercase font-semibold text-gray-600 mb-2">
-      QASJA JONË
+      {{ 'home.approach.badge' | translate }}
     </p>
     <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">
-      NJË QASJE E SIGURT DHE PROFESIONALE
+      {{ 'home.approach.title' | translate }}
     </h2>
     <p class="text-gray-700 max-w-3xl mx-auto mb-10">
-      Ne nuk jemi thjesht një kompani pjesësh si ofruesit e mëdhenj të shërbimeve për ashensorë. Ne jemi një kompani që
-      fokusohet tek njerëzit dhe zgjidhja e problemeve. Gjithçka fillon duke njohur me kujdes klientët tanë dhe nevojat
-      e tyre, duke kuptuar ashensorët dhe shkallët lëvizëse që ata përdorin. Vetëm një ekip me përvojën dhe ekspertizën
-      tonë mund të shohë dhe të veprojë sipas këtij standardi.
+      {{ 'home.approach.description' | translate }}
     </p>
 
     <a routerLink="/about"
       class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">
-      MËSONI MË SHUMË PËR NE
+      {{ 'home.approach.button' | translate }}
     </a>
 
     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
         <img src="https://imgur.com/uAwgZdS.jpg" alt="Woman checking phone in elevator"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
         <img src="https://imgur.com/v9L0Yhl.jpg" alt="Technician working on elevator"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
         <img src="https://imgur.com/dR8elZI.jpg" alt="Technician using a tablet"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
       <div class="w-full sm:w-1/4 h-[350px] overflow-hidden shadow-lg">
         <img src="../../../assets/images/Hero/bottomcards1.jpg" alt="Close-up of a man's face"
           class="object-cover w-full h-full hover:scale-105 transition duration-500" />
       </div>
-
     </div>
   </div>
 </div>
-<!--
-<div class="py-20 bg-gray-20">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-
-    <p class="text-sm tracking-widest uppercase font-semibold text-gray-600 mb-2">
-      MËNYRA JONË E PUNËS
-    </p>
-    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">
-      QASJA ASCEND
-    </h2>
-    <p class="text-gray-700 max-w-3xl mx-auto mb-10">
-      Ne nuk jemi thjesht një kompani pjesësh si ofruesit e mëdhenj të shërbimeve të ashensorëve. Ne jemi një
-      kompani që fokusohet tek njerëzit dhe zgjidhja e problemeve. Kjo fillon duke i njohur vërtet klientët tanë dhe
-      rrethanat e tyre unike, si dhe ashensorët dhe shkallët e tyre lëvizëse. Në këtë mënyrë, ne ofrojmë një vizion
-      të qartë të asaj që nevojitet.
-    </p>
-
-    <a routerLink="/about"
-      class="inline-block bg-red-500 text-white font-bold py-3 px-8 text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit mb-16">MËSONI
-      MË SHUMË PËR NE
-    </a>
-
-    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-    </div>
-  </div>
-</div> -->
 
 <app-testimonials></app-testimonials>
+
+<!-- CTA SECTION -->
 <div class="bg-gray-20 py-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex">
 
-    <!-- LEFT SIDE: Content (0–40%) -->
+    <!-- LEFT SIDE: Content -->
     <div class="w-full lg:w-2/5 text-left">
       <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 uppercase">
-        ALEATI YT I ASHENSORËVE
+        {{ 'home.cta.title' | translate }}
       </h2>
-
       <p class="text-gray-900 mb-6 text-base">
-        Zbuloni Ndryshimin me Ascend Elevator.<br>
-        Si mund t'ju ndihmojmë sot?
+        {{ 'home.cta.description' | translate }}
       </p>
-
-      <button (click)="navigateToContact()" class="inline-block bg-red-500 font-bold py-3 px-8 text-white text-center uppercase tracking-wider
-               transition duration-300 hover:bg-red-600 w-fit text-sm">
-        CAKTO NJË TELEFONATË
+      <button (click)="navigateToContact()"
+        class="inline-block bg-red-500 font-bold py-3 px-8 text-white text-center uppercase tracking-wider transition duration-300 hover:bg-red-600 w-fit text-sm">
+        {{ 'home.cta.button' | translate }}
       </button>
     </div>
 
-    <!-- RIGHT SIDE: Empty space (60%) -->
+    <!-- RIGHT SIDE: Empty space -->
     <div class="hidden lg:block lg:w-3/5"></div>
 
   </div>

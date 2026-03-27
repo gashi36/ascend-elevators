@@ -1,6 +1,6 @@
 <div class="bg-white">
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16  pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pb-20">
 
     <div class="max-w-4xl mx-auto mb-10">
       <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
@@ -15,7 +15,7 @@
         <img [src]="post?.image" alt="{{ post?.title }}" class="w-full h-auto rounded-lg mb-8 shadow-md">
 
         <p class="text-sm font-semibold uppercase text-red-600 mb-4">
-          {{ post?.category || 'KATEGORIA' }}
+          {{ post?.category || ('blog.defaultCategory' | translate) }}
         </p>
 
         <p class="text-gray-600 mb-8 border-l-4 border-red-600 pl-4 italic">
@@ -29,8 +29,9 @@
       <div class="lg:col-span-1 space-y-10 pt-16 lg:pt-0">
 
         <div class="border-b pb-4">
-          <h3 class="text-lg font-extrabold text-gray-900 mb-4 border-b-2 border-red-600 inline-block">POSTIMET E
-            LIDHURA</h3>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-4 border-b-2 border-red-600 inline-block">
+            {{ 'blog.relatedPosts' | translate }}
+          </h3>
           <ul class="space-y-4 text-sm">
             @for (related of relatedPosts; track related) {
             <li class="pt-4 border-t border-gray-100 first:pt-0 first:border-t-0">
@@ -40,7 +41,7 @@
               </a>
               <p class="text-xs text-gray-500 mt-1">{{ related.date | date: 'dd/MM/yyyy' }}</p>
               <a [routerLink]="['/blog', related.slug]" class="text-xs text-red-600 uppercase font-semibold">
-                LEXO MË SHUMË
+                {{ 'blog.readMore' | translate }}
               </a>
             </li>
             }
@@ -48,7 +49,9 @@
         </div>
 
         <div class="border-b pb-4">
-          <h3 class="text-lg font-extrabold text-gray-900 mb-4 border-b-2 border-red-600 inline-block">KATEGORITË</h3>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-4 border-b-2 border-red-600 inline-block">
+            {{ 'blog.categories' | translate }}
+          </h3>
           <ul class="space-y-2 text-sm">
             @for (category of categories; track category) {
             <li (click)="navigateToBlogWithFilter('category', category)"
@@ -60,7 +63,8 @@
         </div>
 
         <div>
-          <h3 class="text-lg font-extrabold text-gray-900 mb-4 border-b-2 border-red-600 inline-block">ETIKETAT (TAGS)
+          <h3 class="text-lg font-extrabold text-gray-900 mb-4 border-b-2 border-red-600 inline-block">
+            {{ 'blog.tags' | translate }}
           </h3>
           <div class="flex flex-wrap gap-2 text-xs">
             @for (tag of tags; track tag) {
@@ -78,11 +82,11 @@
   <div class="mt-16 py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-8 text-center">
       <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
-        LE TË KRIJOJMË BASHKË NJË TË ARDHME MË TË MENÇUR DHE TË SIGURT
+        {{ 'blog.ctaTitle' | translate }}
       </h2>
       <a href="/contact" class="inline-block bg-red-600 text-white font-bold py-3 px-8 text-center uppercase tracking-wider
                transition duration-300 hover:bg-red-700 w-fit text-sm">
-        KONTAKTONI SOT PËR NJË VLERËSIM
+        {{ 'blog.ctaButton' | translate }}
       </a>
     </div>
   </div>

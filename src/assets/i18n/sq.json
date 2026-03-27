@@ -1,0 +1,592 @@
+{
+  "navbar": {
+    "title": "Ascend Elevators",
+    "login": "Kyçu",
+    "logout": "Çkyçu",
+    "dashboard": "Paneli",
+    "home": "Faqja Kryesore",
+    "services": "Shërbimet",
+    "contact": "Na Kontaktoni",
+    "selectLanguage": "Zgjidh Gjuhën",
+    "about": "Rreth Nesh",
+    "elevator": "Ashensori",
+    "repair": "Riparimi",
+    "maintenance": "Mirëmbajtja",
+    "modernization": "Modernizimi",
+    "profile": "Profili Im",
+    "adminPanel": "Paneli i Adminit"
+  },
+  "footer": {
+    "description": "Lider në ofrimin e zgjidhjeve moderne për ashensorë dhe shkallë lëvizëse, duke garantuar siguri, efikasitet dhe shërbim të shkëlqyer.",
+    "contact": "KONTAKTO",
+    "headquarters": "SELIA QENDRORE",
+    "getDirections": "Merr udhëzime",
+    "viewOnMap": "Shiko në Google Maps",
+    "copyright": "Të gjitha të drejtat e rezervuara.",
+    "address": "Rr. Tahir Sinani, Lipjan 14000, Kosovë",
+    "phone1": "+383 44 606 560",
+    "phone2": "+383 48 606 560",
+    "email1": "info@ascend-elevators.com",
+    "email2": "sales@ascend-elevators.com"
+  },
+  "dashboard": {
+    "title": "Paneli i Kontrollit",
+    "subtitle": "Menaxhoni ndërtesat dhe banorët",
+    "buildings": "Ndërtesat",
+    "tenants": "Banorët",
+    "admins": "Adminët",
+    "users": "Përdoruesit",
+    "management": "Menaxhimi",
+    "adminPanel": "Paneli i Adminit"
+  },
+  "common": {
+    "save": "Ruaj",
+    "cancel": "Anulo",
+    "delete": "Fshij",
+    "edit": "Ndrysho",
+    "add": "Shto",
+    "search": "Kërko",
+    "loading": "Duke ngarkuar...",
+    "error": "Ndodhi një gabim",
+    "success": "U krye me sukses",
+    "confirm": "Konfirmo",
+    "yes": "Po",
+    "no": "Jo",
+    "close": "Mbyll"
+  },
+  "auth": {
+    "loginTitle": "Kyçu në llogarinë tuaj",
+    "email": "Adresa email",
+    "password": "Fjalëkalimi",
+    "rememberMe": "Më mbaj mend",
+    "forgotPassword": "Harruat fjalëkalimin?",
+    "noAccount": "Nuk keni llogari?",
+    "register": "Regjistrohu",
+    "loginButton": "Kyçu",
+    "logoutConfirm": "A jeni i sigurt që dëshironi të çkyçeni?",
+    "changePassword": "Ndrysho fjalëkalimin",
+    "currentPassword": "Fjalëkalimi aktual",
+    "newPassword": "Fjalëkalimi i ri",
+    "confirmPassword": "Konfirmo fjalëkalimin"
+  },
+  "buildings": {
+    "title": "Menaxhimi i Ndërtesave",
+    "addBuilding": "Shto Ndërtesë",
+    "buildingName": "Emri i Ndërtesës",
+    "address": "Adresa",
+    "floors": "Kati",
+    "elevators": "Ashensorët",
+    "status": "Statusi",
+    "actions": "Veprimet",
+    "active": "Aktiv",
+    "inactive": "Jo aktiv"
+  },
+  "tenants": {
+    "title": "Menaxhimi i Banorëve",
+    "addTenant": "Shto Banor",
+    "name": "Emri",
+    "email": "Email",
+    "phone": "Telefoni",
+    "apartment": "Apartamenti",
+    "building": "Ndërtesa",
+    "moveInDate": "Data e vendosjes",
+    "status": "Statusi"
+  },
+  "about": {
+    "title": "Rreth Nesh",
+    "subtitle": "Ne jemi një kompani e njerëzve & zgjidhjeve.",
+    "heroImageAlt": "Ashensorët janë jetët e ndërtesës suaj",
+    "heroTitle": "Ashensorët janë jetët e ndërtesës suaj.",
+    "heroText": "Ashensorët janë jetët e ndërtesës suaj. Dhe kur punoni me Ascend Elevators, ne jemi linja juaj e shërbimit. Nga teknikët tanë te pronarët, ne ju njohim ju, ndërtesën tuaj dhe pajisjet tuaja të ashensorëve. Duke i mbajtur të gjitha të mirëmbajtura. Duke bërë shpejt riparime kur ndodh problemi. Duke udhëhequr modernizimin dhe zëvendësimin e pajisjeve kur është e nevojshme. Gjithmonë me komunikim të qartë, zanat të mirë, ndershmëri dhe transparencë.",
+    "stats": {
+      "stat1Label": "thirrje problemesh të zgjidhura në vizitën e parë",
+      "stat2Label": "mbajtje klientësh për 13 vjet shërbim",
+      "stat3Label": "reduktim në kohën joproduktive të ashensorëve"
+    },
+    "approach": {
+      "title": "Qasja Jonë",
+      "subtitle": "Mënyra Ascend",
+      "text": "Ne nuk jemi një kompani pjesësh si ofruesit e mëdhenj të shërbimeve të ashensorëve. Ne jemi një kompani e njerëzve dhe zgjidhjeve. Fillon duke i njohur vërtet klientët tanë dhe rrethanat e tyre. Duke i njohur ashensorët dhe shkallët mekanike në një mënyrë që vetëm një ekip me eksperiencën dhe syrin ekspert tonë mund të shohë.",
+      "imageAlt": "Teknikët master të Ascend Elevators"
+    },
+    "peopleFocus": {
+      "title": "Sepse shërbimi i ashensorëve ka të bëjë me njerëzit",
+      "text": "Ashensorët janë për njerëzit. Ata janë mënyra se si punonjësit e zyrave kthehen në shtëpi te fëmijët e tyre. Si pacientët e spitalit udhëtojnë në katin kirurgjik. Si njerëzit sjellin pazarët e tyre. Ne punojmë për këta njerëz. Ashtu si bëni edhe ju. Ata varen nga ju, dhe ju mund të varni nga ne.",
+      "imageAlt": "Shërbimi i ashensorëve ka të bëjë me njerëzit"
+    },
+    "experience": {
+      "title": "Eksperienca Jonë",
+      "text": "Në një botë mollësh, ne jemi portokalli. Punë jonë nuk është për një listë kontrolli shërbimesh. Është për të gjithë, nga teknikët tanë te ekzekutivët, të jenë vetëm një telefonatë ose mesazh larg. Duke rekomanduar zgjidhjen e duhur për ndërtesën tuaj, çdo herë.",
+      "tagline": "Këtu për t'ju ngritur"
+    },
+    "technicians": {
+      "title": "Teknikë master në shërbimin tuaj.",
+      "text": "Me më shumë se 28 vjet përvojë mesatarisht, si dhe trajnime rigoroze dhe çertifikime, teknikët tanë të çertifikuar mund të diagnostikojnë dhe zgjidhin edhe sistemet më komplekse të ashensorëve.",
+      "stat1Label": "vjet përvojë mesatare në terren",
+      "stat2Label": "vjet Program Kombëtar i Edukimit për Industrinë e Ashensorëve",
+      "stat3Label": "NEIEP E Çertifikuar, TWIC",
+      "image1Alt": "Teknikë duke punuar",
+      "image2Alt": "Trajnim teknikësh",
+      "image3Alt": "Çertifikim industrial"
+    },
+    "cta": {
+      "title": "Aleati Juaj i Ashensorëve",
+      "text": "Zbuloni Ndryshimin me Ascend Elevators.\nSi mund t'ju ndihmojmë sot?",
+      "button": "Cakto një Konsultë Falas"
+    },
+    "navigation": {
+      "approach": "Qasja Jonë",
+      "team": "Ekipi Ynë",
+      "experience": "Eksperienca Jonë"
+    }
+  },
+  "login": {
+    "title": "Ascend Elevators",
+    "subtitle": "Paneli i Administratorit",
+    "welcome": "Mirë se vini",
+    "description": "Hyni në llogarinë tuaj për të vazhduar.",
+    "username": "Përdoruesi",
+    "usernamePlaceholder": "përdoruesi",
+    "password": "Fjalëkalimi",
+    "passwordPlaceholder": "••••••••",
+    "loginButton": "Kyçu",
+    "loggingIn": "Duke u kyçur…",
+    "errorMessage": "Përdoruesi ose fjalëkalimi janë të pasaktë",
+    "footer": "Aksesi i kufizuar vetëm për personelin e autorizuar.\nKontaktoni administratorin për ndihmë."
+  },
+  "blog": {
+    "relatedPosts": "POSTIMET E LIDHURA",
+    "categories": "KATEGORITË",
+    "tags": "ETIKETAT (TAGS)",
+    "readMore": "LEXO MË SHUMË",
+    "defaultCategory": "KATEGORIA",
+    "ctaTitle": "LE TË KRIJOJMË BASHKË NJË TË ARDHME MË TË MENÇUR DHE TË SIGURT",
+    "ctaButton": "KONTAKTONI SOT PËR NJË VLERËSIM"
+  },
+  "blogList": {
+    "badge": "Rreth Ashensorit",
+    "title": "Lajmet dhe Artikujt e Fundit",
+    "description": "Lexoni historitë, këshillat dhe lajmet më të fundit nga ekipi ynë për mirëmbajtjen dhe inovacionet në ashensorë.",
+    "defaultDate": "DATË",
+    "defaultCategory": "KATEGORIA",
+    "readMore": "Lexo më shumë →"
+  },
+  "contact": {
+    "badge": "Linja juaj vertikale e ndihmës",
+    "description": "Si mund t'ju ndihmojmë sot?\nÇdo situatë ndërtimi është e ndryshme. Le të njohim se çfarë po përballoni që të kuptojmë më mirë si t'ju ndihmojmë.",
+    "form": {
+      "firstName": "Emri",
+      "firstNamePlaceholder": "Emri",
+      "firstNameRequired": "Fusha e emrit kërkohet.",
+      "lastName": "Mbiemri",
+      "lastNamePlaceholder": "Mbiemri",
+      "lastNameRequired": "Fusha e mbiemrit kërkohet.",
+      "title": "Titulli / Pozicioni",
+      "titlePlaceholder": "Titulli ose Pozicioni",
+      "company": "Kompanija / Banesa",
+      "companyPlaceholder": "Kompanija ose Ndërtesa",
+      "address": "Adresa",
+      "addressPlaceholder": "Adresa",
+      "address2": "Adresa Linja 2",
+      "address2Placeholder": "Adresa Linja 2 (opsionale)",
+      "city": "Qyteti",
+      "cityPlaceholder": "Qyteti",
+      "state": "Shteti / Rajoni",
+      "statePlaceholder": "Shteti ose Rajoni",
+      "zip": "Kodi Postar",
+      "zipPlaceholder": "Kodi Postar",
+      "phone": "Telefoni",
+      "phonePlaceholder": "Numri i Telefonit",
+      "email": "Email",
+      "emailPlaceholder": "Email-i",
+      "emailRequired": "Fusha e email-it kërkohet.",
+      "helpTitle": "Na tregoni se si mund t'ju ndihmojmë:",
+      "helpOptions": {
+        "cabinInterior": "Interieri i Kabinës",
+        "assessment": "Vlerësimi i Ashensorit",
+        "maintenance": "Mirëmbajtja e Ashensorit",
+        "repair": "Riparimi i Ashensorit",
+        "modernization": "Modernizimi i Ashensorit",
+        "testing": "Testimi Shtetëror",
+        "other": "Tjetër"
+      },
+      "preferredContact": "Metoda e Preferuar e Kontaktit",
+      "preferredContactOptions": {
+        "phone": "Telefon",
+        "email": "Email"
+      },
+      "message": "Mesazh Shtesë",
+      "messagePlaceholder": "Shkruani mesazhin tuaj...",
+      "messageRequired": "Fusha e mesazhit kërkohet.",
+      "submitButton": "Dërgo Mesazhin",
+      "sending": "Duke dërguar..."
+    },
+    "messages": {
+      "success": "Mesazhi u dërgua me sukses!",
+      "error": "Ndodhi një gabim. Ju lutemi provoni përsëri."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "MENAXHIMI I JETËGJATËSISË SË ASHENSORËVE",
+      "title": "Instalim &",
+      "titleLine2": "Mirëmbajte",
+      "titleHighlight": "Të Ashensorëve",
+      "description": "Ashensorët janë linjat jetike të ndërtesës suaj. Dhe kur punoni me Ascend, ne jemi linja juaj e jetës. Gjithmonë vetëm një telefonatë larg.",
+      "button": "MËSONI SI MUND TË NDIHMOJMË"
+    },
+    "services360": {
+      "title": "SHËRBIMET TONA 360°",
+      "description": "Menaxhimi i Jetëgjatësisë së Ashensorëve",
+      "subdescription": "Ascend Elevators ofron zgjidhje të zgjuara dhe kosto efektive për pronarët."
+    },
+    "solutions": {
+      "title": "ZGJIDHJET TONA",
+      "cards": {
+        "modernization": {
+          "title": "Modernizim",
+          "description": "Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe pamje estetike.",
+          "button": "MËSO MË SHUMË"
+        },
+        "maintenance": {
+          "title": "Mirëmbajtje & Shërbim",
+          "description": "Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë dhe për të siguruar funksionim të vazhdueshëm.",
+          "button": "MËSO MË SHUMË"
+        },
+        "repair": {
+          "title": "Riparim",
+          "description": "Shërbimi ynë i reagimit të shpejtë është në gatishmëri 24 orë në ditë, 7 ditë në javë, duke siguruar zgjidhje të menjëhershme për çdo problem.",
+          "button": "MËSO MË SHUMË"
+        }
+      }
+    },
+    "approach": {
+      "badge": "QASJA JONË",
+      "title": "NJË QASJE E SIGURT DHE PROFESIONALE",
+      "description": "Ne nuk jemi thjesht një kompani pjesësh si ofruesit e mëdhenj të shërbimeve për ashensorë. Ne jemi një kompani që fokusohet tek njerëzit dhe zgjidhja e problemeve. Gjithçka fillon duke njohur me kujdes klientët tanë dhe nevojat e tyre, duke kuptuar ashensorët dhe shkallët lëvizëse që ata përdorin. Vetëm një ekip me përvojën dhe ekspertizën tonë mund të shohë dhe të veprojë sipas këtij standardi.",
+      "button": "MËSONI MË SHUMË PËR NE"
+    },
+    "cta": {
+      "title": "ALEATI YT I ASHENSORËVE",
+      "description": "Zbuloni Ndryshimin me Ascend Elevator.\nSi mund t'ju ndihmojmë sot?",
+      "button": "CAKTO NJË TELEFONATË"
+    }
+  },
+  "maintenance": {
+    "hero": {
+      "badge": "MIRËMBAJTJA E ASHENSORIT",
+      "title": "NGA SHPENZIM I NEVOJSHËM",
+      "titleHighlight": "INVESTIM TË MENÇUR"
+    },
+    "carePlans": {
+      "title": "PLANET E KUJDESIT TË PERSONALIZUAR PËR DAMARËT E NDËRTESËS TUAJ",
+      "subtitle": "Ashtu si njerëzit, ashensorët kanë nevojë për kujdes parandalues të synuar, me cilësi të lartë, që i mban në formë të mirë dhe funksionojnë në mënyrë të sigurt për aq kohë sa është e mundur.",
+      "description": "Inovacioni dhe ekspertiza shpesh janë pajisjet më të shtrenjta në çdo ndërtesë. Nëse keni një ekip brenda kompanisë, ne ofrojmë trajnim dhe mbështetje teknike. Përndryshe, ashensorët tuaj kanë nevojë për kujdes ekspert afatgjatë që zgjat jetën e pajisjeve tuaja dhe i ndihmon të jenë në përputhje me kodet. Allied Elevator ofron programe mirëmbajtjeje fleksibël, të personalizuara, të dizajnuara për nevojat tuaja specifike. Ne marrim parasysh llojin e ndërtesës tuaj, përdorimin e ashensorit, profilin e qiramarrësve dhe nivelin tuaj të rehatisë kur i ndërtojmë ato."
+    },
+    "difference": {
+      "title": "NDARJE NDËRMJET QIRAMARRËSVE TË LUMTUR DHE TË PAKËNAQUR."
+    },
+    "services": {
+      "maintenance": {
+        "title": "MIRËMBAJTJA",
+        "item1": "Mirëmbajtje Gjithëpërfshirëse, Parandaluese",
+        "item2": "Programe Kujdesi të Personalizuara të Përshtatura Për Çdo Nevojë",
+        "item3": "Zgjidhja e Avancuar e Problemeve E Mban Suksesin e Riparimeve Në 90%",
+        "item4": "Testimi i Detyrueshëm nga Shteti I Mban Pajisjet Në Përputhje me Kodet",
+        "item5": "Sistemet Jo-Pronësore Ju Japin Më Shumë Kontroll Mbi Asetet Tuaja",
+        "item6": "Vlerësime për Pajisjet të Ekspozuara ndaj Lagështisë",
+        "item7": "Planifikimi i Kapitalit për Jetëgjatësi dhe Menaxhimin e Ciklit Jetësor"
+      },
+      "service": {
+        "title": "SHËRBIMI DHE INSPEKTIMET",
+        "item1": "Bashkë-Komisionimi (Co-commissioning)",
+        "item2": "Shërbimi dhe Monitorimi Gjithëpërfshirës i Pajisjeve",
+        "item3": "Lexues Shërbimi në Distancë (Remote Service Readers)",
+        "item4": "Testimi i Sistemeve Hidraulike",
+        "item5": "Inspektimet e Motorit",
+        "item6": "Përmirësimet e Njësisë së Fuqisë",
+        "item7": "Përmirësimet e Kontrollit",
+        "item8": "Testimi i Ngarkesës së Plotë i Detyrueshëm nga Shteti",
+        "item9": "Rishikimet Vjetore të Kërkesave për Testim dhe Ri-Komisionim"
+      }
+    },
+    "expertise": {
+      "title": "Ekspertizë në Veprim",
+      "description": "Teknikët tanë të kualifikuar janë të përkushtuar për të ofruar shërbim të jashtëzakonshëm dhe mirëmbajtje të sigurt për çdo ashensor. Me përvojë të gjatë dhe trajnime të vazhdueshme, ata sigurojnë që pajisjet tuaja të funksionojnë në mënyrë optimale dhe të jenë gjithmonë në përputhje me standardet më të larta të industrisë.",
+      "feature1": "Shërbim i shpejtë dhe i besueshëm",
+      "feature2": "Ekspertizë teknike për çdo lloj ashensori",
+      "feature3": "Mbështetje dhe këshillim për klientët"
+    },
+    "experience": {
+      "title": "PËRVOJA KA RËNDËSI",
+      "subtitle": "KUJDES EKSPERT, DIAGNOSTIKË E AVANCUAR. SHËRBIMI I ASHENSORIT NGA TEKNIKË MASTER",
+      "description": "Besojuni ashensorët tuaj teknikëve tanë master, të cilët, me 20 vjet përvojë, të kombinuar me mjetet tona diagnostike të fundit dhe ekspertizën, i fuqizojnë ata të diagnostikojnë dhe zgjidhin me lehtësi kompleksitetet më të ndërlikuara të sistemit.",
+      "stats": {
+        "clientRetention": "Mbajtja e Klientit Vit Pas Viti",
+        "newClients": "Klientët e Rinj Referohen Nga Klientë Dhe Ekspertë Të Tjerë",
+        "dailyService": "Mesatarja Ditore e Ashensorëve Që Mirëmbajmë Janë Në Shërbim"
+      }
+    },
+    "clients": {
+      "title": "DISA NGA KLIENTËT TANË TË KËNAQUR"
+    },
+    "cta": {
+      "title": "SI MUND T'JU NDIHMOJMË?",
+      "description": "Çdo situatë ndërtese është ndryshe. Le të kuptojmë se me çfarë po përballeni në mënyrë që të kuptojmë më mirë se si t'ju ndihmojmë.",
+      "button": "REZERVONI NJË TAKIM"
+    },
+    "stats": {
+      "title": "STATISTIKAT TONA TË MIRËMBAJTJES",
+      "description": "Shihni se si angazhimi ynë për cilësi dhe përkushtimi ndaj klientit reflektohet në rezultatet tona.",
+      "stat1Label": "mbajtje preventive në kohë",
+      "stat2Label": "reduktim i shkeljeve të emergjencës",
+      "stat3Label": "efikasitet i përgjithshëm i sistemit",
+      "ctaText": "Jini pjesë e suksesit tonë! Na kontaktoni sot për zgjidhje të personalizuara mirëmbajtjeje.",
+      "ctaButton": "KONTAKTONI TANI"
+    }
+  },
+  "modernization": {
+    "hero": {
+      "badge": "MODERNIZIMI I ASHENSORIT",
+      "title": "NE JEMI MBI TË,",
+      "titleLine": "PRANDAJ JU JENI",
+      "titleHighlight": "PËRPARA",
+      "imageAlt": "Lobi modern i ashensorit"
+    },
+    "guarantee": {
+      "title": "GARANTONI TË ARDHMEN E UDHËTIMIT TUAJ.",
+      "highlight": "MODERNIZIM",
+      "subtitle": "I THJESHTË I ASHENSORIT",
+      "description": "Ne jemi ekspertë në modernizimin e ashensorëve tuaj për të ardhmen. Duke kombinuar teknologjinë e fundit me ekspertizën tonë, ne sigurojmë që ashensorët tuaj të jenë eficientë, të sigurt dhe modernë. Nga përmirësimet e thjeshta deri tek modernizimet e plota, ne ofrojmë zgjidhje të personalizuara për nevojat tuaja.",
+      "item1": "Dizajn i Brendshëm dhe Modernizim i Kabinës",
+      "item2": "Përmirësimi i Sistemeve të Kontrollit të Ashensorit",
+      "item3": "Përmirësimi i Efiçencës së Energjisë"
+    },
+    "keep": {
+      "title": "Mbajtja e ashensorëve tuaj të përditësuar, me pamje të mirë dhe të sigurt i bën udhëtarët tuaj të lumtur dhe juve heronj.",
+      "description": "Zgjidhjet tona të modernizimit realizohen përmes menaxhimit të kujdesshëm dhe komunikimit transparent, duke minimizuar ndërprerjet dhe maksimizuar sigurinë. Ne kujdesemi për çdo detaj, nga planifikimi deri tek implementimi."
+    },
+    "why": {
+      "title": "Pse të Modernizoni me Ascend Elevators?",
+      "description": "Modernizimi i ashensorëve tuaj është një investim i mençur që përmirëson përvojën e përdoruesve, rrit vlerën e pronës dhe redukton kostot operacionale.",
+      "imageAlt": "Gruaja duke përdorur telefonin në ashensorin modern"
+    },
+    "addLife": {
+      "title": "SHTONI JETË TË RE NË NDËRTESËN TUAJ",
+      "item1": {
+        "title": "Interier i Personalizuar",
+        "text": "Pamje moderne, instalim i përsosur."
+      },
+      "item2": {
+        "title": "Në Përputhje me Kodet",
+        "text": "Modifikime për ADA dhe siguri."
+      },
+      "item3": {
+        "title": "Teknologji e Fundit",
+        "text": "Kosto më të ulëta, më shumë efikasitet."
+      }
+    },
+    "green": {
+      "title": "PRODUKTE & SHËRBIME TË ENERGJISË JESHILE",
+      "description": "Ne kemi shumë projekte modernizimi që plotësojnë produktet dhe shërbimet e sotme efiçiente të energjisë që kontribuojnë gjithashtu në një planet më të shëndetshëm.",
+      "imageAlt": "Brendësia e kabinës së ashensorit me ndriçim të ndezur",
+      "item1": {
+        "title": "Solid State",
+        "text": "Më shumë besueshmëri, më pak energji."
+      },
+      "item2": {
+        "title": "Rigjeneruese",
+        "text": "Kursim energjie, kosto më të ulëta."
+      },
+      "item3": {
+        "title": "Ndriçim Jeshil",
+        "text": "LED jetëgjatë, konsum i ulët."
+      }
+    },
+    "experience": {
+      "title": "PËRVOJA KA RËNDËSI",
+      "subtitle": "KUJDES EKSPERT, DIAGNOSTIKË E AVANCUAR. SHËRBIMI I ASHENSORIT NGA TEKNIKË MASTER",
+      "description": "Besojuni ashensorët tuaj teknikëve tanë master, të cilët, me 20 vjet përvojë, të kombinuar me mjetet tona diagnostike të fundit dhe ekspertizën, i fuqizojnë ata të diagnostikojnë dhe zgjidhin me lehtësi kompleksitetet më të ndërlikuara të sistemit.",
+      "stats": {
+        "clientRetention": "Mbajtja e Klientit Vit Pas Viti",
+        "newClients": "Klientët e Rinj Referohen Nga Klientë Dhe Ekspertë Të Tjerë",
+        "dailyService": "Mesatarja Ditore e Ashensorëve Që Mirëmbajmë Janë Në Shërbim"
+      }
+    },
+    "clients": {
+      "title": "DISA NGA KLIENTËT TANË TË KËNAQUR"
+    },
+    "cta": {
+      "title": "SI MUND T'JU NDIHMOJMË?",
+      "description": "Çdo situatë ndërtese është ndryshe. Le të kuptojmë se me çfarë po përballeni në mënyrë që të kuptojmë më mirë se si t'ju ndihmojmë.",
+      "button": "REZERVONI NJË TAKIM"
+    },
+    "stats": {
+      "stat1Label": "projekte të modernizimit të përfunduara",
+      "stat2Label": "pra-buxhetim i përputhur",
+      "stat3Label": "përmirësim efikasie pas modernizimit"
+    }
+  },
+  "repair": {
+    "hero": {
+      "badge": "RIPARIMI I ASHENSORIT",
+      "title": "KOHA JUAJ E NDALJES",
+      "titleLine": "ËSHTË KOHA JONË E",
+      "titleHighlight": "VEPRIMIT",
+      "subtitle": "GJETJA E ZGJIDHJEVE SHPEJT",
+      "imageAlt": "Teknik riparimi ashensori duke punuar"
+    },
+    "client": {
+      "titleHighlight": "KU ÇDO KLIENT KA RËNDËSI.",
+      "title": "ÇDO RIPARIM KA RËNDËSI",
+      "description": "Ashensorët janë damari i ndërtesës suaj. Në Ascend Elevators, ne ofrojmë zgjidhje të shpejta dhe efektive për çdo problem. Me një qasje proaktive dhe teknikë të specializuar, ne minimizojmë kohën e ndaljes dhe reduktojmë kostot e riparimit. Shërbimi ynë 24/7 siguron që ju të keni mbështetje të menjëhershme kur ju nevojitet.",
+      "item1": "Diagnostikim & Komunikim Urgjent",
+      "item2": "Diagnostikim & Zgjidhje Problemesh me Ekspertizë",
+      "item3": "Strategji për Pajisjet e Vjetra ose të Vjetëruara"
+    },
+    "failures": {
+      "title": "Defektet ndodhin. Por një riparim i shpejtë mund të bëjë ndryshimin midis qiramarrësve të lumtur dhe të palumtur.",
+      "description1": "Allied është partneri juaj lokal i shërbimit të ashensorëve. Ne jemi këtu, të investuar në komunitetet që shërbejmë. Ekipi ynë lokal ofron një gamë të plotë shërbimesh dhe procesin e blerjes dhe menaxhimit si kompanitë e mëdha. Duke vepruar shpejt për të minimizuar shqetësimet, ne shkurtojmë javë nga koha juaj e riparimeve.",
+      "description2": "Kur telefononi Allied, ne do të dërgojmë një teknik, dhe do të veprojmë shpejt, duke marrë një vlerësim. Mund të ketë vetëm një mënyrë për t'ju kthyer në funksionim. Ne do të punojmë përkrah jush, jo për një kontratë, dhe do t'ju tregojmë për çmimin duke iu përgjigjur çdo pyetjeje që mund të keni. Teknikët tanë të terrenit do të kryejnë riparimin; nuk janë vetëm Shërbimi i Klientit, Kontabiliteti + Ekipet e Terrenit që punojnë së bashku për t'u siguruar që merrni shërbimin dhe riparimin më të mirë. Prioriteti ynë është gjithmonë përqendrimi në nevojat tuaja, sigurinë dhe përvojën e udhëtarëve tuaj.",
+      "imageAlt": "Teknik duke riparuar ashensorin"
+    },
+    "stats": {
+      "stat1Label": "ashensorë dhe shkallë lëvizëse të mirëmbajtur + shërbyer",
+      "stat2Label": "Teknikë të certifikuar të Unionit të trajnuar në pajisjet më të fundit",
+      "stat3Label": "Sigurojmë të gjitha testimet, për të përmbushur kodet shtetërore dhe lokale",
+      "stat4Label": "Ekspertizë në punën me të gjitha markat e ashensorëve + shkallëve lëvizëse"
+    },
+    "commonProblems": {
+      "title": "PROBLEME TË ZAKONSHME QË ZGJIDHEN ME KUJDESIN TONË TË GJITHËPËRFSHIRËS.",
+      "item1": "Ashensori im ka ngecur dhe kontrollet nuk reagojnë.",
+      "item2": "Kam një shkelje kodi, sisteme emergjence ose alarme.",
+      "item3": "Ashensori im ka probleme elektrike ose ka humbur energjinë.",
+      "item4": "Dyerët e mia po keqfunksionojnë.",
+      "item5": "Ashensori im ka lëvizje të çrregullta ose ndalon midis kateve.",
+      "item6": "Ashensorët që lëvizin më ngadalë se zakonisht."
+    },
+    "repairStats": {
+      "stat1Label": "riparime në vizitën e parë",
+      "stat2Label": "klientë të kënaqur",
+      "stat3Label": "reduktim në kohën joproduktive"
+    }
+  },
+  "services": {
+    "hero": {
+      "badge": "MENAXHIMI I JETËGJATËSISË SË ASHENSORËVE",
+      "title": "Instalim &",
+      "titleLine2": "Mirëmbajte",
+      "titleHighlight": "Të Ashensorëve",
+      "description": "Ashensorët janë linjat jetike të ndërtesës suaj. Dhe kur punoni me Ascend, ne jemi linja juaj e jetës. Gjithmonë vetëm një telefonatë larg.",
+      "button": "MËSONI SI MUND TË NDIHMOJMË",
+      "imageAlt": "Grua dhe fëmijë duke shtypur një buton për një ashensor modern"
+    },
+    "services360": {
+      "title": "SHËRBIMET TONA 360°",
+      "description": "Menaxhimi i Jetëgjatësisë së Ashensorëve",
+      "subdescription": "Ascend Elevators ofron zgjidhje të zgjuara dhe kosto efektive për pronarët.",
+      "imageAlt": "Ascend Elevators Diagram"
+    },
+    "solutions": {
+      "title": "ZGJIDHJET TONA",
+      "cards": {
+        "modernization": {
+          "title": "Modernizim",
+          "description": "Rinovoni sistemet tuaja të vjetra me teknologjinë më të fundit për efikasitet energjetik, siguri dhe pamje estetike.",
+          "button": "MËSO MË SHUMË"
+        },
+        "maintenance": {
+          "title": "Mirëmbajtje & Shërbim",
+          "description": "Parandaloni ndërprerjet me programet tona të mirëmbajtjes, të dizajnuara për të zgjatur jetëgjatësinë dhe për të siguruar funksionim të vazhdueshëm.",
+          "button": "MËSO MË SHUMË"
+        },
+        "repair": {
+          "title": "Riparim",
+          "description": "Shërbimi ynë i reagimit të shpejtë është në gatishmëri 24 orë në ditë, 7 ditë në javë, duke siguruar zgjidhje të menjëhershme për çdo problem.",
+          "button": "MËSO MË SHUMË"
+        }
+      }
+    },
+    "approach": {
+      "badge": "QASJA JONË",
+      "title": "NJË QASJE E SIGURT DHE PROFESIONALE",
+      "description": "Ne nuk jemi thjesht një kompani pjesësh si ofruesit e mëdhenj të shërbimeve për ashensorë. Ne jemi një kompani që fokusohet tek njerëzit dhe zgjidhja e problemeve. Gjithçka fillon duke njohur me kujdes klientët tanë dhe nevojat e tyre, duke kuptuar ashensorët dhe shkallët lëvizëse që ata përdorin. Vetëm një ekip me përvojën dhe ekspertizën tonë mund të shohë dhe të veprojë sipas këtij standardi.",
+      "button": "MËSONI MË SHUMË PËR NE",
+      "image1Alt": "Woman checking phone in elevator",
+      "image2Alt": "Technician working on elevator",
+      "image3Alt": "Technician using a tablet",
+      "image4Alt": "Close-up of a man's face"
+    },
+    "servicesHero": {
+      "title": "SHËRBIMET KRYESORE TONA",
+      "subtitle": "Lëvizje e qetë, zgjidhje të shpejta. Zbuloni shërbimet tona të ekspertëve."
+    },
+    "sectors": {
+      "title": "ZGJIDHJE PËR ÇDO SEKTOR NGA ASCEND ELEVATORS",
+      "apartments": {
+        "title": "APARTAMENTE & KONDO",
+        "description": "Zgjidhje të qeta, të sigurta dhe efikase për ndërtesa rezidenciale moderne. Ascend Elevators ofron komoditet dhe estetikë për çdo kompleks banimi.",
+        "label": "APARTAMENTE & KONDO",
+        "alt": "Apartamente & Kondo"
+      },
+      "healthcare": {
+        "title": "SHËNDETËSI",
+        "description": "Sisteme ashensorësh të dizajnuara për spitale, klinika dhe qendra kujdesi. Siguri, shpejtësi dhe besueshmëri për transportin e pacientëve dhe personelit.",
+        "label": "SHËNDETËSI",
+        "alt": "Healthcare"
+      },
+      "hotel": {
+        "title": "HOTELERI",
+        "description": "Ashensorë elegantë dhe të qetë për përvoja luksoze hoteliere. Dizajnuar për rehati, stil dhe efikasitet maksimal për mysafirët tuaj.",
+        "label": "HOTELERI",
+        "alt": "Hotel"
+      },
+      "industrial": {
+        "title": "INDUSTRIALE",
+        "description": "Ashensorë të qëndrueshëm për ambiente industriale dhe fabrika. Të ndërtuar për ngarkesa të rënda dhe funksionim të pandërprerë.",
+        "label": "INDUSTRIALE",
+        "alt": "Industrial"
+      },
+      "office": {
+        "title": "ZYRA & QENDRA BIZNESI",
+        "description": "Zgjidhje të shpejta dhe elegante për ndërtesa komerciale dhe zyra moderne. Rritni produktivitetin me ashensorë inteligjentë dhe efikas.",
+        "label": "ZYRA & QENDRA BIZNESI",
+        "alt": "Office"
+      },
+      "retail": {
+        "title": "RETAIL & QENDRA TREGTARE",
+        "description": "Ashensorë dhe shkallë lëvizëse për qendra tregtare dhe dyqane. Sigurojnë qarkullim të lehtë dhe përvojë të rehatshme për klientët.",
+        "label": "RETAIL & QENDRA TREGTARE",
+        "alt": "Retail"
+      }
+    },
+    "cta": {
+      "title": "ALEATI YT I ASHENSORËVE",
+      "description": "Zbuloni Ndryshimin me Ascend Elevator.\nSi mund t'ju ndihmojmë sot?",
+      "button": "CAKTO NJË TELEFONATË"
+    }
+  },
+  "testimonials": {
+    "title": "Çfarë Thonë Klientët Tanë",
+    "0": {
+      "name": "Besnik Gashi",
+      "title": "Menaxher i Objektit, Prishtinë",
+      "text": "Ascend ka revolucionarizuar transportin vertikal të ndërtesës sonë. Mirëmbajtja e tyre është proaktive, dhe qiramarrësit tanë komplimentojnë vazhdimisht ecjen e qetë. Të dish që kemi një ekip të besueshëm, lokal këtu në Kosovë, e bën të gjithë ndryshimin."
+    },
+    "1": {
+      "name": "Adelina Haxhiu",
+      "title": "Pronare e Pronës, Lipjan",
+      "text": "Si pronare prone në Lipjan, unë vlerësoj profesionalizmin dhe shpejtësinë e Ascend. Ata ishin i vetmi ekip që mundi të menaxhonte modernizimin e sistemit tonë të vjetër në mënyrë të përsosur. Punë e shkëlqyer!"
+    },
+    "2": {
+      "name": "Edon Gashi",
+      "title": "Administrator Ndërtese, Ferizaj",
+      "text": "Shërbim i jashtëzakonshëm! Inxhinierët e Ascend janë shumë të aftë dhe gjithmonë arrijnë shpejt. Ata ofrojnë zgjidhje të qarta dhe me kosto efektive—jo thjesht rregullime të shpejta. Ashensorët tanë po funksionojnë më sigurt dhe më me efikasitet se kurrë!"
+    },
+    "3": {
+      "name": "Luljeta Berisha",
+      "title": "Menaxhere Hoteli, Durrës (Shqipëri)",
+      "text": "Edhe duke operuar jashtë Kosovës, Ascend ofron mbështetje të pakrahasueshme. Diagnostika e tyre është e saktë, dhe angazhimi i tyre për sigurinë është i nivelit të lartë. Një partner ashensorësh vërtet i besueshëm."
+    }
+  }
+}

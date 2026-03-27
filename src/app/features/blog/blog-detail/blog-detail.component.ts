@@ -5,12 +5,13 @@ import { BlogService } from '../blog.service';
 import { BlogPost } from '../blog-data';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs'; // Needed for switchMap fallback
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-blog-detail',
   templateUrl: './blog-detail.component.html',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, TranslatePipe],
   styleUrls: ['./blog-detail.component.scss']
 })
 export class BlogDetailComponent implements OnInit {

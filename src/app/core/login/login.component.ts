@@ -5,13 +5,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { LoginGQL } from '../../../graphql/generated/graphql';
 import { AuthService } from '../../Guards/auth.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 type MessageType = 'error' | 'success' | null;
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

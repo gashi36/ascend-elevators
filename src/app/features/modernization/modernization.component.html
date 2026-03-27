@@ -1,203 +1,170 @@
 <div class="font-sans">
   <!-- Seksioni 1 (Hero) -->
   <section class="relative bg-gray-900 text-white h-[600px] flex items-center justify-center overflow-hidden">
-    <!-- Imazhi i Sfondit --><img src="https://imgur.com/icEHoOj.jpg" alt="Lobi modern i ashensorit"
+    <img src="https://imgur.com/icEHoOj.jpg" [alt]="'modernization.hero.imageAlt' | translate"
       class="absolute inset-0 w-full h-full object-cover opacity-60">
-
-    <!-- Përmbajtja Mbi Imazh -->
     <div class="relative z-10 text-left max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-20">
-      <p class="text-sm font-bold uppercase tracking-widest mb-2 text-red-500">MODERNIZIMI I ASHENSORIT</p>
+      <p class="text-sm font-bold uppercase tracking-widest mb-2 text-red-500">{{ 'modernization.hero.badge' | translate
+        }}</p>
       <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight">
-        NE JEMI MBI TË, <br> PRANDAJ JU JENI <span class="text-red-600">PËRPARA</span>
+        {{ 'modernization.hero.title' | translate }} <br> {{ 'modernization.hero.titleLine' | translate }} <span
+          class="text-red-600">{{ 'modernization.hero.titleHighlight' | translate }}</span>
       </h1>
     </div>
   </section>
 
-  <!-- Seksioni 2 ("GARANTONI TË ARDHMEN E UDHËTIMIT TUAJ") -->
+  <!-- Seksioni 2 (Garantoni të ardhmen) -->
   <section class="bg-white py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-      <!-- Kolona Majtas: Titulli -->
       <div>
         <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-6 uppercase">
-          GARANTONI TË ARDHMEN E UDHËTIMIT TUAJ.<br><span class="text-red-600">MODERNIZIM</span><br>
-          I THJESHTË I ASHENSORIT
+          {{ 'modernization.guarantee.title' | translate }}<br><span class="text-red-600">{{
+            'modernization.guarantee.highlight' | translate }}</span><br>
+          {{ 'modernization.guarantee.subtitle' | translate }}
         </h2>
-        <!-- Ikona e Vogël (Placeholder për ikonën re/rrjet) -->
         <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
           <i class="fas fa-cloud text-red-600 text-3xl"></i>
         </div>
       </div>
-
-      <!-- Kolona Djathtas: Teksti & Lista -->
       <div>
         <p class="text-gray-700 leading-relaxed mb-6 text-sm">
-          Ne jemi ekspertë në modernizimin e ashensorëve tuaj për të ardhmen. Duke kombinuar teknologjinë e fundit me
-          ekspertizën tonë, ne sigurojmë që ashensorët tuaj të jenë eficientë, të sigurt dhe modernë. Nga përmirësimet e
-          thjeshta deri tek modernizimet e plota, ne ofrojmë zgjidhje të personalizuara për nevojat tuaja.
+          {{ 'modernization.guarantee.description' | translate }}
         </p>
         <ul class="space-y-3 text-gray-800 text-sm">
           <li class="flex items-start">
             <i class="fas fa-check-circle text-red-600 mt-1 mr-3"></i>
-            Dizajn i Brendshëm dhe Modernizim i Kabinës
+            {{ 'modernization.guarantee.item1' | translate }}
           </li>
           <li class="flex items-start">
             <i class="fas fa-check-circle text-red-600 mt-1 mr-3"></i>
-            Përmirësimi i Sistemeve të Kontrollit të Ashensorit
+            {{ 'modernization.guarantee.item2' | translate }}
           </li>
           <li class="flex items-start">
             <i class="fas fa-check-circle text-red-600 mt-1 mr-3"></i>
-            Përmirësimi i Efiçencës së Energjisë
+            {{ 'modernization.guarantee.item3' | translate }}
           </li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Seksioni 3 ("Mbajtja e ashensorëve tuaj të përditësuar...") -->
+  <!-- Seksioni 3 (Mbajtja e ashensorëve) -->
   <section class="bg-gray-50 py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
       <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight mb-12">
-        Mbajtja e ashensorëve tuaj të përditësuar, me pamje të mirë dhe<br>
-        të sigurt i bën udhëtarët tuaj të lumtur dhe juve heronj.
+        {{ 'modernization.keep.title' | translate }}
       </h2>
-
       <p class="text-gray-700 leading-relaxed mb-10 text-sm">
-        Zgjidhjet tona të modernizimit realizohen përmes menaxhimit të kujdesshëm dhe komunikimit transparent,
-        duke minimizuar ndërprerjet dhe maksimizuar sigurinë. Ne kujdesemi për çdo detaj, nga planifikimi deri
-        tek implementimi.
+        {{ 'modernization.keep.description' | translate }}
       </p>
 
-      <!-- Rreshti i Ikonave -->
-      <!-- <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center mb-16">
-        <div class="p-4 flex flex-col items-center">
-          <img src="https://i.imgur.com/H1XW31H.png" alt="Ikona e analizës së ciklit jetësor" class="w-20 h-20 mb-4">
-          <p class="font-semibold text-gray-800">Analizë cikli jetësor</p>
-        </div>
-        <div class="p-4 flex flex-col items-center">
-          <img src="https://i.imgur.com/K1P8kM4.png" alt="Ikona e përmirësimeve të komponentëve" class="w-20 h-20 mb-4">
-          <p class="font-semibold text-gray-800">Përmirësim komponentësh</p>
-        </div>
-        <div class="p-4 flex flex-col items-center">
-          <img src="https://i.imgur.com/J3B2aJd.png" alt="Ikona e zëvendësimit të plotë" class="w-20 h-20 mb-4">
-          <p class="font-semibold text-gray-800">Zëvendësim i plotë</p>
-        </div>
-      </div> -->
-
-      <!-- Seksioni i Tekstit & Imazhit -->
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mt-12">
-        <!-- Kolona Majtas: Teksti -->
         <div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Pse të Modernizoni me Ascend Elevators?</h3>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">{{ 'modernization.why.title' | translate }}</h3>
           <p class="text-gray-700 leading-relaxed mb-6 text-sm">
-            Modernizimi i ashensorëve tuaj është një investim i mençur që përmirëson përvojën e përdoruesve,
-            rrit vlerën e pronës dhe redukton kostot operacionale.
+            {{ 'modernization.why.description' | translate }}
           </p>
-
-          <h3 class="text-xl font-bold text-gray-900 mb-4">SHTONI JETË TË RE NË NDËRTESËN TUAJ</h3>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">{{ 'modernization.addLife.title' | translate }}</h3>
           <ul class="space-y-3 text-gray-800 text-sm">
             <li class="flex items-start">
               <i class="fas fa-check-circle text-red-600 mt-1 mr-3"></i>
-              <strong class="text-gray-900  mr-2">Interier i Personalizuar:</strong> Pamje moderne, instalim i përsosur.
+              <strong class="text-gray-900 mr-2">{{ 'modernization.addLife.item1.title' | translate }}:</strong>
+              {{ 'modernization.addLife.item1.text' | translate }}
             </li>
             <li class="flex items-start">
               <i class="fas fa-check-circle text-red-600 mt-1 mr-3"></i>
-              <strong class="text-gray-900  mr-2">Në Përputhje me Kodet:</strong> Modifikime për ADA dhe siguri.
+              <strong class="text-gray-900 mr-2">{{ 'modernization.addLife.item2.title' | translate }}:</strong>
+              {{ 'modernization.addLife.item2.text' | translate }}
             </li>
             <li class="flex items-start">
               <i class="fas fa-check-circle text-red-600 mt-1 mr-3"></i>
-              <strong class="text-gray-900  mr-2">Teknologji e Fundit:</strong> Kosto më të ulëta, më shumë efikasitet.
+              <strong class="text-gray-900 mr-2">{{ 'modernization.addLife.item3.title' | translate }}:</strong>
+              {{ 'modernization.addLife.item3.text' | translate }}
             </li>
           </ul>
         </div>
-        <!-- Kolona Djathtas: Imazhi -->
         <div class="sim-slice">
-          <img src="https://imgur.com/Ui7h9dS.jpg" alt="Gruaja duke përdorur telefonin në ashensorin modern"
+          <img src="https://imgur.com/Ui7h9dS.jpg" [alt]="'modernization.why.imageAlt' | translate"
             class="w-full h-auto rounded-lg shadow-xl">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Seksioni 4 ("PRODUKTE & SHËRBIME TË ENERGJISË JESHILE") -->
+  <!-- Seksioni 4 (Produkte & Shërbime të Energjisë Jeshile) -->
   <section class="bg-white py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-      <!-- Kolona Majtas: Imazhi -->
       <div class="overflow-hidden rounded-lg sim-slice">
-        <img src="https://imgur.com/bMnd20K.jpg" alt="Brendësia e kabinës së ashensorit me ndriçim të ndezur"
+        <img src="https://imgur.com/bMnd20K.jpg" [alt]="'modernization.green.imageAlt' | translate"
           class="w-full h-auto shadow-xl">
       </div>
-
-      <!-- Kolona Djathtas: Teksti & Lista -->
       <div>
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight mb-6">
-          PRODUKTE & SHËRBIME Të ENERGJISË JESHILE
+          {{ 'modernization.green.title' | translate }}
         </h2>
         <p class="text-gray-700 leading-relaxed mb-6 text-sm">
-          Ne kemi shumë projekte modernizimi që plotësojnë produktet dhe shërbimet e sotme efiçiente të energjisë që
-          kontribuojnë gjithashtu në një planet më të shëndetshëm.
+          {{ 'modernization.green.description' | translate }}
         </p>
         <ul class="space-y-3 text-gray-800 text-sm">
           <li class="flex items-start">
             <i class="fas fa-leaf text-red-600 mt-1 mr-3"></i>
-            <strong class="text-gray-900  mr-2">Solid State:</strong> Më shumë besueshmëri, më pak energji.
+            <strong class="text-gray-900 mr-2">{{ 'modernization.green.item1.title' | translate }}:</strong>
+            {{ 'modernization.green.item1.text' | translate }}
           </li>
           <li class="flex items-start">
             <i class="fas fa-lightbulb text-red-600 mt-1 mr-3"></i>
-            <strong class="text-gray-900  mr-2">Rigjeneruese:</strong> Kursim energjie, kosto më të ulëta.
+            <strong class="text-gray-900 mr-2">{{ 'modernization.green.item2.title' | translate }}:</strong>
+            {{ 'modernization.green.item2.text' | translate }}
           </li>
           <li class="flex items-start">
             <i class="fas fa-bolt text-red-600 mt-1 mr-3"></i>
-            <strong class="text-gray-900  mr-2">Ndriçim Jeshil:</strong> LED jetëgjatë, konsum i ulët.
+            <strong class="text-gray-900 mr-2">{{ 'modernization.green.item3.title' | translate }}:</strong>
+            {{ 'modernization.green.item3.text' | translate }}
           </li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Seksioni 5 ("PËRVOJA KA RËNDËSI") -->
+  <!-- Seksioni 5 (Përvoja ka rëndësi) -->
   <section class="bg-gray-900 py-16 sm:py-24 text-center">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
       <h2 class="text-2xl sm:text-3xl font-bold text-white leading-tight mb-4">
-        PËRVOJA KA RËNDËSI
+        {{ 'modernization.experience.title' | translate }}
       </h2>
       <h3 class="text-3xl sm:text-4xl font-extrabold text-red-600 leading-tight mb-8">
-        KUJDES EKSPERT, DIAGNOSTIKË<br>E AVANCUAR. SHËRBIMI I<br>ASHENSORIT NGA TEKNIKË<br>MASTER
+        {{ 'modernization.experience.subtitle' | translate }}
       </h3>
       <p class="text-white leading-relaxed mb-12 max-w-2xl mx-auto text-sm">
-        Besojuni ashensorët tuaj teknikëve tanë master, të cilët, me 20 vjet përvojë, të kombinuar me mjetet tona
-        diagnostike të fundit dhe ekspertizën, i fuqizojnë ata të diagnostikojnë dhe zgjidhin me lehtësi
-        kompleksitetet më të ndërlikuara të sistemit.
+        {{ 'modernization.experience.description' | translate }}
       </p>
 
-      <!-- Rrjeta e Statistikave -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center mt-12">
         <div class="p-4">
           <p class="text-5xl font-extrabold text-white mb-2">96%</p>
-          <p class="text-white text-sm">Mbajtja e Klientit Vit Pas Viti</p>
+          <p class="text-white text-sm">{{ 'modernization.experience.stats.clientRetention' | translate }}</p>
         </div>
         <div class="p-4">
           <p class="text-5xl font-extrabold text-white mb-2">60%</p>
-          <p class="text-white text-sm">Klientët e Rinj Referohen Nga Klientë Dhe Ekspertë Të Tjerë</p>
+          <p class="text-white text-sm">{{ 'modernization.experience.stats.newClients' | translate }}</p>
         </div>
         <div class="p-4">
           <p class="text-5xl font-extrabold text-white mb-2">99%</p>
-          <p class="text-white text-sm">Mesatarja Ditore e Ashensorëve Që Mirëmbajmë Janë Në Shërbim</p>
+          <p class="text-white text-sm">{{ 'modernization.experience.stats.dailyService' | translate }}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Seksioni 6 ("DISA NGA KLIENTËT TANË TË KËNAQUR") -->
+  <!-- Seksioni 6 (Klientët e kënaqur) -->
   <section class="bg-white py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center">
       <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-12">
-        DISA NGA KLIENTËT TANË TË KËNAQUR
+        {{ 'modernization.clients.title' | translate }}
       </h2>
-      <!-- Rrjeta e Logove të Klientëve -->
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-items-center">
         <img src="assets/images/clients/client_Einstein.png" alt="Einstein Healthcare Network"
           class="h-16 w-auto object-contain">
-
         <img src="assets/images/clients/clients2.png" alt="Princeton University" class="h-16 w-auto object-contain">
         <img src="assets/images/clients/clients3.png" alt="Virtua" class="h-16 w-auto object-contain">
         <img src="assets/images/clients/client4.png" alt="Villanova University" class="h-16 w-auto object-contain">
@@ -211,27 +178,25 @@
     </div>
   </section>
 
-  <!-- Seksioni 7 (Dëshmitë/Testimonialet) -->
+  <!-- Seksioni 7 (Testimonials) -->
   <section class="bg-gray-100 py-16 sm:py-24">
     <app-testimonials></app-testimonials>
   </section>
 
-  <!-- Seksioni 8 ("SI MUND T'JU NDIHMOJMË?") - CTA -->
+  <!-- Seksioni 8 (CTA) -->
   <section class="bg-gray-900 py-16 sm:py-24 text-center">
     <div class="max-w-4xl mx-auto px-4 sm:px-8 lg:px-16">
       <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-4">
-        SI MUND T'JU NDIHMOJMË?
+        {{ 'modernization.cta.title' | translate }}
       </h2>
       <p class="text-gray-400 leading-relaxed mb-8 text-sm">
-        Çdo situatë ndërtese është ndryshe. Le të kuptojmë se me çfarë po përballeni në mënyrë që<br>
-        të kuptojmë më mirë se si t'ju ndihmojmë.
+        {{ 'modernization.cta.description' | translate }}
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a routerLink="/contact" class="inline-block bg-red-600 text-white font-bold py-3 px-8 rounded-full
-                                  hover:bg-red-700 transition duration-300 uppercase tracking-wide text-sm">
-          REZERVONI NJË TAKIM
+        <a routerLink="/contact"
+          class="inline-block bg-red-600 text-white font-bold py-3 px-8 rounded-full hover:bg-red-700 transition duration-300 uppercase tracking-wide text-sm">
+          {{ 'modernization.cta.button' | translate }}
         </a>
-
       </div>
     </div>
   </section>
@@ -242,15 +207,15 @@
       <div class="grid md:grid-cols-3 gap-8 py-8 stats-section">
         <div class="text-center">
           <div class="text-3xl font-bold text-red-500 mb-2">{{ stat1 }}%</div>
-          <div class="text-gray-700">projeket e modernizimit të përfunduara</div>
+          <div class="text-gray-700">{{ 'modernization.stats.stat1Label' | translate }}</div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold text-red-500 mb-2">{{ stat2 }}%</div>
-          <div class="text-gray-700">pra-buxhetim i përputhur</div>
+          <div class="text-gray-700">{{ 'modernization.stats.stat2Label' | translate }}</div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold text-red-500 mb-2">{{ stat3 }}%</div>
-          <div class="text-gray-700">përmirësim efikasie pas modernizimit</div>
+          <div class="text-gray-700">{{ 'modernization.stats.stat3Label' | translate }}</div>
         </div>
       </div>
     </div>

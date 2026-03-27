@@ -1,11 +1,13 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-repair',
   templateUrl: './repair.component.html',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, TranslatePipe, CommonModule],
   styleUrls: ['./repair.component.scss']
 })
 export class RepairComponent implements OnInit, AfterViewInit {

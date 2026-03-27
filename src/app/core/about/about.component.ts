@@ -1,10 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, Renderer2 } from '@angular/core';
 import * as AOS from 'aos';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-about',
   standalone: true,
+  imports: [TranslatePipe, CommonModule,],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })

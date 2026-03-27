@@ -146,7 +146,7 @@ export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
     const techObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          this.animateValue('techStat1', 28, 2000);
+          this.animateValue('techStat1', 8, 2000);
           this.animateValue('techStat2', 5, 2000);
           techObserver.disconnect();
         }

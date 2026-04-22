@@ -154,6 +154,7 @@ query GetBuildingById($id: UUID!) {
         contactEmail
         contactPhone
         accessKeyNR
+
       }
     }
     administrators {
@@ -170,10 +171,6 @@ query GetBuildingById($id: UUID!) {
       accessKeyNR
     }
   }
-}
-
-query GetAvailableYearsForBuilding($buildingId: UUID!) {
-  availableYearsForBuilding(buildingId: $buildingId)
 }
 
 # ─── BUILDING ENTRIES ─────────────────────────────────────────────────────────
@@ -274,7 +271,6 @@ query GetBuildingEntryById($id: UUID!) {
         year
         month
         status
-        notes
         updatedAt
       }
     }
@@ -307,16 +303,10 @@ query GetTenants(
         contactEmail
         contactPhone
         accessKeyNR
-        buildingId
         buildingEntryId
         adminId
         createdAt
         updatedAt
-        building {
-          id
-          name
-          city
-        }
         buildingEntry {
           id
           name
@@ -335,17 +325,11 @@ query GetTenantById($id: UUID!) {
     contactEmail
     contactPhone
     accessKeyNR
-    buildingId
+
     buildingEntryId
     adminId
     createdAt
     updatedAt
-    building {
-      id
-      name
-      city
-      address
-    }
     buildingEntry {
       id
       name
@@ -356,7 +340,6 @@ query GetTenantById($id: UUID!) {
       year
       month
       status
-      notes
       decisionDate
       updatedAt
       decidedByUserId
@@ -364,37 +347,44 @@ query GetTenantById($id: UUID!) {
   }
 }
 
-query GetTenantHistory(
-  $tenantId: UUID!
-  $where: MonthlyDecisionFilterInput
-  $order: [MonthlyDecisionSortInput!]
-) {
-  tenantHistory(tenantId: $tenantId, where: $where, order: $order) {
-    id
-    year
-    month
-    status
-    notes
-    decisionDate
-    decidedByUserId
-    updatedAt
+query GetTenantHistory($tenantId: UUID!, $first: Int, $after: String) {
+  tenantHistory(tenantId: $tenantId, first: $first, after: $after) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        year
+        month
+        status
+        decisionDate
+        decidedByUserId
+        updatedAt
+      }
+    }
   }
 }
 
 # ─── MONTHLY DECISIONS ────────────────────────────────────────────────────────
-
-# Full tenant list with their decisions — used for the main dashboard grid
 query GetTenantsWithDecisions(
   $first: Int
   $after: String
   $where: TenantFilterInput
   $order: [TenantSortInput!]
+  $buildingId: UUID
 ) {
-  tenantsWithDecisions(
+  tenants(
     first: $first
     after: $after
     where: $where
     order: $order
+    buildingId: $buildingId
   ) {
     totalCount
     pageInfo {
@@ -412,23 +402,28 @@ query GetTenantsWithDecisions(
         floor
         accessKeyNR
         contactPhone
-        buildingId
         buildingEntryId
-        building {
-          id
-          name
-          city
-        }
         buildingEntry {
           id
           name
+          building {
+            id
+            name
+            city
+          }
         }
         monthlyDecisions {
           id
           year
           month
           status
-          notes
+          notes {
+            id
+            content
+            createdBy
+            createdByUserId
+            createdAt
+          }
           updatedAt
         }
       }
@@ -436,29 +431,16 @@ query GetTenantsWithDecisions(
   }
 }
 
-# Decisions for one tenant for a specific year — used in tenant detail view
-query GetTenantDecisions($tenantId: UUID!, $year: Int) {
-  tenantDecisions(tenantId: $tenantId, year: $year) {
-    id
-    tenantId
-    year
-    month
-    status
-    notes
-    decisionDate
-    decidedByUserId
-    updatedAt
-  }
-}
+# query GetTenantDecisions($tenantId: UUID!, $year: Int) {
+#   tenantDecisions(tenantId: $tenantId, year: $year) {
+#     id
+#     tenantId
+#     year
+#     month
+#     status
+#     decisionDate
+#     decidedByUserId
+#     updatedAt
+#   }
+# }
 
-# Dashboard summary numbers
-query GetDecisionStats {
-  decisionStats {
-    totalTenants
-    currentMonth
-    currentYear
-    pendingCount
-    allowedCount
-    deniedCount
-  }
-}

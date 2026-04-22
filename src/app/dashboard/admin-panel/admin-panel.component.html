@@ -1,109 +1,235 @@
-<div class="min-h-screen bg-gray-50 pt-[84px]">
+<!-- Admin Panel -->
 
-  <!-- Floating Menu Button -->
-  <button (click)="toggleMenu()"
-    class="md:hidden fixed top-[90px] right-4 z-50 bg-white shadow-lg rounded-full p-3 border border-gray-200 hover:bg-gray-50">
-    <i class="fas fa-lg" [ngClass]="isMobileMenuOpen() ? 'fa-times text-red-600' : 'fa-bars text-gray-700'"></i>
-  </button>
-
-  <!-- LAYOUT: Sidebar + Main -->
-  <div class="flex">
-
-    <!-- Sidebar -->
-    <aside class="hidden md:flex flex-col w-20 bg-white border-r sticky top-[84px] h-[calc(100vh-84px)]">
-      <div class="p-4">
-        <div class="w-10 h-10 bg-red-600 rounded-lg mx-auto mb-6 flex items-center justify-center">
-          <i class="fas fa-home text-white text-lg"></i>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-[64px] pb-[72px] md:pb-0">
+  <div class="flex flex-col md:flex-row">
+    <!-- Sidebar (Desktop) -->
+    <aside
+      class="hidden md:flex flex-col w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200 sticky top-[64px] h-[calc(100vh-64px)] shadow-sm">
+      <!-- User pill -->
+      <div class="px-4 py-3 border-b border-gray-100">
+        <div class="flex items-center gap-3 bg-gray-50/80 rounded-xl px-3 py-2.5">
+          <div
+            class="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center flex-shrink-0 shadow-sm">
+            <span class="text-sm font-semibold text-white uppercase leading-none">
+              {{ currentUser?.name?.[0] ?? 'U' }}
+            </span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-sm font-semibold text-gray-800 truncate leading-tight">{{ currentUser?.name }}</p>
+            <p class="text-[11px] text-gray-400 mt-0.5 uppercase tracking-wider">{{ currentUser?.role }}</p>
+          </div>
         </div>
       </div>
 
-      <nav class="flex-1 px-2 space-y-2">
-        <a routerLink="buildings" routerLinkActive="bg-red-50 text-red-600"
-          class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
-          <i class="fas fa-city text-xl"></i>
-          <span class="text-xs font-medium">Ndërtesat</span>
+      <!-- Nav -->
+      <nav class="flex-1 px-3 py-4 flex flex-col gap-1 overflow-y-auto">
+
+        <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-2 pb-2">Navigimi</p>
+
+        <a routerLink="buildings" routerLinkActive="!bg-red-50 !text-red-600 border-l-4 border-red-500"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 group">
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-red-50 group-hover:text-red-600 transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2" />
+              <line x1="9" y1="22" x2="9" y2="2" />
+              <line x1="4" y1="12" x2="9" y2="12" />
+            </svg>
+          </div>
+          <span class="text-sm font-semibold">Ndërtesat</span>
         </a>
 
-        <a routerLink="tenants" routerLinkActive="bg-red-50 text-red-600"
-          class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
-          <i class="fas fa-users text-xl"></i>
-          <span class="text-xs font-medium">Banorët</span>
+        <a routerLink="tenants" routerLinkActive="!bg-red-50 !text-red-600 border-l-4 border-red-500"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 group">
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-red-50 group-hover:text-red-600 transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <span class="text-sm font-semibold">Banorët</span>
         </a>
 
-        @if (authService.isSuperAdmin()|| authService.isAdmin()) {
-        <a routerLink="users" routerLinkActive="bg-red-50 text-red-600"
-          class="flex flex-col items-center gap-1.5 p-3 text-gray-600 hover:bg-gray-50 rounded-xl">
-          <i class="fas fa-user-shield text-xl"></i>
-          <span class="text-xs font-medium">Adminët</span>
+        @if (authService.isSuperAdmin() || authService.isAdmin()) {
+        <a routerLink="users" routerLinkActive="!bg-red-50 !text-red-600 border-l-4 border-red-500"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 group">
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-red-50 group-hover:text-red-600 transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <span class="text-sm font-semibold">Adminët</span>
         </a>
         }
+
+        <div class="h-px bg-gray-100 my-2 mx-2"></div>
+
       </nav>
+
+      <!-- Logout -->
+      <div class="px-3 py-4 border-t border-gray-100">
+        <button (click)="logout()"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:bg-gray-50 hover:text-red-500 transition-all duration-200 w-full text-left group">
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-red-50 transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+          </div>
+          <span class="text-sm font-semibold">Dil</span>
+        </button>
+      </div>
+
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 min-h-[calc(100vh-84px)] overflow-auto">
-      <!-- Narrower container for mobile, full width on desktop -->
-      <div class="w-full px-4 md:px-6 py-4">
+      <div class="w-full px-6 md:px-10 py-8">
 
-        <!-- Header -->
-        <div class="mb-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p class="text-gray-600 mt-1">Menaxhoni ndërtesat dhe banorët</p>
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10">
+          <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Paneli i Kontrollit</h1>
+            <p class="text-gray-500 text-base mt-1.5">Menaxhoni ndërtesat dhe banorët</p>
+          </div>
+
+          <!-- Export Button + Dropdown (Moved here) -->
+          <div class="relative flex-shrink-0">
+            <button (click)="toggleExportDropdown()" [disabled]="isExporting"
+              class="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm font-semibold">
+              @if (isExporting) {
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>Duke eksportuar...</span>
+              } @else {
+              <i class="fas fa-file-zipper"></i>
+              <span class="hidden sm:inline">Shkarko Raportin</span>
+              <i class="fas fa-chevron-down text-xs ml-1 hidden sm:inline"></i>
+              }
+            </button>
+
+            @if (isExportDropdownOpen) {
+            <div class="fixed inset-0 z-40" (click)="closeExportDropdown()"></div>
+
+            <div
+              class="absolute right-0 mt-3 w-96 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+              <div class="p-5">
+
+                <div class="flex items-center justify-between mb-5">
+                  <h3 class="font-bold text-gray-900 text-lg">Shkarko të gjitha hyrjet</h3>
+                  <button (click)="closeExportDropdown()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-xmark text-xl"></i>
+                  </button>
+                </div>
+
+                @if (exportError) {
+                <div class="mb-5 p-3 bg-red-50 border border-red-200 rounded-xl flex items-start gap-2">
+                  <i class="fas fa-circle-exclamation text-red-500 text-sm mt-0.5 flex-shrink-0"></i>
+                  <p class="text-sm text-red-600">{{ exportError }}</p>
+                </div>
+                }
+
+                <div class="mb-5">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">Zgjidh vitin</label>
+                  <select [ngModel]="exportYear" (ngModelChange)="exportYear = +$event"
+                    class="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none bg-white">
+                    @for (year of availableYears; track year) {
+                    <option [value]="year">{{ year }}</option>
+                    }
+                  </select>
+                </div>
+
+                <!-- ZIP structure preview -->
+                <div class="mb-5 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                  <p class="text-xs font-semibold text-gray-700 mb-2 tracking-wide">Struktura e skedarit ZIP:</p>
+                  <div class="font-mono text-xs text-gray-600 space-y-1">
+                    <p><i class="fas fa-file-zipper text-green-600 mr-2"></i>username_{{ exportYear }}.zip</p>
+                    <p class="pl-5"><i class="fas fa-folder text-yellow-600 mr-2"></i>Ndërtesa A</p>
+                    <p class="pl-9"><i class="fas fa-file-excel text-green-600 mr-2"></i>Hyrja 1.xlsx</p>
+                    <p class="pl-9"><i class="fas fa-file-excel text-green-600 mr-2"></i>Hyrja 2.xlsx</p>
+                    <p class="pl-5"><i class="fas fa-folder text-yellow-600 mr-2"></i>Ndërtesa B</p>
+                    <p class="pl-9"><i class="fas fa-file-excel text-green-600 mr-2"></i>Hyrja 1.xlsx</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-3">
+                  <button (click)="exportAllEntries()" [disabled]="isExporting"
+                    class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm">
+                    @if (isExporting) {
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Duke eksportuar...</span>
+                    } @else {
+                    <i class="fas fa-file-zipper"></i>
+                    <span>Shkarko ZIP</span>
+                    }
+                  </button>
+                  <button (click)="closeExportDropdown()"
+                    class="px-5 py-2.5 border border-gray-300 text-sm font-semibold text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">
+                    Anulo
+                  </button>
+                </div>
+
+              </div>
             </div>
-            <!-- Action buttons can go here -->
+            }
           </div>
         </div>
 
-        <!-- Router outlet with narrower width on mobile -->
-        <div class="w-full mx-auto">
-          <router-outlet></router-outlet>
-        </div>
+        <!-- Routed child views -->
+        <router-outlet />
+
       </div>
     </main>
   </div>
 
-  <!-- Mobile Sidebar Overlay -->
-  @if (isMobileMenuOpen()) {
-  <div class="md:hidden fixed inset-0 z-40">
-    <div (click)="toggleMenu()" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <!-- Mobile Bottom Navigation -->
+  <nav
+    class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-200 shadow-lg z-40">
+    <div class="flex justify-around items-center py-1">
 
-    <aside class="absolute top-20 left-0 w-64 h-full bg-white shadow-xl">
-      <div class="p-6 border-b bg-gradient-to-r from-red-50 to-white">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
-            <i class="fas fa-home text-white text-xl"></i>
-          </div>
-          <div>
-            <h1 class="font-bold text-gray-900">Menaxhimi</h1>
-            <p class="text-sm text-gray-600">Admin Panel</p>
-          </div>
-        </div>
-      </div>
+      <a routerLink="buildings" routerLinkActive="text-red-600" (click)="closeMenu()"
+        class="flex flex-col items-center gap-1 py-2 px-4 text-gray-500 hover:text-red-600 transition-colors">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="2" width="16" height="20" rx="2" />
+          <line x1="9" y1="22" x2="9" y2="2" />
+          <line x1="4" y1="12" x2="9" y2="12" />
+        </svg>
+        <span class="text-xs font-medium">Ndërtesat</span>
+      </a>
 
-      <nav class="px-4 py-6 space-y-1">
-        <a routerLink="buildings" routerLinkActive="bg-red-50 text-red-600 border-r-4 border-red-600"
-          (click)="closeMenu()" class="flex items-center gap-4 px-4 py-4 text-gray-700 hover:bg-gray-50 rounded-xl">
-          <i class="fas fa-city text-xl w-6 text-center"></i>
-          <span class="font-medium">Ndërtesat</span>
-        </a>
+      <a routerLink="tenants" routerLinkActive="text-red-600" (click)="closeMenu()"
+        class="flex flex-col items-center gap-1 py-2 px-4 text-gray-500 hover:text-red-600 transition-colors">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        <span class="text-xs font-medium">Banorët</span>
+      </a>
 
-        <a routerLink="tenants" routerLinkActive="bg-red-50 text-red-600 border-r-4 border-red-600"
-          (click)="closeMenu()" class="flex items-center gap-4 px-4 py-4 text-gray-700 hover:bg-gray-50 rounded-xl">
-          <i class="fas fa-users text-xl w-6 text-center"></i>
-          <span class="font-medium">Banorët</span>
-        </a>
+      @if (authService.isSuperAdmin() || authService.isAdmin()) {
+      <a routerLink="users" routerLinkActive="text-red-600" (click)="closeMenu()"
+        class="flex flex-col items-center gap-1 py-2 px-4 text-gray-500 hover:text-red-600 transition-colors">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        <span class="text-xs font-medium">Adminët</span>
+      </a>
+      }
 
-        @if (authService.isSuperAdmin()) {
-        <a routerLink="users" routerLinkActive="bg-red-50 text-red-600 border-r-4 border-red-600" (click)="closeMenu()"
-          class="flex items-center gap-4 px-4 py-4 text-gray-700 hover:bg-gray-50 rounded-xl">
-          <i class="fas fa-user-shield text-xl w-6 text-center"></i>
-          <span class="font-medium">Adminët</span>
-        </a>
-        }
-      </nav>
-    </aside>
-  </div>
-  }
+    </div>
+  </nav>
 </div>

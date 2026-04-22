@@ -141,7 +141,7 @@
     "email2": "sales@ascend-elevators.com"
   },
   "login": {
-    "title": "Ascend Elevators",
+    "title": "Log in to your account",
     "subtitle": "Admin Panel",
     "welcome": "Welcome back",
     "description": "Log in to your account to continue.",
@@ -152,7 +152,8 @@
     "loginButton": "Log in",
     "loggingIn": "Logging in…",
     "errorMessage": "Invalid username or password",
-    "footer": "Restricted access for authorized personnel only.\nContact administrator for assistance."
+    "footer": "Restricted access for authorized personnel only.\nContact administrator for assistance.",
+    "rememberMe": "Remember me"
   },
   "blog": {
     "relatedPosts": "RELATED POSTS",

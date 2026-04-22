@@ -1,7 +1,7 @@
 # ─── AUTH ─────────────────────────────────────────────────────────────────────
 
-mutation Login($username: String!, $password: String!) {
-  login(input: { username: $username, password: $password }) {
+mutation Login($username: String!, $password: String!, $rememberMe: Boolean) {
+  login(input: { username: $username, password: $password, rememberMe: $rememberMe }) {
     token
     isSuccess
     user {
@@ -237,7 +237,6 @@ mutation CreateTenant(
   $contactPhone: String!
   $unitNumber: String!
   $buildingEntryId: UUID!
-  $buildingId: UUID!
   $accessKeyNR: String!
   $floor: String
   $contactEmail: String
@@ -248,7 +247,6 @@ mutation CreateTenant(
       contactPhone: $contactPhone
       unitNumber: $unitNumber
       buildingEntryId: $buildingEntryId
-      buildingId: $buildingId
       accessKeyNR: $accessKeyNR
       floor: $floor
       contactEmail: $contactEmail
@@ -261,14 +259,9 @@ mutation CreateTenant(
     contactEmail
     contactPhone
     accessKeyNR
-    buildingId
     buildingEntryId
     adminId
     createdAt
-    building {
-      id
-      name
-    }
     buildingEntry {
       id
       name
@@ -283,7 +276,6 @@ mutation UpdateTenant(
   $contactPhone: String
   $unitNumber: String
   $buildingEntryId: UUID
-  $buildingId: UUID
   $floor: String
   $accessKeyNR: String
 ) {
@@ -295,7 +287,6 @@ mutation UpdateTenant(
       contactPhone: $contactPhone
       unitNumber: $unitNumber
       buildingEntryId: $buildingEntryId
-      buildingId: $buildingId
       floor: $floor
       accessKeyNR: $accessKeyNR
     }
@@ -314,7 +305,6 @@ mutation UpdateTenant(
 mutation DeleteTenant($id: UUID!) {
   deleteTenant(id: $id)
 }
-
 # ─── MONTHLY DECISIONS ────────────────────────────────────────────────────────
 
 mutation SetMonthlyStatus(
@@ -322,7 +312,7 @@ mutation SetMonthlyStatus(
   $year: Int!
   $month: Int!
   $status: DecisionStatus!
-  $notes: String
+  $note: String
   $deviceId: String
   $clientTimestamp: DateTime
 ) {
@@ -332,7 +322,7 @@ mutation SetMonthlyStatus(
       year: $year
       month: $month
       status: $status
-      notes: $notes
+      note: $note
       deviceId: $deviceId
       clientTimestamp: $clientTimestamp
     }
@@ -342,7 +332,13 @@ mutation SetMonthlyStatus(
     year
     month
     status
-    notes
+    notes {
+      id
+      content
+      createdBy
+      createdByUserId
+      createdAt
+    }
     decidedByUserId
     decisionDate
     updatedAt
@@ -351,6 +347,9 @@ mutation SetMonthlyStatus(
 
 # ─── EXPORT ───────────────────────────────────────────────────────────────────
 
-mutation ExportTenantsToExcel($buildingId: UUID!, $year: Int!) {
-  exportTenantsToExcel(buildingId: $buildingId, year: $year)
+mutation ExportAllEntriesToZip($year: Int!) {
+  exportAllEntriesToZip(year: $year) {
+    base64Zip
+    fileName
+  }
 }

@@ -14,7 +14,8 @@ import {
   CreateBuildingGQL,
   DeleteBuildingGQL,
 } from '../../../../graphql/generated/graphql';
-import { AuthService } from '../../../Guards/auth.service';
+import { AuthService } from '../../../funcServices/auth.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 // ─── Models ───────────────────────────────────────────────────────────────────
 
@@ -79,7 +80,7 @@ function nonEmptyString(ctrl: AbstractControl) {
 @Component({
   selector: 'app-buildings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslatePipe],
   templateUrl: './buildings-admin.component.html',
 })
 export class BuildingsAdminComponent implements OnInit, OnDestroy {

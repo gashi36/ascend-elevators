@@ -20,12 +20,8 @@ import { AdminPanelComponent } from './dashboard/admin-panel/admin-panel.compone
 import { UsersComponent } from './dashboard/admin-panel/users/users.component';
 import { BuildingsAdminComponent } from './dashboard/admin-panel/buildings-admin/buildings-admin.component';
 import { BuildingDetailsComponent } from './dashboard/admin-panel/building-details/building-details.component';
-// import { BuildingsAdminComponent } from './dashboard/admin-panel/buildings-admin/buildings-admin.component';
-// import { UsersComponent } from './dashboard/admin-panel/users/users.component';
-// import { BuildingDetailsComponent } from './dashboard/admin-panel/building-details/building-details.component';
-// import { TenantManagerComponent } from './dashboard/admin-panel/tenant-manager/tenant-manager.component';
-// import { EntryDetailsComponent } from './dashboard/admin-panel/entry-details/entry-details.component';
-
+import { TenantTableComponent } from './dashboard/admin-panel/tenant-table/tenant-table.component';
+import { EntryDetailsComponent } from './dashboard/admin-panel/entry-details/entry-details.component';
 export const routes: Routes = [
 
   // Public Routes
@@ -51,10 +47,9 @@ export const routes: Routes = [
 
       { path: 'buildings', component: BuildingsAdminComponent },
       { path: 'buildings/:id', component: BuildingDetailsComponent },
+      { path: 'buildings/:buildingId/entries/:entryId', component: EntryDetailsComponent },
 
-      // { path: 'entry-details/:id', component: EntryDetailsComponent },
-
-      // { path: 'tenants', component: TenantManagerComponent },
+      { path: 'tenants', component: TenantTableComponent },
       { path: 'users', component: UsersComponent }
     ]
   },

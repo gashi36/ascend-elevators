@@ -31,6 +31,7 @@
     "emailjs-com": "^3.2.0",
     "graphql": "^16.12.0",
     "graphql-ws": "^6.0.6",
+    "ngx-cookie-service": "^21.3.1",
     "ngx-countup": "^13.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

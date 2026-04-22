@@ -1,3 +1,5 @@
+<!-- Buildings Admin -->
+
 <div class="space-y-6">
 
   <!-- Header + controls -->
@@ -272,8 +274,8 @@
         <!-- Admin picker — superadmin only -->
         @if (authService.isSuperAdmin()) {
         <div class="space-y-1.5">
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Cakto Admin <span
-              class="text-gray-400 normal-case font-normal">(opsionale)</span></label>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Cakto Admin
+            (opsionale)</label>
           <select formControlName="adminId"
             class="w-full px-3.5 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-red-400 focus:ring-2 focus:ring-red-500/10 transition">
             <option [value]="null">Pa admin të caktuar</option>

@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 // Ensure all necessary structures are imported from your data file
-import { BlogPost, BLOG_POSTS, CATEGORIES, TAGS } from './blog-data';
+import { BlogPost, BLOG_POSTS, CATEGORIES, TAGS } from '../features/blog/blog-data';
 
 @Injectable({
   providedIn: 'root'

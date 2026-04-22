@@ -13,7 +13,8 @@ import {
   UnblockClientGQL,
   AdminResetPasswordGQL,
 } from '../../../../graphql/generated/graphql';
-import { AuthService, AuthUser } from '../../../Guards/auth.service';
+import { AuthService, AuthUser } from '../../../funcServices/auth.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 // ─── Local UI models ──────────────────────────────────────────────────────────
 
@@ -46,7 +47,7 @@ const PAGE_SIZE = 10;
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit, OnDestroy {

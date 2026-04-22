@@ -141,7 +141,7 @@
     }
   },
   "login": {
-    "title": "Ascend Elevators",
+    "title": "Kyçu në llogarinë tuaj",
     "subtitle": "Paneli i Administratorit",
     "welcome": "Mirë se vini",
     "description": "Hyni në llogarinë tuaj për të vazhduar.",
@@ -152,7 +152,8 @@
     "loginButton": "Kyçu",
     "loggingIn": "Duke u kyçur…",
     "errorMessage": "Përdoruesi ose fjalëkalimi janë të pasaktë",
-    "footer": "Aksesi i kufizuar vetëm për personelin e autorizuar.\nKontaktoni administratorin për ndihmë."
+    "footer": "Aksesi i kufizuar vetëm për personelin e autorizuar.\nKontaktoni administratorin për ndihmë.",
+    "rememberMe": "Më mbaj mend"
   },
   "blog": {
     "relatedPosts": "POSTIMET E LIDHURA",
@@ -281,10 +282,10 @@
     "carePlans": {
       "title": "PLANET E KUJDESIT TË PERSONALIZUAR PËR DAMARËT E NDËRTESËS TUAJ",
       "subtitle": "Ashtu si njerëzit, ashensorët kanë nevojë për kujdes parandalues të synuar, me cilësi të lartë, që i mban në formë të mirë dhe funksionojnë në mënyrë të sigurt për aq kohë sa është e mundur.",
-      "description": "Inovacioni dhe ekspertiza shpesh janë pajisjet më të shtrenjta në çdo ndërtesë. Nëse keni një ekip brenda kompanisë, ne ofrojmë trajnim dhe mbështetje teknike. Përndryshe, ashensorët tuaj kanë nevojë për kujdes ekspert afatgjatë që zgjat jetën e pajisjeve tuaja dhe i ndihmon të jenë në përputhje me kodet. Allied Elevator ofron programe mirëmbajtjeje fleksibël, të personalizuara, të dizajnuara për nevojat tuaja specifike. Ne marrim parasysh llojin e ndërtesës tuaj, përdorimin e ashensorit, profilin e qiramarrësve dhe nivelin tuaj të rehatisë kur i ndërtojmë ato."
+      "description": "Inovacioni dhe ekspertiza shpesh janë pajisjet më të shtrenjta në çdo ndërtesë. Nëse keni një ekip brenda kompanisë, ne ofrojmë trajnim dhe mbështetje teknike. Përndryshe, ashensorët tuaj kanë nevojë për kujdes ekspert afatgjatë që zgjat jetën e pajisjeve tuaja dhe i ndihmon të jenë në përputhje me kodet. Ascend Elevator ofron programe mirëmbajtjeje fleksibël, të personalizuara, të dizajnuara për nevojat tuaja specifike. Ne marrim parasysh llojin e ndërtesës tuaj, përdorimin e ashensorit, profilin e banorëve dhe nivelin tuaj të rehatisë kur i ndërtojmë ato."
     },
     "difference": {
-      "title": "NDARJE NDËRMJET QIRAMARRËSVE TË LUMTUR DHE TË PAKËNAQUR."
+      "title": "NDARJE NDËRMJET BANORËVE TË LUMTUR DHE TË PAKËNAQUR."
     },
     "services": {
       "maintenance": {
@@ -445,9 +446,9 @@
       "item3": "Strategji për Pajisjet e Vjetra ose të Vjetëruara"
     },
     "failures": {
-      "title": "Defektet ndodhin. Por një riparim i shpejtë mund të bëjë ndryshimin midis qiramarrësve të lumtur dhe të palumtur.",
-      "description1": "Allied është partneri juaj lokal i shërbimit të ashensorëve. Ne jemi këtu, të investuar në komunitetet që shërbejmë. Ekipi ynë lokal ofron një gamë të plotë shërbimesh dhe procesin e blerjes dhe menaxhimit si kompanitë e mëdha. Duke vepruar shpejt për të minimizuar shqetësimet, ne shkurtojmë javë nga koha juaj e riparimeve.",
-      "description2": "Kur telefononi Allied, ne do të dërgojmë një teknik, dhe do të veprojmë shpejt, duke marrë një vlerësim. Mund të ketë vetëm një mënyrë për t'ju kthyer në funksionim. Ne do të punojmë përkrah jush, jo për një kontratë, dhe do t'ju tregojmë për çmimin duke iu përgjigjur çdo pyetjeje që mund të keni. Teknikët tanë të terrenit do të kryejnë riparimin; nuk janë vetëm Shërbimi i Klientit, Kontabiliteti + Ekipet e Terrenit që punojnë së bashku për t'u siguruar që merrni shërbimin dhe riparimin më të mirë. Prioriteti ynë është gjithmonë përqendrimi në nevojat tuaja, sigurinë dhe përvojën e udhëtarëve tuaj.",
+      "title": "Defektet ndodhin. Por një riparim i shpejtë mund të bëjë ndryshimin midis banorëve të lumtur dhe të palumtur.",
+      "description1": "Ascend është partneri juaj lokal i shërbimit të ashensorëve. Ne jemi këtu, të investuar në komunitetet që shërbejmë. Ekipi ynë lokal ofron një gamë të plotë shërbimesh dhe procesin e blerjes dhe menaxhimit si kompanitë e mëdha. Duke vepruar shpejt për të minimizuar shqetësimet, ne shkurtojmë javë nga koha juaj e riparimeve.",
+      "description2": "Kur telefononi Ascend, ne do të dërgojmë një teknik, dhe do të veprojmë shpejt, duke marrë një vlerësim. Mund të ketë vetəm njə mənyrə për t'ju kthyer në funksionim. Ne do të punojmə pərkrah jush, jo për njə kontratə, dhe do t'ju tregojmə për çmimin duke iu pərgjigjur çdo pyetjeje qё mund të keni. Teknikat tanё të terrenit do të kryejnė riparimin; nuk janė vetėm Shėrbimi i Klientit, Kontabiliteti + Ekipet e Terrenit qė punojnė sė bashku për t'u siguruar qė merrni shėrbimin dhe riparimin mė tė mirė. Prioriteti ynė ështė gjithmonė pėrqendrimi në nevojat tuaja, sigurinė dhe përvojën e udhėtarave tuaj.",
       "imageAlt": "Teknik duke riparuar ashensorin"
     },
     "stats": {
@@ -571,7 +572,7 @@
     "0": {
       "name": "Besnik Gashi",
       "title": "Menaxher i Objektit, Prishtinë",
-      "text": "Ascend ka revolucionarizuar transportin vertikal të ndërtesës sonë. Mirëmbajtja e tyre është proaktive, dhe qiramarrësit tanë komplimentojnë vazhdimisht ecjen e qetë. Të dish që kemi një ekip të besueshëm, lokal këtu në Kosovë, e bën të gjithë ndryshimin."
+      "text": "Ascend ka revolucionarizuar transportin vertikal të ndërtesës sonë. Mirëmbajtja e tyre është proaktive, dhe banorët tanë komplimentojnë vazhdimisht ecjen e qetë. Të dish që kemi një ekip të besueshëm, lokal këtu në Kosovë, e bën të gjithë ndryshimin."
     },
     "1": {
       "name": "Adelina Haxhiu",

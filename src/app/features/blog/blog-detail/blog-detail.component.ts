@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { BlogService } from '../blog.service';
+import { BlogService } from '../../../funcServices/blog.service';
 import { BlogPost } from '../blog-data';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs'; // Needed for switchMap fallback

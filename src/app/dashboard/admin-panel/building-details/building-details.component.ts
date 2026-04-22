@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AuthService } from '../../../Guards/auth.service';
+import { AuthService } from '../../../funcServices/auth.service';
 import { resolveCityLabel, CITY_LABELS } from '../buildings-admin/buildings-admin.component';
 import {
   CityEnum,
@@ -18,6 +18,8 @@ import {
   AssignBuildingAdminGQL,
   RemoveBuildingAdminGQL,
 } from '../../../../graphql/generated/graphql';
+import { TenantTableComponent } from "../tenant-table/tenant-table.component";
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 // ─── Models ───────────────────────────────────────────────────────────────────
 
@@ -60,7 +62,7 @@ type ModalMode = 'editBuilding' | 'addEntry' | 'editEntry' | 'deleteEntry' | 'as
 @Component({
   selector: 'app-building-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TenantTableComponent, TranslatePipe],
   templateUrl: './building-details.component.html',
 })
 export class BuildingDetailsComponent implements OnInit, OnDestroy {
@@ -166,6 +168,7 @@ export class BuildingDetailsComponent implements OnInit, OnDestroy {
   }
 
   private toDetail(b: any): BuildingDetail {
+
     return {
       id: b.id,
       name: b.name,
@@ -175,12 +178,14 @@ export class BuildingDetailsComponent implements OnInit, OnDestroy {
       adminName: b.admin ? `${b.admin.firstName} ${b.admin.lastName}`.trim() : '—',
       createdAt: b.createdAt,
       updatedAt: b.updatedAt ?? b.createdAt,
-      entries: (b.entries ?? []).map((e: any) => ({
-        id: e.id,
-        name: e.name,
-        order: e.order ?? 0,
-        tenantCount: e.tenants?.length ?? 0,
-      })),
+      entries: (b.entries ?? []).map((e: any) => {
+        return {
+          id: e.id,
+          name: e.name,
+          order: e.order ?? 0,
+          tenantCount: e.tenants?.length ?? 0,
+        };
+      }),
       administrators: (b.administrators ?? []).map((a: any) => ({
         id: a.id,
         username: a.username,
@@ -199,10 +204,13 @@ export class BuildingDetailsComponent implements OnInit, OnDestroy {
 
   goBack(): void { this.router.navigate(['/admin-panel/buildings']); }
 
-  goToEntry(entryId: string): void {
-    this.router.navigate(['/admin-panel/buildings', this.buildingId, 'entries', entryId]);
+  // In building-details.component.ts
+  goToEntry(entryId: string, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
   }
-
   // ─── Modal Controls ────────────────────────────────────────────────────────
 
   openEditBuilding(): void {
@@ -364,5 +372,20 @@ export class BuildingDetailsComponent implements OnInit, OnDestroy {
 
   private parseError(e: any): string {
     return e?.graphQLErrors?.[0]?.message ?? e?.message ?? 'Ndodhi një gabim.';
+  }
+  // Add this method right after loadBuilding() or near other data methodsD
+  refreshBuildingData(): void {
+    // Force refetch to get latest tenant counts
+    this.getBuildingByIdGQL
+      .fetch({ variables: { id: this.buildingId }, fetchPolicy: 'network-only' })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          const b = res.data?.buildingById;
+          if (b) {
+            this.building = this.toDetail(b);
+          }
+        },
+      });
   }
 }

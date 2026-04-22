@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // Import ChangeDetectorRef
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 
-import { BlogService } from '../blog.service';
+import { BlogService } from '../../../funcServices/blog.service';
 import { BlogPost } from '../blog-data';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 
@@ -39,7 +39,6 @@ export class BlogListComponent implements OnInit {
       const filterValue = params.get('value');
 
       // DEBUG: Log the filter values being received from the URL
-      console.log('Applying filter from URL:', { type: filterType, value: filterValue });
 
       if (!filterType || !filterValue || filterValue === 'Të Gjitha') {
         // If no filter or 'Të Gjitha' is selected, show all posts
@@ -76,7 +75,6 @@ export class BlogListComponent implements OnInit {
     }
 
     // DEBUG: Log how many posts were found after filtering
-    console.log(`Filter applied: ${filterValue} (${filterType}). Found ${this.posts.length} posts.`);
   }
 
   /**

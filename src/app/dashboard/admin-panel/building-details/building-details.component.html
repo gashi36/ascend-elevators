@@ -1,3 +1,5 @@
+<!-- Building Details -->
+
 <!-- Breadcrumb -->
 <div class="flex items-center gap-2 mb-6 text-sm">
   <button (click)="goBack()" class="flex items-center gap-1.5 text-gray-400 hover:text-gray-700 transition-colors">
@@ -78,7 +80,7 @@
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
         </svg>
-        {{ building.tenantCount }} qiramarrës
+        {{ building.tenantCount }} banorë
       </span>
       <span class="ml-auto flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -113,7 +115,7 @@
 
     <div class="divide-y divide-gray-50">
       @for (entry of building.entries; track entry.id) {
-      <div (click)="goToEntry(entry.id)"
+      <div (click)="goToEntry(entry.id, $event)"
         class="flex items-center justify-between px-5 py-4 hover:bg-gray-50/60 cursor-pointer group transition-colors">
         <div class="flex items-center gap-3 min-w-0">
           <div
@@ -123,7 +125,7 @@
           <div class="min-w-0">
             <p class="font-semibold text-gray-900 text-sm group-hover:text-red-600 transition-colors">{{ entry.name }}
             </p>
-            <p class="text-xs text-gray-400">{{ entry.tenantCount }} qiramarrës</p>
+            <p class="text-xs text-gray-400">{{ entry.tenantCount }} banorë</p>
           </div>
         </div>
         <div class="flex items-center gap-1 shrink-0">
@@ -135,7 +137,7 @@
                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
             </svg>
           </button>
-          <button (click)="openDeleteEntry(entry); $event.stopPropagation()" title="Fshi"
+          <button (click)="openDeleteEntry(entry); $event.stopPropagation()" title="Fshi Hyrjen"
             class="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -283,7 +285,7 @@
       <form [formGroup]="entryForm" (ngSubmit)="submitAddEntry()" class="space-y-4">
         <div class="space-y-1.5">
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Emri i Hyrjes</label>
-          <input type="text" formControlName="name" placeholder="p.sh. Hyrja A"
+          <input type="text" formControlName="name" placeholder="Emri i Hyrjes (p.sh. Hyrja A)"
             class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300"
             [class]="entryForm.controls['name'].invalid && entryForm.controls['name'].touched ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10' : 'border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-500/10'" />
         </div>
@@ -345,7 +347,7 @@
           <h2 class="text-lg font-bold text-gray-900">Fshi Hyrjen</h2>
           <p class="mt-1.5 text-sm text-gray-500">
             A jeni i sigurt që doni të fshini <strong class="text-gray-800">{{ selectedEntry.name }}</strong>?
-            Hyrja duhet të jetë bosh (pa qiramarrës).
+            Hyrja duhet të jetë bosh (pa banorë).
           </p>
         </div>
       </div>
@@ -426,6 +428,7 @@
   </div>
 </div>
 }
+<app-tenant-table [buildingId]="buildingId"></app-tenant-table>
 
 <!-- Error banner template -->
 <ng-template #errorBanner>

@@ -67,6 +67,15 @@
         </div>
       </div>
 
+      <!-- NEW: Remember Me Checkbox -->
+      <div class="flex items-center justify-between mt-4">
+        <label class="flex items-center cursor-pointer">
+          <input type="checkbox" formControlName="rememberMe"
+            class="w-4 h-4 text-red-600 bg-gray-50 border-gray-200 rounded focus:ring-red-500 focus:ring-2">
+          <span class="ml-2 text-sm text-gray-500">{{ 'login.rememberMe' | translate }}</span>
+        </label>
+      </div>
+
       <button *ngIf="!isLoading" (click)="handleLogin()"
         class="w-full flex items-center justify-center gap-2.5 py-4 mt-6 text-sm font-bold text-white bg-red-600 rounded-xl transition-all active:scale-95"
         style="box-shadow:0 4px 20px rgba(220,38,38,0.22)">

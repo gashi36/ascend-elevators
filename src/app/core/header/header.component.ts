@@ -11,7 +11,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { AuthService, AuthUser } from '../../Guards/auth.service';
+import { AuthService, AuthUser } from '../../funcServices/auth.service';
 import { ChangePasswordGQL } from '../../../graphql/generated/graphql';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';

@@ -1,0 +1,688 @@
+<!-- ─── Toast ─────────────────────────────────────────────────────────────── -->
+@if (toastMessage) {
+<div
+  class="fixed top-4 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-sm font-medium text-white transition-all"
+  [class]="toastType === 'success' ? 'bg-gray-900' : toastType === 'error' ? 'bg-red-600' : 'bg-yellow-500'">
+  @if (toastType === 'success') {
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+  </svg>
+  }
+  {{ toastMessage }}
+  @if (pendingCount > 0) {
+  <span class="ml-1 px-1.5 py-0.5 rounded-md bg-white/20 text-xs">{{ pendingCount }} në radhë</span>
+  }
+</div>
+}
+
+<!-- ─── Header ────────────────────────────────────────────────────────────── -->
+<div class="space-y-5">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div>
+      <h2 class="text-xl font-bold text-gray-900">Banorët</h2>
+      <p class="text-xs text-gray-400 mt-0.5">
+        {{ totalCount }} gjithsej
+        @if (pendingCount > 0) {
+        <span class="ml-2 inline-flex items-center gap-1 text-yellow-500">
+          <svg class="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          {{ pendingCount }} duke u sinkronizuar
+        </span>
+        }
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z" />
+          </svg>
+        </span>
+        <input type="text" placeholder="Kërko..." [value]="search" (input)="onSearch($any($event.target).value)"
+          class="w-36 sm:w-48 pl-9 pr-3 py-2 text-sm bg-gray-100 border border-transparent rounded-xl outline-none focus:bg-white focus:border-gray-200 transition placeholder:text-gray-400" />
+      </div>
+      @if (authService.isAdmin() || authService.isSuperAdmin()) {
+      <button (click)="openCreate()"
+        class="inline-flex items-center gap-2 px-3 py-2 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 transition-colors shrink-0">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        <span class="hidden sm:inline">Shto Banorë</span>
+      </button>
+      }
+    </div>
+  </div>
+
+  <!-- ─── Skeleton ─────────────────────────────────────────────────────────── -->
+  @if (isLoading) {
+  <div class="space-y-3">
+    @for (i of [1,2,3,4,5]; track i) {
+    <div class="h-16 bg-gray-100 rounded-2xl animate-pulse"></div>
+    }
+  </div>
+  }
+
+  <!-- ─── Empty ────────────────────────────────────────────────────────────── -->
+  @if (!isLoading && tenants.length === 0) {
+  <div class="flex flex-col items-center justify-center py-20 text-center">
+    <div class="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+      <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+      </svg>
+    </div>
+    <p class="text-sm font-medium text-gray-900">Nuk u gjet asnjë Banorë</p>
+    <p class="text-xs text-gray-400 mt-1">
+      @if (search) { Provoni të ndryshoni kërkimin. }
+      @else { Shtoni Banorin e parë. }
+    </p>
+  </div>
+  }
+
+  <!-- ─── Desktop table ──────────────────────────────────────────────────── -->
+  @if (!isLoading && tenants.length > 0) {
+  <div class="hidden md:block overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50 border-b border-gray-100">
+        <tr>
+          <th (click)="setSort('name')"
+            class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none">
+            <span class="flex items-center gap-1">
+              Emri / Ndërtesa
+              @if (sortField === 'name') {
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  [attr.d]="sortDir === 'ASC' ? 'M4.5 15.75l7.5-7.5 7.5 7.5' : 'm19.5 8.25-7.5 7.5-7.5-7.5'" />
+              </svg>
+              }
+            </span>
+          </th>
+          <th (click)="setSort('unitNumber')"
+            class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none">
+            <span class="flex items-center gap-1">
+              Njësia / Hyrja
+              @if (sortField === 'unitNumber') {
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  [attr.d]="sortDir === 'ASC' ? 'M4.5 15.75l7.5-7.5 7.5 7.5' : 'm19.5 8.25-7.5 7.5-7.5-7.5'" />
+              </svg>
+              }
+            </span>
+          </th>
+          <th (click)="setSort('floor')"
+            class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none">
+            <span class="flex items-center gap-1">
+              Kati
+              @if (sortField === 'floor') {
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  [attr.d]="sortDir === 'ASC' ? 'M4.5 15.75l7.5-7.5 7.5 7.5' : 'm19.5 8.25-7.5 7.5-7.5-7.5'" />
+              </svg>
+              }
+            </span>
+          </th>
+          <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Muajt</th>
+          <th class="px-5 py-3.5 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Veprimet</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-50">
+        @for (tenant of tenants; track tenant.id) {
+        <tr class="hover:bg-gray-50/60 transition-colors group">
+          <td class="px-5 py-4">
+            <p class="font-semibold text-gray-900">{{ tenant.name }}</p>
+            <div class="flex items-center gap-1.5 mt-1">
+              <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 7.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M19.5 10.5c0 4.5-7.5 9-7.5 9s-7.5-4.5-7.5-9a7.5 7.5 0 1115 0z" />
+              </svg>
+              <code
+                class="text-xs font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded">{{ tenant.accessKeyNR }}</code>
+            </div>
+            <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              {{ tenant.buildingName }}
+            </p>
+          </td>
+          <td class="px-5 py-4">
+            <span class="text-xs font-semibold bg-gray-100 text-gray-700 px-2 py-1 rounded-lg">{{ tenant.unitNumber
+              }}</span>
+            <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 9h6m-6 3h6m-6 3h6M3 9h6m-6 3h6m-6 3h6M9 3v18" />
+              </svg>
+              {{ tenant.entryName }}
+            </p>
+          </td>
+          <td class="px-5 py-4 text-sm text-gray-600">{{ tenant.floor ?? '—' }}</td>
+          <td class="px-5 py-4">
+            <div class="flex items-center gap-1">
+              @for (m of months.slice(0, 6); track m.value) {
+              <button (click)="openDecisionModal(tenant)"
+                class="w-8 h-8 rounded-lg text-xs font-semibold transition-colors relative"
+                [class]="monthButtonClass(statusForMonth(tenant, m.value))"
+                [title]="m.label + ': ' + statusLabel(statusForMonth(tenant, m.value))">
+                {{ m.label }}
+                @if (hasNotes(tenant, currentYear, m.value)) {
+                <span class="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                }
+              </button>
+              }
+              <button (click)="openDecisionModal(tenant)"
+                class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 text-xs font-semibold hover:bg-gray-200 transition-colors">
+                ···
+              </button>
+            </div>
+          </td>
+          <td class="px-5 py-4">
+            <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="openDecisionModal(tenant)" title="Muajt"
+                class="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                </svg>
+              </button>
+              @if (authService.isAdmin() || authService.isSuperAdmin()) {
+              <button (click)="openEdit(tenant)" title="Ndrysho Banorin"
+                class="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                </svg>
+              </button>
+              <button (click)="openDelete(tenant)" title="Fshi Banorin"
+                class="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                </svg>
+              </button>
+              }
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <div class="px-5 py-3.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+      <p class="text-xs text-gray-500">Faqja {{ currentPage }} &bull; {{ totalCount }} gjithsej</p>
+      <div class="flex gap-2">
+        <button (click)="prevPage()" [disabled]="currentPage <= 1"
+          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+          [class]="currentPage <= 1 ? 'text-gray-300 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-gray-100'">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          Prapa
+        </button>
+        <button (click)="nextPage()" [disabled]="!pageInfo?.hasNextPage"
+          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+          [class]="!pageInfo?.hasNextPage ? 'text-gray-300 bg-gray-100 cursor-not-allowed' : 'text-gray-600 bg-white border border-gray-200 hover:bg-gray-100'">
+          Para
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Mobile cards ─────────────────────────────────────────────────────── -->
+  <div class="md:hidden space-y-3">
+    @for (tenant of tenants; track tenant.id) {
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+      <div class="flex items-start justify-between gap-3 mb-3">
+        <div class="min-w-0 flex-1">
+          <p class="font-bold text-gray-900 truncate">{{ tenant.name }}</p>
+          <div class="flex items-center gap-1.5 mt-1">
+            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 7.5a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19.5 10.5c0 4.5-7.5 9-7.5 9s-7.5-4.5-7.5-9a7.5 7.5 0 1115 0z" />
+            </svg>
+            <code
+              class="text-xs font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded">{{ tenant.accessKeyNR }}</code>
+          </div>
+          <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            {{ tenant.buildingName }} &bull; {{ tenant.entryName }}
+          </p>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span class="text-xs font-semibold bg-gray-100 text-gray-700 px-2 py-1 rounded-lg">{{ tenant.unitNumber
+            }}</span>
+          @if (tenant.floor) {
+          <span class="text-xs text-gray-400">Kati {{ tenant.floor }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1 mb-3">
+        @for (m of months; track m.value) {
+        <button (click)="openDecisionModal(tenant)"
+          class="flex-1 h-7 rounded-md text-[10px] font-semibold transition-colors relative"
+          [class]="monthButtonClass(statusForMonth(tenant, m.value))">
+          {{ m.label }}
+          @if (hasNotes(tenant, currentYear, m.value)) {
+          <span class="absolute -top-1 -right-1 w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+          }
+        </button>
+        }
+      </div>
+
+      <div class="flex gap-1 pt-3 border-t border-gray-50">
+        <button (click)="openDecisionModal(tenant)"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          Muajt
+        </button>
+        @if (authService.isAdmin() || authService.isSuperAdmin()) {
+        <button (click)="openEdit(tenant)"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+          Ndrysho
+        </button>
+        <button (click)="openDelete(tenant)"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+          Fshi
+        </button>
+        }
+      </div>
+    </div>
+    }
+
+    <div class="flex items-center justify-between pt-1">
+      <p class="text-xs text-gray-500">Faqja {{ currentPage }} &bull; {{ totalCount }} gjithsej</p>
+      <div class="flex gap-2">
+        <button (click)="prevPage()" [disabled]="currentPage <= 1"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors"
+          [class]="currentPage <= 1 ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-gray-600 border-gray-200 hover:bg-gray-50'">Prapa</button>
+        <button (click)="nextPage()" [disabled]="!pageInfo?.hasNextPage"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors"
+          [class]="!pageInfo?.hasNextPage ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-gray-600 border-gray-200 hover:bg-gray-50'">Para</button>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     MODALS
+     ══════════════════════════════════════════════════════════════════════ -->
+
+@if (activeModal) {
+<div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+  (click)="closeModal()">
+  <div class="w-full bg-white rounded-2xl shadow-2xl overflow-hidden"
+    [class]="activeModal === 'decision' ? 'max-w-2xl' : 'max-w-md'" (click)="$event.stopPropagation()">
+
+    <!-- ── Create / Edit ──────────────────────────────────────────────────── -->
+    @if (activeModal === 'createEdit') {
+    <div class="p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold text-gray-900">
+          {{ editingId ? 'Ndrysho Banorin' : 'Shto Banorë' }}
+        </h2>
+        <button (click)="closeModal()"
+          class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      @if (modalError) {
+      <div
+        class="flex items-start gap-2.5 px-4 py-3 mb-5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        {{ modalError }}
+      </div>
+      }
+
+      <form [formGroup]="tenantForm" (ngSubmit)="submitTenant()" class="space-y-4">
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Emri *</label>
+          <input type="text" formControlName="name" placeholder="Emri i plotë"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Njësia *</label>
+            <input type="text" formControlName="unitNumber" placeholder="A1"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Kati</label>
+            <input type="text" formControlName="floor" placeholder="3"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-red-400 focus:ring-2 focus:ring-red-500/10 transition placeholder:text-gray-300" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Telefoni *</label>
+            <input type="tel" formControlName="contactPhone" placeholder="+383 44 000 000"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Çelësi *</label>
+            <input type="text" formControlName="accessKeyNR" placeholder="K-001"
+              class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition font-mono placeholder:text-gray-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10" />
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</label>
+          <input type="email" formControlName="contactEmail" placeholder="email@example.com"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border rounded-xl outline-none transition placeholder:text-gray-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/10" />
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Ndërtesa *</label>
+          @if (isBuildingLocked()) {
+          <div class="w-full px-3.5 py-3 text-sm bg-gray-100 border border-gray-200 rounded-xl text-gray-700">{{
+            getLockedBuildingName() }}</div>
+          } @else {
+          <select formControlName="buildingId" (change)="onBuildingChange($event)"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-red-400 focus:ring-2 focus:ring-red-500/10 transition">
+            <option [value]="null" disabled selected>Zgjidhni hyrjen...</option>
+            @for (b of buildingOptions; track b.id) {
+            <option [value]="b.id">{{ b.name }}</option>
+            }
+          </select>
+          }
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Hyrja *</label>
+          @if (isEntryLocked()) {
+          <div class="w-full px-3.5 py-3 text-sm bg-gray-100 border border-gray-200 rounded-xl text-gray-700">{{
+            getLockedEntryName() }}</div>
+          } @else {
+          <select formControlName="buildingEntryId"
+            class="w-full px-3.5 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-red-400 focus:ring-2 focus:ring-red-500/10 transition"
+            [disabled]="!tenantForm.value.buildingId">
+            <option [value]="null" disabled selected>Zgjidhni hyrjen...</option>
+            @for (e of filteredEntries; track e.id) {
+            <option [value]="e.id">{{ e.name }}</option>
+            }
+          </select>
+          }
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <button type="button" (click)="closeModal()"
+            class="flex-1 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+          <button type="submit" [disabled]="modalLoading"
+            class="flex-1 py-3 text-sm font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+            @if (modalLoading) { Duke u ruajtur… }
+            @else { {{ editingId ? 'Ruaj' : 'Shto' }} }
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+
+    <!-- ─── Decision modal (Smaller, Cleaner Design) ─────────────────────────────── -->
+    @if (activeModal === 'decision' && selectedTenant) {
+    <div class="flex flex-col max-h-[90vh]">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 py-3 border-b border-gray-100">
+        <div>
+          <h2 class="text-base font-bold text-gray-900">{{ selectedTenant.name }}</h2>
+          <div class="flex items-center gap-2 mt-0.5">
+            <code
+              class="text-[11px] font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded">{{ selectedTenant.accessKeyNR }}</code>
+            <span class="text-[11px] text-gray-400">•</span>
+            <span class="text-[11px] text-gray-500">{{ selectedTenant.buildingName }} / {{ selectedTenant.entryName }} /
+              {{ selectedTenant.unitNumber }}</span>
+          </div>
+        </div>
+        <button (click)="closeModal()"
+          class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4">
+
+        <!-- NOTES SECTION - ABOVE -->
+        <div class="space-y-2">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+            </svg>
+            <span class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Shënime</span>
+            <span class="text-[10px] text-gray-400">({{ getAllNotesForTenant(selectedTenant).length }})</span>
+          </div>
+
+          <div class="space-y-1.5 max-h-36 overflow-y-auto">
+            @if (getAllNotesForTenant(selectedTenant).length === 0) {
+            <div class="text-center py-3 text-gray-400 text-[11px]">
+            </div>
+            }
+            @for (note of getAllNotesForTenant(selectedTenant); track note.id) {
+            <div class="bg-gray-50 rounded-lg p-2 border border-gray-100">
+              <p class="text-xs text-gray-700">{{ note.content }}</p>
+              <div class="flex items-center gap-1.5 mt-1">
+                <span class="text-[10px] text-gray-400">{{ note.createdBy }}</span>
+                <span class="text-[10px] text-gray-300">•</span>
+                <span class="text-[10px] text-gray-400">{{ note.createdAt | date:'dd.MM.yy HH:mm' }}</span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Year navigation -->
+        <div class="flex items-center justify-between">
+          <button (click)="prevYear()" [disabled]="selectedYear === availableYears[0]"
+            class="p-1 rounded hover:bg-gray-100 disabled:opacity-30 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <span class="text-sm font-semibold text-gray-900">Viti {{ selectedYear }}</span>
+          <button (click)="nextYear()" [disabled]="selectedYear === availableYears[availableYears.length - 1]"
+            class="p-1 rounded hover:bg-gray-100 disabled:opacity-30 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Month grid -->
+        <div class="grid grid-cols-4 gap-1.5">
+          @for (m of months; track m.value) {
+          <div (click)="toggleMonth(m.value)" [class]="monthCardClass(m.value)"
+            [class.ring-1]="m.value === currentMonth && selectedYear === currentYear"
+            [class.ring-blue-400]="m.value === currentMonth && selectedYear === currentYear"
+            [attr.title]="getMonthTooltip(selectedTenant, selectedYear, m.value)">
+            <span class="text-xs font-bold">{{ m.label }}</span>
+            <span class="text-[9px] mt-0.5 font-medium">
+              @if (isSelected(m.value)) {
+              {{ selectedStatus === DecisionStatus.Allowed ? '✓ Paguar' : '✗ Borxh' }}
+              } @else {
+              {{ statusLabel(getDecisionStatus(selectedTenant, selectedYear, m.value)) }}
+              }
+            </span>
+            @if (hasNotes(selectedTenant, selectedYear, m.value)) {
+            <div class="absolute -top-0.5 -right-0.5">
+              <div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- Quick select -->
+        <div class="flex gap-1.5 justify-center">
+          <button (click)="selectAll()"
+            class="px-2 py-1 text-[10px] font-semibold bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+            Të gjithë
+          </button>
+          <button (click)="clearAll()"
+            class="px-2 py-1 text-[10px] font-semibold bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+            Pastro
+          </button>
+          <button (click)="selectCurrent()"
+            class="px-2 py-1 text-[10px] font-semibold bg-blue-50 text-blue-600 rounded hover:bg-blue-100">
+            Muaji aktual
+          </button>
+        </div>
+
+        <!-- Status toggle -->
+        <div class="flex gap-2">
+          <button (click)="selectedStatus = DecisionStatus.Allowed"
+            class="flex-1 py-2 text-xs font-semibold rounded-lg transition-colors"
+            [class]="selectedStatus === DecisionStatus.Allowed ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'">
+            ✓ Paguar
+          </button>
+          <button (click)="selectedStatus = DecisionStatus.Denied"
+            class="flex-1 py-2 text-xs font-semibold rounded-lg transition-colors"
+            [class]="selectedStatus === DecisionStatus.Denied ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'">
+            ✗ Borxh
+          </button>
+        </div>
+
+        <!-- ADD NOTE INPUT - BELOW -->
+        <div class="space-y-1.5 pt-1 border-t border-gray-100">
+          <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+            </svg>
+            Shënime
+            @if (selectedMonthCount > 0) {
+            <span class="ml-1 text-[9px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded">{{ selectedMonthCount }} muaj të
+              zgjedhur</span>
+            }
+          </label>
+          <textarea [(ngModel)]="decisionNoteDraft" rows="2" placeholder="Shënim opsional..."
+            class="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition resize-none placeholder:text-gray-300"></textarea>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-5 pb-5 flex gap-2">
+        <button (click)="closeModal()"
+          class="flex-1 py-2 text-xs font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+          Anulo
+        </button>
+        <button (click)="saveDecisions()" [disabled]="selectedMonthCount === 0 && !decisionNoteDraft?.trim()"
+          class="flex-1 py-2 text-xs font-semibold text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          Ruaj {{ selectedMonthCount > 0 ? '(' + selectedMonthCount + ')' : '' }}
+        </button>
+      </div>
+    </div>
+    }
+
+    <!-- ── Delete ─────────────────────────────────────────────────────────── -->
+    @if (activeModal === 'delete' && selectedTenant) {
+    <div class="p-6">
+      <div class="flex items-start gap-4">
+        <div class="w-11 h-11 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-gray-900">Fshi Banorin</h2>
+          <p class="mt-1.5 text-sm text-gray-500">
+            A jeni i sigurt që doni të fshini <strong class="text-gray-800">{{ selectedTenant.name }}</strong>?
+            Të gjitha vendimet do të fshihen gjithashtu.
+          </p>
+        </div>
+      </div>
+      @if (modalError) {
+      <div
+        class="flex items-start gap-2.5 px-4 py-3 mt-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        {{ modalError }}
+      </div>
+      }
+      <div class="flex gap-3 mt-6">
+        <button (click)="closeModal()"
+          class="flex-1 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+        <button (click)="submitDelete()" [disabled]="modalLoading"
+          class="flex-1 py-3 text-sm font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          @if (modalLoading) { Duke u fshirë… }
+          @else { Po, Fshi }
+        </button>
+      </div>
+    </div>
+    }
+
+  </div>
+</div>
+}
+
+<!-- ── Confirm Override Modal ────────────────────────────────────────────────── -->
+@if (confirmModalVisible && confirmModalData) {
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+  (click)="cancelOverride()">
+  <div class="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden" (click)="$event.stopPropagation()">
+    <div class="p-6">
+      <div class="flex items-start gap-4">
+        <div class="w-11 h-11 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-base font-bold text-gray-900">Konfirmimi i ndryshimit</h3>
+          <p class="mt-2 text-sm text-gray-600">
+            Muaji <strong class="text-gray-900">{{ monthName(confirmModalData.month) }}</strong> tashmë është shënuar si
+            <span class="font-semibold"
+              [class]="confirmModalData.currentStatus === DecisionStatus.Allowed ? 'text-green-700' : 'text-red-700'">
+              {{ statusLabel(confirmModalData.currentStatus) }}
+            </span>.
+            Dëshironi ta ndryshoni?
+          </p>
+          <p class="mt-3 text-amber-600 text-xs flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+            </svg>
+            Ky veprim do të mbishkruajë vendimin ekzistues
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-5">
+        <button (click)="cancelOverride()"
+          class="flex-1 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Anulo</button>
+        <button (click)="overrideExistingDecision()"
+          class="flex-1 py-2.5 text-sm font-semibold text-white bg-amber-500 rounded-xl hover:bg-amber-600 transition-colors">Vazhdo
+          & Mbishkruaj</button>
+      </div>
+    </div>
+  </div>
+</div>
+}

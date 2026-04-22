@@ -58,7 +58,7 @@
       </a>
 
       <!-- Auth -->
-      <!-- @if (!authService.isAuthenticated()) {
+      @if (!authService.isAuthenticated()) {
       <a routerLink="/login" class="flex items-center gap-1.5 text-gray-700 hover:text-red-600 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -118,7 +118,7 @@
           </div>
         </div>
       </div>
-      } -->
+      }
 
       <!-- Language Switcher -->
       <app-language-switcher></app-language-switcher>
@@ -216,7 +216,7 @@
       </a>
 
       <!-- Auth section -->
-      <!-- <div class="pt-4 mt-2 border-t border-gray-100 space-y-1">
+      <div class="pt-4 mt-2 border-t border-gray-100 space-y-1">
         @if (!authService.isAuthenticated()) {
         <a routerLink="/login" (click)="closeDrawer()"
           class="flex items-center gap-2.5 px-3 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
@@ -267,7 +267,7 @@
           {{ 'navbar.logout' | translate }}
         </a>
         }
-      </div> -->
+      </div>
 
       <!-- Language Switcher in Mobile -->
       <div class="pt-4 mt-2 border-t border-gray-100">
